@@ -82,10 +82,13 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 {
   	p2List_item<Particle*>* tmp = active.getFirst();
 
+
 	while(tmp != NULL)
 	{
 		if(tmp->data->collider == c1 )
 		{
+			
+			App->particles->AddParticle(App->particles->explosion, tmp->data->position.x, tmp->data->position.y);
 			delete tmp->data;
 			active.del(tmp);
 			break;
