@@ -13,7 +13,10 @@ using namespace std;
 
 struct Bath
 {
-	Animation openDoor,busyAnim, outOfPaper, clogged;
+	Animation* openDoor;
+	Animation* busyAnim;
+	Animation*  outOfPaper;
+	Animation* clogged;
 
 	unsigned int fx;
 	p2Point<int> position;

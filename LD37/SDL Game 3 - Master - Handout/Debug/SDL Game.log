@@ -18,5 +18,17 @@
   ModuleAudio.cpp
   ModuleAI.cpp
   Main.cpp
+<<<<<<< HEAD
   SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
   SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+=======
+  Log.cpp
+  Application.cpp
+  Generating Code...
+<<<<<<< HEAD
+  LINK : C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe not found or not built by the last incremental link; performing full link
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
