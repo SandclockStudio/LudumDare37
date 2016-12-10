@@ -20,10 +20,10 @@ enum update_status
 
 
 // Configuration -----------
-#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
-#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
-#define SCREEN_SIZE 1
-#define WIN_FULLSCREEN true
+#define SCREEN_WIDTH 384
+#define SCREEN_HEIGHT 256
+#define SCREEN_SIZE 3
+#define WIN_FULLSCREEN false
 #define WIN_RESIZABLE false
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false

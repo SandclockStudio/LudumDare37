@@ -53,7 +53,12 @@ update_status ModuleSceneIntro::Update()
 		App->fade->FadeToBlack(this, App->scene_space, 3.0f);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP && menu == START)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP && menu == EXIT)
+	{
+		return UPDATE_STOP;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && menu == START)
 	{
 		menu = EXIT;
 	}
