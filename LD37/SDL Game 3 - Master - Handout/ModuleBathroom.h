@@ -17,7 +17,11 @@ struct Bath
 	int shitCount;
 	int paperCount;
 	bool fx_played;
+	bool busy;
 	Collider* collider;
+
+	Bath();
+	Bath(const Bath& p);
 
 	bool Update();
 };
@@ -33,8 +37,12 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
-	p2List<Bath> myBaths;
+	void AddBathroom(const Bath & bathroom, int x, int y, COLLIDER_TYPE collider_type);
+	Bath bath;
 
+	private:
+
+	SDL_Texture* graphics;
 
 };
 
