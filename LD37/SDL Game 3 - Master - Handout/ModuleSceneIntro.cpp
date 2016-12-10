@@ -8,6 +8,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 {
 	graphics = NULL;
 	fx = 0;
+	
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -18,6 +19,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	menu = START;
 
 	graphics = App->textures->Load("rtype/intro.png");
 	App->audio->PlayMusic("rtype/intro.ogg", 1.0f);

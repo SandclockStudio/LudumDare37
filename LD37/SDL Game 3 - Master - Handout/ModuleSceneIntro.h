@@ -3,6 +3,12 @@
 #include "Animation.h"
 #include "Globals.h"
 
+enum MENU
+{
+	START,
+	EXIT
+};
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -18,4 +24,5 @@ public:
 	SDL_Texture* graphics;
 	Animation water;
 	unsigned int fx;
+	MENU menu;
 };
