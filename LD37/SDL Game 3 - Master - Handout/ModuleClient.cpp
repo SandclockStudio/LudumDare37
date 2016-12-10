@@ -121,9 +121,7 @@ Client::Client(const Client& c)
 bool Client::Update()
 {
 
-<<<<<<< HEAD
 
-=======
 	//Posicion de ejemplo
 	p2Point<int> target;
 	target.x = 10;
@@ -157,7 +155,6 @@ bool Client::Update()
 	{
 		position += GoToPosition(exit);
 	}
->>>>>>> ddb2dfefc5d7ae01b64c4360fb12ba38e3e07cf9
 
 
 	return true;
