@@ -4,6 +4,8 @@
 #include "Animation.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "ModuleBathroom.h"
+#include "conio.h"
 
 
 struct Client
@@ -16,10 +18,22 @@ struct Client
 	Uint32 life;
 	bool fx_played;
 	Collider* collider;
+	Bath* assignedBath;
+	bool waiting = false;
+	bool ocuppied = false;
+
+
 	Client();
 	Client(const Client& c);
 	bool Update();
+
+
+
 	p2Point<int> GoToPosition(p2Point<int> target);
+	void WaitForBath();
+	p2Point<int> SearchBath();
+
+	
 
 };
 
@@ -35,6 +49,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void AddClient(const Client& client, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
 	Client* getClient(p2Point<int> pos);
+	void AssignBaths();
 private:
 	SDL_Texture* graphics;
 	p2List<Client*> active;
