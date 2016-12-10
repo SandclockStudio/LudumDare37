@@ -86,6 +86,7 @@
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleSceneIntro.h" />
     <ClInclude Include="ModuleBath.h" />
+    <ClInclude Include="ModuleSilk.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Point.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleSceneIntro.cpp" />
     <ClCompile Include="ModuleBath.cpp" />
+    <ClCompile Include="ModuleSilk.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
