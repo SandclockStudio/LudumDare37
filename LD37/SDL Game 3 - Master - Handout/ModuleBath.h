@@ -5,11 +5,11 @@
 
 struct Collider;
 
-class ModuleSceneSpace : public Module
+class ModuleBath : public Module
 {
 public:
-	ModuleSceneSpace(Application* app, bool start_enabled = true);
-	~ModuleSceneSpace();
+	ModuleBath(Application* app, bool start_enabled = true);
+	~ModuleBath();
 
 	bool Start();
 	update_status Update();

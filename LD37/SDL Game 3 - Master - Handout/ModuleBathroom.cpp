@@ -181,10 +181,12 @@ void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TY
 	Bath* p = new Bath(bathroom);
 	p->position.x = x;
 	p->position.y = y;
+	
+	int scale = 4;
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 22 * scale, 24 * scale }, collider_type, this);
 	}
 
 }
