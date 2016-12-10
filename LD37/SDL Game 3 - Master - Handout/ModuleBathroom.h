@@ -46,10 +46,10 @@ public:
 	void AddBathroom(const Bath & bathroom, int x, int y, COLLIDER_TYPE collider_type);
 	Bath bath;
 	Animation* current_animation;
-
+	p2List<Bath*> active;
 	private:
 
-	p2List<Bath*> active;
+	
 	SDL_Texture* graphics;
 
 };

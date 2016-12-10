@@ -48,7 +48,7 @@ bool ModulePlayer::Start()
 	collider = App->collision->AddCollider({position.x, position.y, 32, 14}, COLLIDER_PLAYER, this);
 	giveTowel = false;
 	exploding = false;
-
+	collision = false;
 	return true;
 }
 
@@ -79,42 +79,42 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x -= speed;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x += speed;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.y += speed;
-		if(current_animation != &down  && giveTowel == false)
+		if(current_animation != &down  && collision == false && giveTowel == false)
 		{
 			down.Reset();
 			current_animation = &down;
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.y -= speed;
-		if(current_animation != &up && giveTowel == false)
+		if(current_animation != &up && collision == false && giveTowel == false)
 		{
 			up.Reset();
 			current_animation = &up;
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && collision == false && giveTowel == false)
 	{
 		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && collision == false && giveTowel == false)
 		current_animation = &idle;
 
 	collider->SetPos(position.x, position.y);
@@ -129,10 +129,44 @@ update_status ModulePlayer::Update()
 // Collision detection
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	
+	collision = true;
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+	{
+		position.x += ( (c2->rect.x + c2->rect.w)- c1->rect.x )+1;
+		collision = false;
+	}
+	else
+	{
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+		{
+			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w) ) -1;
+			collision = false;
+		}
+		else
+		{
+			if( (c1->rect.y < c2->rect.y + c2->rect.h) && ( (c1->rect.h + c1->rect.y)-c2->rect.y) > c1->rect.h)
+			{
+				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y) + 1;
+				collision = false;
+			}
+			else
+			{
+				if (c1->rect.h + c1->rect.y > c2->rect.y)
+				{
+					position.y += (c2->rect.y-(c1->rect.h + c1->rect.y)) - 1;
+					collision = false;
+				}
+			}
+		}
+	}
 	if(exploding == false && c2->type != COLLIDER_CLIENT)
 	{
+<<<<<<< HEAD
 		App->fade->FadeToBlack(App->bath_scene, App->scene_intro);
+=======
+		
+		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
+>>>>>>> origin/master
 		exploding = true;
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
 	}

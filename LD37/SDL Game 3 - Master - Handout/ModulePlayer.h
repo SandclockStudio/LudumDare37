@@ -28,4 +28,5 @@ public:
 	p2Point<int> position;
 	bool exploding;
 	bool giveTowel;
+	bool collision;
 };
