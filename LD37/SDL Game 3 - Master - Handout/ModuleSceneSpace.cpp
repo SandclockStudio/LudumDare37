@@ -22,9 +22,11 @@ bool ModuleSceneSpace::Start()
 
 	App->collision->Enable(); // enable before player
 	App->player->Enable();
+	App->client->Enable();
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
+	App->client->AddClient(App->client->normal, 30, 50, COLLIDER_CLIENT);
 
 	App->collision->AddCollider({0,224,3930, 16}, COLLIDER_WALL);
 	App->collision->AddCollider({142, 192, 63, 48}, COLLIDER_WALL);
@@ -43,6 +45,7 @@ bool ModuleSceneSpace::CleanUp()
 	App->textures->Unload(background);
 	App->player->Disable();
 	App->collision->Disable();
+	App->client->Disable();
 	
 	return true;
 }
@@ -50,14 +53,13 @@ bool ModuleSceneSpace::CleanUp()
 // Update: draw background
 update_status ModuleSceneSpace::Update()
 {
-	// Move camera forward -----------------------------
-	int scroll_speed = 1;
+	// Move camera forward if needed -----------------------------
+	int scroll_speed = 0;
 
-	App->player->position.x += 1;
-	App->renderer->camera.x -= 3;
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);
+
 	
 	return UPDATE_CONTINUE;
 }

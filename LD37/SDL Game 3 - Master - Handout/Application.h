@@ -15,6 +15,9 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleParticles.h"
 #include "ModuleCollision.h"
+#include "ModuleClient.h"
+#include "ModuleAI.h"
+#include "ModuleBathroom.h"
 
 class Application
 {
@@ -26,10 +29,13 @@ public:
 	ModuleAudio* audio;
 	ModuleSceneSpace* scene_space;
 	ModulePlayer* player;
+	ModuleClient* client;
 	ModuleFadeToBlack* fade;
 	ModuleSceneIntro* scene_intro;
 	ModuleParticles* particles;
+	ModuleBathroom* bathrooms;
 	ModuleCollision* collision;
+	ModuleAI* ai;
 
 private:
 

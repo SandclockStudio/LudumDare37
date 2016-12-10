@@ -8,12 +8,14 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, true);
+	audio = new ModuleAudio(this, false);
 	scene_space = new ModuleSceneSpace(this, false);
 	player = new ModulePlayer(this, false);
+	client = new ModuleClient(this, false);
 	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
 	particles = new ModuleParticles(this);
+	ai = new ModuleAI(this,false);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -27,16 +29,19 @@ Application::Application()
 	AddModule(audio);
 	
 	
+	
 	// Scenes
 	AddModule(scene_space);
 	AddModule(scene_intro);
 	
 	// Characters
 	AddModule(player);
+	AddModule(client);
 
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
+	AddModule(ai);
 
 	AddModule(fade); // let this after all drawing
 
@@ -53,6 +58,7 @@ Application::~Application()
 	delete scene_intro;
 	delete scene_space;
 	delete player;
+	delete client;
 	delete fade;
 	delete collision;
 }

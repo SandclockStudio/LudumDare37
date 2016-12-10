@@ -17,12 +17,15 @@ public:
 
 public:
 
+	bool plunger, paper;
 	SDL_Texture* graphics;
 	Collider* collider;
 	Animation* current_animation;
 	Animation idle;
+	Animation towel;
 	Animation up;
 	Animation down;
 	p2Point<int> position;
 	bool exploding;
+	bool giveTowel;
 };

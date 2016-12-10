@@ -1,5 +1,7 @@
 #pragma once
 #include "p2DynArray.h"
+#include "SDL\include\SDL.h"
+
 
 class Animation
 {
