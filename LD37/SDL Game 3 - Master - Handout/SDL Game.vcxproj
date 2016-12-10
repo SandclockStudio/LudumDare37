@@ -78,6 +78,7 @@
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleBathroom.h" />
     <ClInclude Include="ModuleClient.h" />
+    <ClInclude Include="ModuleCloset.h" />
     <ClInclude Include="ModuleCollision.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="ModuleInput.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleBathroom.cpp" />
     <ClCompile Include="ModuleClient.cpp" />
+    <ClCompile Include="ModuleCloset.cpp" />
     <ClCompile Include="ModuleCollision.cpp" />
     <ClCompile Include="ModuleFadeToBlack.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
