@@ -61,7 +61,7 @@ update_status ModulePlayer::Update()
 	if(exploding == true)
 		return UPDATE_CONTINUE;
 
-	int speed = 1;
+	int speed = 3;
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
