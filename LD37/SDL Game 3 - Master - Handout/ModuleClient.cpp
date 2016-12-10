@@ -104,3 +104,32 @@ bool Client::Update()
 {
 	return true;
 }
+
+Client* ModuleClient:: getClient(p2Point<int> pos)
+{
+	p2List_item<Client*>* tmp = active.getFirst();
+	p2List_item<Client*>* tmp_next = active.getFirst();
+
+
+	while (tmp != NULL)
+	{
+		Client* c = tmp->data;
+		tmp_next = tmp->next;
+
+		if (c->Update() == false)
+		{
+			active.del(tmp);
+			delete c;
+		}
+		
+		if (c->position.x == pos.x && c->position.y == pos.y)
+		{
+			return c;
+		}
+			
+
+		tmp = tmp_next;
+	}
+	return NULL;
+
+}

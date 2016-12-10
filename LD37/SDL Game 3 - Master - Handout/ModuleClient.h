@@ -5,10 +5,12 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+
 struct Client
 {
 	Animation idle, walking, washing;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
+	unsigned int shitRest;
 	p2Point<int> position;
 	Uint32 born;
 	Uint32 life;
@@ -31,7 +33,7 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 	void AddClient(const Client& client, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
-
+	Client* getClient(p2Point<int> pos);
 private:
 	SDL_Texture* graphics;
 	p2List<Client*> active;

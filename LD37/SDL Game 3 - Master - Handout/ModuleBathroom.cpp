@@ -126,7 +126,8 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		Collider* aux = tmp->data->collider;
 		if (aux == c1 && c2->type == COLLIDER_CLIENT)
 		{
-			ModulePlayer* aux = (ModulePlayer*)(c2->callback);
+			
+
 			tmp->data->openDoorAnim = true;
 			tmp->data->t1 = clock();
 
