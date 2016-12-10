@@ -14,7 +14,6 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
 
-	
 	towel.frames.PushBack({ 100, 1, 32, 14 });
 	towel.frames.PushBack({ 132, 0, 32, 14 });
 	towel.loop = false;
@@ -161,12 +160,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	if(exploding == false && c2->type != COLLIDER_CLIENT)
 	{
-<<<<<<< HEAD
 		App->fade->FadeToBlack(App->bath_scene, App->scene_intro);
-=======
-		
-		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
->>>>>>> origin/master
+
 		exploding = true;
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
 	}
