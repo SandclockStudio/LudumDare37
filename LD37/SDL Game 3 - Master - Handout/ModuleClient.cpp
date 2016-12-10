@@ -230,8 +230,7 @@ void ModuleClient::AssignBaths()
 			}
 
 		}
-
-		
+			
 
 
 		tmp = tmp_next;
