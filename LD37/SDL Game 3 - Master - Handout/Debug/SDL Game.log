@@ -1,26 +1,22 @@
-﻿  ModuleWindow.cpp
+﻿  ModulePlayer.cpp
+  ModuleClient.cpp
+  Generating Code...
+  Compiling...
+  Application.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  ModuleWindow.cpp
   ModuleTextures.cpp
   ModuleSceneSpace.cpp
   ModuleSceneIntro.cpp
   ModuleRender.cpp
-  ModulePlayer.cpp
-c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(68): error C3867: 'Animation::Finished': non-standard syntax; use '&' to create a pointer to member
-c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(68): warning C4805: '==': unsafe mix of type 'bool (__thiscall Animation::* )(void)' and type 'bool' in operation
-c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(68): error C2446: '==': no conversion from 'int' to 'bool (__thiscall Animation::* )(void)'
-  c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(68): note: There are no conversions from integral values to pointer-to-member values
   ModuleParticles.cpp
   ModuleInput.cpp
   ModuleFadeToBlack.cpp
   ModuleCollision.cpp
-  ModuleClient.cpp
   ModuleBathroom.cpp
-c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\modulebathroom.cpp(139): error C2039: 'animDoor': is not a member of 'Bath'
-  c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\modulebathroom.h(15): note: see declaration of 'Bath'
-c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\modulebathroom.cpp(145): error C2039: 'animDoor': is not a member of 'Bath'
-  c:\users\nombre\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\modulebathroom.h(15): note: see declaration of 'Bath'
   ModuleAudio.cpp
   ModuleAI.cpp
   Main.cpp
-  Log.cpp
-  Application.cpp
-  Generating Code...
+  SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
