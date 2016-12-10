@@ -14,6 +14,7 @@ ModuleClient::~ModuleClient()
 bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
+	current_animation = NULL;
 	graphics = App->textures->Load("rtype/ship.png");
 	// idle animation normal client
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
@@ -34,6 +35,7 @@ update_status ModuleClient::Update()
 {
 	p2List_item<Client*>* tmp = active.getFirst();
 	p2List_item<Client*>* tmp_next = active.getFirst();
+	current_animation = &normal.idle;
 
 	while (tmp != NULL)
 	{
@@ -47,7 +49,7 @@ update_status ModuleClient::Update()
 		}
 		else if (SDL_GetTicks() >= c->born)
 		{
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(c->idle.GetCurrentFrame()));
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
@@ -72,6 +74,7 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
+	
 
 	if (collider_type != COLLIDER_NONE)
 	{

@@ -38,6 +38,10 @@ private:
 
 public:
 	Client normal;
+	Client fat;
+	Animation* current_animation;
+
+
 	
 	
 };
