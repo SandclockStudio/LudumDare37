@@ -123,7 +123,6 @@ bool Client::Update()
 	p2Point<int> target;
 	target.x = 10;
 	target.y = 200;
-
 	position += GoToPosition(target);
 	
 	return true;

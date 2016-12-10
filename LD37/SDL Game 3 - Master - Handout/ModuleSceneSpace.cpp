@@ -26,7 +26,7 @@ bool ModuleSceneSpace::Start()
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	App->client->AddClient(App->client->normal, 30, 50, COLLIDER_CLIENT);
+	App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
 
 	App->collision->AddCollider({0,224,3930, 16}, COLLIDER_WALL);
 	App->collision->AddCollider({142, 192, 63, 48}, COLLIDER_WALL);
