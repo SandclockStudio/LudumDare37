@@ -14,7 +14,14 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
 
-	towel.frames.PushBack({ 0,0,0,0 });
+	towel.frames.PushBack({ 274, 296, 33, 30 });
+	towel.frames.PushBack({ 313, 296, 33, 30 });
+	towel.frames.PushBack({ 346, 296, 33, 30 });
+	towel.frames.PushBack({ 382, 296, 33, 30 });
+	towel.frames.PushBack({ 419, 296, 33, 30 });
+	towel.frames.PushBack({ 457, 296, 33, 30 });
+	towel.loop = false;
+	towel.speed = 0.1f;
 
 	// move upwards
 	up.frames.PushBack({100, 1, 32, 14});
@@ -67,8 +74,11 @@ update_status ModulePlayer::Update()
 	int speed = 3;
 	if (giveTowel == true)
 	{
+		App->renderer->Blit(graphics, position.x, position.y, &towel.GetCurrentFrame());
 		current_animation = &towel;
-		giveTowel = false;
+		//giveTowel = false;
+		
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -121,11 +131,8 @@ update_status ModulePlayer::Update()
 // Collision detection
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c2->type == COLLIDER_CLIENT && giveTowel == false)
-	{
-		giveTowel = true;
-	}
-	if(exploding == false)
+	
+	if(exploding == false && c2->type != COLLIDER_CLIENT)
 	{
 		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
 		exploding = true;

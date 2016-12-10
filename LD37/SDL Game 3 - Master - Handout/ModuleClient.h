@@ -39,6 +39,8 @@ private:
 	p2List<Client*> active;
 
 public:
+	p2Point<int> position;
+	Collider* collider;
 	Client normal;
 	Client fat;
 	Animation* current_animation;
