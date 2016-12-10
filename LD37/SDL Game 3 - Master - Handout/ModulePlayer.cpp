@@ -137,7 +137,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	else
 	{
-		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
 		{
 			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w) ) -1;
 			collision = false;
