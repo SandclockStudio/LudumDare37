@@ -22,6 +22,7 @@ bool ModuleSceneSpace::Start()
 
 	App->collision->Enable(); // enable before player
 	App->player->Enable();
+	App->client->Enable();
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
@@ -50,11 +51,9 @@ bool ModuleSceneSpace::CleanUp()
 // Update: draw background
 update_status ModuleSceneSpace::Update()
 {
-	// Move camera forward -----------------------------
-	int scroll_speed = 1;
+	// Move camera forward if needed -----------------------------
+	int scroll_speed = 0;
 
-	App->player->position.x += 1;
-	App->renderer->camera.x -= 3;
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);

@@ -8,9 +8,10 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, true);
+	audio = new ModuleAudio(this, false);
 	scene_space = new ModuleSceneSpace(this, false);
 	player = new ModulePlayer(this, false);
+	client = new ModuleClient(this, false);
 	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
 	particles = new ModuleParticles(this);
@@ -35,6 +36,7 @@ Application::Application()
 	
 	// Characters
 	AddModule(player);
+	AddModule(client);
 
 	// Misc
 	AddModule(particles);
@@ -56,6 +58,7 @@ Application::~Application()
 	delete scene_intro;
 	delete scene_space;
 	delete player;
+	delete client;
 	delete fade;
 	delete collision;
 }
