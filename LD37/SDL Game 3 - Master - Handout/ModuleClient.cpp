@@ -48,6 +48,7 @@ update_status ModuleClient::Update()
 		}
 		else if (SDL_GetTicks() >= c->born)
 		{
+			AssignBaths(c);
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
 			if (c->fx_played == false)
 			{
@@ -132,8 +133,8 @@ bool Client::Update()
 	//position += GoToPosition(target);
 
 	p2Point<int> exit;
-	exit.x = 500;
-	exit.y = 500;
+	exit.x = 600;
+	exit.y = 100;
 
 	p2Point<int> temp = target;
 	temp -= position;
@@ -155,6 +156,10 @@ bool Client::Update()
 	{
 		position += GoToPosition(exit);
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 
 	return true;
@@ -195,10 +200,13 @@ p2Point<int> Client::SearchBath()
 
 void Client::WaitForBath()
 {
+
+	LOG("Waiting for the bath");
+
 	waiting = true;
 	complainMeter += 1;
 	//Sleep?
-	Sleep(4000);
+	//Sleep(4000);
 	//Cambiar animacion a quejarse;
 
 
@@ -216,10 +224,11 @@ void Client::WaitForBath()
 void ModuleClient::AssignBaths(Client* c)
 {
 
+	LOG("Assigning baths");
 //Si no tiene baño asignado y comprobamos que no este esperando quejandose
-if (c->assignedBath == NULL && c->waiting == false)
+if (c->ocuppied == false && c->waiting == false)
 {
-	// buscamos entre todos los baños
+	// TODO FALLO en la lista, no la coge bien
 	p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
 	p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
 
@@ -229,9 +238,12 @@ if (c->assignedBath == NULL && c->waiting == false)
 		Bath* b = tmp->data;
 		tmp_next = tmp->next;
 
+		LOG("Checking bath");
+
 		//asignamos el  baño si no esta asignado
 		if (b->busy == false)
 		{
+			LOG("Bath assigned");
 			c->assignedBath = b;
 			c->ocuppied = true;
 			b->busy = true;
@@ -243,7 +255,7 @@ if (c->assignedBath == NULL && c->waiting == false)
 	}
 
 	//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
-	if ((tmp == NULL) && (c->assignedBath == NULL))
+	if ((tmp == NULL) && (c->ocuppied == false))
 	{
 		// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
 		c->WaitForBath();
@@ -251,7 +263,7 @@ if (c->assignedBath == NULL && c->waiting == false)
 	}
 
 	//Si se ha podido asignar un baño al cliente: COSAS NAZIS
-	if (c->assignedBath != NULL)
+	if (c->ocuppied == true)
 	{
 		//c ocupado hasta el final
 		//c->SearchBath();
@@ -262,10 +274,13 @@ if (c->assignedBath == NULL && c->waiting == false)
 
 void Client::Poop()
 {
-	Sleep(6000);
+	//Sleep(6000);
 	//liberar recursos
+	LOG("Pooping");
 	pooped = true;
-	assignedBath->busy = false;
+
+	/*if(assignedBath != NULL)
+		assignedBath->busy = false;*/
 	//liberamos el puntero
 	assignedBath = NULL;
 }

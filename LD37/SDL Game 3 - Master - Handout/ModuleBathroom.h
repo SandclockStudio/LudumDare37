@@ -20,7 +20,7 @@ struct Bath
 	int shitCount;
 	int paperCount;
 	bool fx_played;
-	bool busy;
+	bool busy = false;
 	Collider* collider;
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
 	clock_t t1,t2;
