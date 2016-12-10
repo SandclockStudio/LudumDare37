@@ -14,6 +14,7 @@ Application::Application()
 	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
 	particles = new ModuleParticles(this);
+	ai = new ModuleAI(this,false);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -27,6 +28,7 @@ Application::Application()
 	AddModule(audio);
 	
 	
+	
 	// Scenes
 	AddModule(scene_space);
 	AddModule(scene_intro);
@@ -37,6 +39,7 @@ Application::Application()
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
+	AddModule(ai);
 
 	AddModule(fade); // let this after all drawing
 

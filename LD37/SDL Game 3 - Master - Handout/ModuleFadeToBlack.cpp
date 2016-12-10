@@ -3,8 +3,7 @@
 #include "Application.h"
 #include "ModuleFadeToBlack.h"
 
-ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool start_enabled) : 
-Module(app, start_enabled), 
+ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool start_enabled) : Module(app, start_enabled), 
 start_time(0), 
 total_time(0), 
 fading_in(true),

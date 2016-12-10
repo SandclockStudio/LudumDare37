@@ -15,6 +15,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleParticles.h"
 #include "ModuleCollision.h"
+#include "ModuleAI.h"
 
 class Application
 {
@@ -30,6 +31,7 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleParticles* particles;
 	ModuleCollision* collision;
+	ModuleAI* ai;
 
 private:
 
