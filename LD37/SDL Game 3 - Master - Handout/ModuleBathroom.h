@@ -45,6 +45,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void AddBathroom(const Bath & bathroom, int x, int y, COLLIDER_TYPE collider_type);
 	Bath bath;
+	Animation* current_animation;
 
 	private:
 

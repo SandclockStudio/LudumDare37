@@ -10,7 +10,7 @@ struct Client
 {
 	Animation idle, walking, washing;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
-	unsigned int shitRest;
+	unsigned int shitRest,paperRest;
 	p2Point<int> position;
 	Uint32 born;
 	Uint32 life;

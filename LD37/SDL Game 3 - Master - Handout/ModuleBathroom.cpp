@@ -56,6 +56,16 @@ update_status ModuleBathroom::Update()
 		Bath* p = tmp->data;
 		tmp_next = tmp->next;
 		
+		if (p->paperCount > 0)
+		{
+			p->outOfPaperFlagAnim = true;
+		}
+
+		if (p->shitCount > 0)
+		{
+			p->outOfPaperFlagAnim = true;
+		}
+
 		//Animacion abrir puerta
 		if(p->openDoorAnim == true)
 		{
@@ -65,7 +75,7 @@ update_status ModuleBathroom::Update()
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
-			if (p->openDoor.Finished())
+			if (current_animation->Finished())
 			{
 				p->openDoorAnim = false;
 			}
@@ -74,7 +84,7 @@ update_status ModuleBathroom::Update()
 		//Animacion ocupado
 		if (p->busyFlagAnim == true)
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->busyAnim.GetCurrentFrame()));
+			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->outOfPaper.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -98,12 +108,21 @@ update_status ModuleBathroom::Update()
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
-			p->t2 = clock();
-			if (difftime(p->t2, p->t1) > 5)
+		}
+
+		//Animacion atascado
+		if (p->cloggedFlagAnim == true)
+		{
+			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->clogged.GetCurrentFrame()));
+			
+			if (p->fx_played == false)
 			{
-				p->busyFlagAnim = false;
+				p->fx_played = true;
+				App->audio->PlayFx(p->fx);
 			}
 		}
+
+		
 
 		tmp = tmp_next;
 	}
@@ -123,26 +142,32 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 
 	while (tmp != NULL)
 	{
+
 		Collider* aux = tmp->data->collider;
+
+		//Colision entrar en baño cliente.
 		if (aux == c1 && c2->type == COLLIDER_CLIENT)
 		{
-			
-
+		
 			tmp->data->openDoorAnim = true;
 			tmp->data->t1 = clock();
-
+			Client* aux = App->client->getClient(tmp->data->position);
+			tmp->data->shitCount -= aux->shitRest;
+			tmp->data->paperCount -= aux->shitRest;
 			break;
 		}
 
+		//Colision para arreglar papel
 		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount > 10)
 		{
-			tmp->data->animDoor = true;
+			tmp->data->outOfPaperFlagAnim = false;
 			break;
 		}
 
-		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->paper == true && tmp->data->shitCount > 15)
+		//Colision para arreglar atasco
+		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->plunger == true && tmp->data->shitCount > 15)
 		{
-			tmp->data->animDoor = true;
+			tmp->data->cloggedFlagAnim = false;
 			break;
 		}
 	}
