@@ -19,6 +19,7 @@ struct Client
 	Client();
 	Client(const Client& c);
 	bool Update();
+	p2Point<int> GoToPosition(p2Point<int> target);
 
 };
 
