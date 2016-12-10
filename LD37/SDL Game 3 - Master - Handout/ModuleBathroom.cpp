@@ -199,10 +199,10 @@ Bath::Bath()
 
 Bath::Bath(const Bath & p)
 {
-	shitCount = p.shitCount;
-	paperCount = p.paperCount;
+	shitCount = 15;
+	paperCount = 10;
 	fx_played = false;
-	busy = p.busy;
+	busy = false;
 }
 
 
