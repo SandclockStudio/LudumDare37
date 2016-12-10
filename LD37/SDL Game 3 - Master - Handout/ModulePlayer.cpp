@@ -158,6 +158,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			}
 		}
 	}
+<<<<<<< HEAD
 	if(exploding == false && c2->type != COLLIDER_CLIENT)
 	{
 		App->fade->FadeToBlack(App->bath_scene, App->scene_intro);
@@ -165,4 +166,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		exploding = true;
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
 	}
+=======
+
+>>>>>>> origin/master
 }

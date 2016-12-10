@@ -21,6 +21,9 @@ struct Client
 	Bath* assignedBath;
 	bool waiting = false;
 	bool ocuppied = false;
+	int complainMeter = 0;
+	bool pooped = false;
+
 
 
 	Client();
@@ -32,7 +35,7 @@ struct Client
 	p2Point<int> GoToPosition(p2Point<int> target);
 	void WaitForBath();
 	p2Point<int> SearchBath();
-
+	void Poop();
 	
 
 };
@@ -49,7 +52,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void AddClient(const Client& client, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
 	Client* getClient(p2Point<int> pos);
-	void AssignBaths();
+	void AssignBaths(Client* c);
 private:
 	SDL_Texture* graphics;
 	p2List<Client*> active;
