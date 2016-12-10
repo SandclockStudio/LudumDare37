@@ -2,27 +2,9 @@
 #include "Application.h"
 #include "ModuleClient.h"
 
-ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
-	graphics = NULL;
-	collider = NULL;
-	current_animation = NULL;
-	//exploding = false;
-
-	// idle animation
-	idle.frames.PushBack({ 66, 1, 32, 14 });
-
-	// move upwards
-	up.frames.PushBack({ 100, 1, 32, 14 });
-	up.frames.PushBack({ 132, 0, 32, 14 });
-	up.loop = false;
-	up.speed = 0.1f;
-
-	// Move down
-	down.frames.PushBack({ 33, 1, 32, 14 });
-	down.frames.PushBack({ 0, 1, 32, 14 });
-	down.loop = false;
-	down.speed = 0.1f;
+	
 }
 
 ModuleClient::~ModuleClient()
@@ -31,14 +13,10 @@ ModuleClient::~ModuleClient()
 // Load assets
 bool ModuleClient::Start()
 {
-	LOG("Loading client");
-
+	LOG("Loading Clients");
 	graphics = App->textures->Load("rtype/ship.png");
-
-	position.x = 150;
-	position.y = 50;
-	collider = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_CLIENT, this);
-	exploding = false;
+	// idle animation normal client
+	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
 
 	return true;
 }
@@ -46,26 +24,39 @@ bool ModuleClient::Start()
 // Unload assets
 bool ModuleClient::CleanUp()
 {
-	LOG("Unloading client");
-
+	LOG("Unloading clients");
 	App->textures->Unload(graphics);
-
 	return true;
 }
 
 // Update: draw background
 update_status ModuleClient::Update()
 {
-	if (exploding == true)
-		return UPDATE_CONTINUE;
+	p2List_item<Client*>* tmp = active.getFirst();
+	p2List_item<Client*>* tmp_next = active.getFirst();
 
-	int speed = 1;
+	while (tmp != NULL)
+	{
+		Client* c = tmp->data;
+		tmp_next = tmp->next;
 
-	collider->SetPos(position.x, position.y);
+		if (c->Update() == false)
+		{
+			active.del(tmp);
+			delete c;
+		}
+		else if (SDL_GetTicks() >= c->born)
+		{
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(c->idle.GetCurrentFrame()));
+			if (c->fx_played == false)
+			{
+				c->fx_played = true;
+				App->audio->PlayFx(c->fx);
+			}
+		}
 
-	// Draw everything --------------------------------------
-	current_animation = &idle;
-	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		tmp = tmp_next;
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -73,10 +64,40 @@ update_status ModuleClient::Update()
 // Collision detection
 void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 {
-	if (exploding == false)
+	
+}
+void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
+{
+	Client* p = new Client(client);
+	p->born = SDL_GetTicks() + delay;
+	p->position.x = x;
+	p->position.y = y;
+
+	if (collider_type != COLLIDER_NONE)
 	{
-		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
-		exploding = true;
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
 	}
+
+	active.add(p);
+}
+
+Client::Client()
+{
+	
+}
+
+Client::Client(const Client& c) 
+{
+	fx = c.fx;
+	born = c.born;
+	life = c.life;
+	timeBath = c.timeBath;
+	timeWaiting = c.timeWaiting;
+	timeSink = c.timeSink;
+}
+
+
+bool Client::Update()
+{
+	return true;
 }
