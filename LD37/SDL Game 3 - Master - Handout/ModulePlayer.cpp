@@ -14,6 +14,8 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
 
+	towel.frames.PushBack({ 0,0,0,0 });
+
 	// move upwards
 	up.frames.PushBack({100, 1, 32, 14});
 	up.frames.PushBack({132, 0, 32, 14});
@@ -40,6 +42,7 @@ bool ModulePlayer::Start()
 	position.x = 150;
 	position.y = 120;
 	collider = App->collision->AddCollider({position.x, position.y, 32, 14}, COLLIDER_PLAYER, this);
+	giveTowel = false;
 	exploding = false;
 
 	return true;
@@ -62,6 +65,11 @@ update_status ModulePlayer::Update()
 		return UPDATE_CONTINUE;
 
 	int speed = 3;
+	if (giveTowel == true && towel.PeekCurrentFrame == NULL)
+	{
+		current_animation = &towel;
+		giveTowel = false;
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -113,6 +121,10 @@ update_status ModulePlayer::Update()
 // Collision detection
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+	if (c2->type == COLLIDER_CLIENT && giveTowel == false)
+	{
+		giveTowel = true;
+	}
 	if(exploding == false)
 	{
 		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
