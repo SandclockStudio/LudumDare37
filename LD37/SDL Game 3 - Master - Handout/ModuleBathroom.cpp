@@ -19,27 +19,27 @@ bool ModuleBathroom::Start()
  
 	// Animacion abrir baño
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
-	bath.openDoor->frames.PushBack({ 274, 296, 33, 30 });
-	bath.openDoor->loop = false;
-	bath.openDoor->speed = 0.3f;
+	bath.openDoor.frames.PushBack({ 274, 296, 33, 30 });
+	bath.openDoor.loop = false;
+	bath.openDoor.speed = 0.3f;
 
 	// Animacion baño ocupado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-OCUPARSE");
-	bath.busyAnim->frames.PushBack({ 274, 296, 33, 30 });
-	bath.busyAnim->loop = true;
-	bath.busyAnim->speed = 0.3f;
+	bath.busyAnim.frames.PushBack({ 274, 296, 33, 30 });
+	bath.busyAnim.loop = true;
+	bath.busyAnim.speed = 0.3f;
 
 	// Animacion baño sin papel
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-QUEDARSE-SIN-PAPEL");
-	bath.outOfPaper->frames.PushBack({ 274, 296, 33, 30 });
-	bath.outOfPaper->loop = true;
-	bath.outOfPaper->speed = 0.3f;
+	bath.outOfPaper.frames.PushBack({ 274, 296, 33, 30 });
+	bath.outOfPaper.loop = true;
+	bath.outOfPaper.speed = 0.3f;
 
 	// Animacion baño atascado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
-	bath.clogged->frames.PushBack({ 274, 296, 33, 30 });
-	bath.clogged->loop = true;
-	bath.clogged->speed = 0.3f;
+	bath.clogged.frames.PushBack({ 274, 296, 33, 30 });
+	bath.clogged.loop = true;
+	bath.clogged.speed = 0.3f;
 
 
 
@@ -69,7 +69,8 @@ update_status ModuleBathroom::Update()
 		//Animacion abrir puerta
 		if(p->openDoorAnim == true)
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->openDoor->GetCurrentFrame()));
+			current_animation = &p->openDoor;
+			
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -80,12 +81,14 @@ update_status ModuleBathroom::Update()
 		//Animacion ocupado
 		if (p->busyFlagAnim == true)
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->outOfPaper->GetCurrentFrame()));
+			current_animation = &p->busyAnim;
+			
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
+
 			p->t2 = clock();
 			if (difftime(p->t2, p->t1) > 5)
 			{
@@ -98,26 +101,30 @@ update_status ModuleBathroom::Update()
 		//Animacion outOfPaper
 		if (p->outOfPaperFlagAnim == true)
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->outOfPaper->GetCurrentFrame()));
+			current_animation = &p->outOfPaper;
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
+
+			
 		}
 
 		//Animacion atascado
 		if (p->cloggedFlagAnim == true)
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->clogged->GetCurrentFrame()));
+			current_animation = &p->clogged;
 			
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
+			 
 		}
 
+		App->renderer->Blit(graphics, p->position.x, p->position.y, &(current_animation->GetCurrentFrame()));
 		tmp = tmp_next;
 	}
 
