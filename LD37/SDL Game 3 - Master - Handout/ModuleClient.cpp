@@ -120,21 +120,43 @@ Client::Client(const Client& c)
 
 bool Client::Update()
 {
-	//Posicion de ejemplo
-	/*p2Point<int> target;
-	target.x = 10;
-<<<<<<< HEAD
-	target.y = 200;
-=======
-	target.y = 200;*/
 
-	p2Point<int> target = SearchBath();
+	//Posicion de ejemplo
+	p2Point<int> target;
+	target.x = 10;
+	target.y = 200;
+
+	//p2Point<int> target = SearchBath();
 
 	//position += GoToPosition(target);
->>>>>>> origin/master
-	position += GoToPosition(target);
+
+	p2Point<int> exit;
+	exit.x = 500;
+	exit.y = 500;
+
+	p2Point<int> temp = target;
+	temp -= position;
+
+	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
+	if (temp.IsZero())
+	{
+		Poop();
+	}
+
+	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
+	if (pooped == false && ocuppied == true)
+	{
+		position += GoToPosition(target);
+	}
+
+	// si hemos hecho caca, nos dirijimos a la salida
+	if (pooped == true)
+	{
+		position += GoToPosition(exit);
+	}
 
 	return true;
+
 }
 
 p2Point<int> Client::GoToPosition(p2Point<int> target)
@@ -156,90 +178,96 @@ p2Point<int> Client::GoToPosition(p2Point<int> target)
 	return velocity;
 }
 
+
+
 p2Point<int> Client::SearchBath()
 {
-	
 	//Si tenemos un baño asignado
-	if (ocuppied != false) 
+	if (ocuppied == true)
 	{
 		return GoToPosition(assignedBath->position);
 	}
 	return GoToPosition(position); // sino devolver mi position
+
 }
 
 void Client::WaitForBath()
 {
 	waiting = true;
+	complainMeter += 1;
 	//Sleep?
 	Sleep(4000);
 	//Cambiar animacion a quejarse;
+
+
+	//TODO comprobar que el medidor sea 2 o 3 y si es asi, hacer caca o POOP en el suelo.
+	if (complainMeter == 2)
+	{
+		Poop();
+	}
+
+
 	waiting = false;
+
 }
 
-
-
-void ModuleClient::AssignBaths() 
+void ModuleClient::AssignBaths(Client* c)
 {
-	p2List_item<Client*>* tmp = active.getFirst();
-	p2List_item<Client*>* tmp_next = active.getFirst();
 
+//Si no tiene baño asignado y comprobamos que no este esperando quejandose
+if (c->assignedBath == NULL && c->waiting == false)
+{
+	// buscamos entre todos los baños
+	p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
+	p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
 
 	while (tmp != NULL)
 	{
-		//Cogemos el cliente siguiente
-		Client* c = tmp->data;
+		//Cogemos el siguiente baño
+		Bath* b = tmp->data;
 		tmp_next = tmp->next;
 
-		//Si no tiene baño asignado, comprobamos que no este esperando quejandose
-		if (c->assignedBath == NULL && c->waiting == false) 
+		//asignamos el  baño si no esta asignado
+		if (b->busy == false)
 		{
-			// buscamos entre todos los baños
-			p2List_item<Bath*>* tmp2 = App->bathrooms->active.getFirst();
-			p2List_item<Bath*>* tmp_next2 = App->bathrooms->active.getFirst();
-
-			while (tmp2 != NULL)
-			{
-				Bath* b = tmp2->data;
-				tmp_next2 = tmp2->next;
-
-				//asignamos el 
-				if (b->busy == false) 
-				{
-					c->assignedBath = b;
-					c->ocuppied = true;
-					break;
-				}
-
-				tmp2 = tmp_next2;
-
-			}
-
-			//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
-			if ((tmp2 == NULL) && (c->assignedBath == NULL))
-			{
-				// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
-				c->WaitForBath();
-
-			}
-
-			//Si se ha podido asignar un baño al cliente: hacer un searchPosition
-			if (c->assignedBath != NULL)
-			{
-				//c ocupado hasta el final
-				//c->SearchBath();
-			}
-
+			c->assignedBath = b;
+			c->ocuppied = true;
+			b->busy = true;
+			break;
 		}
-			
-
 
 		tmp = tmp_next;
+
 	}
-	
 
+	//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
+	if ((tmp == NULL) && (c->assignedBath == NULL))
+	{
+		// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+		c->WaitForBath();
 
+	}
+
+	//Si se ha podido asignar un baño al cliente: COSAS NAZIS
+	if (c->assignedBath != NULL)
+	{
+		//c ocupado hasta el final
+		//c->SearchBath();
+	}
 
 }
+}
+
+void Client::Poop()
+{
+	Sleep(6000);
+	//liberar recursos
+	pooped = true;
+	assignedBath->busy = false;
+	//liberamos el puntero
+	assignedBath = NULL;
+}
+
 Client* ModuleClient:: getClient(p2Point<int> pos)
 {
 	p2List_item<Client*>* tmp = active.getFirst();
