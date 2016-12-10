@@ -4,7 +4,7 @@
 
 ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
-	
+	collider = NULL;
 }
 
 ModuleClient::~ModuleClient()
@@ -18,7 +18,6 @@ bool ModuleClient::Start()
 	graphics = App->textures->Load("rtype/ship.png");
 	// idle animation normal client
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
-
 	return true;
 }
 
@@ -66,7 +65,25 @@ update_status ModuleClient::Update()
 // Collision detection
 void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 {
-	
+
+	p2List_item<Client*>* tmp = active.getFirst();
+
+
+	while (tmp != NULL)
+	{
+
+		Collider* aux = tmp->data->collider;
+
+		//Colision player cliente.
+		if (aux == c1 && c2->type == COLLIDER_PLAYER)
+		{
+			App->player->giveTowel = true;
+			break;
+		}
+	}
+
+	tmp = tmp->next;
+
 }
 void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
 {
@@ -78,7 +95,7 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
 	}
 
 	active.add(p);
@@ -133,3 +150,5 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 	return NULL;
 
 }
+
+
