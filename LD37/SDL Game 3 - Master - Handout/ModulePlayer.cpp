@@ -65,7 +65,7 @@ update_status ModulePlayer::Update()
 		return UPDATE_CONTINUE;
 
 	int speed = 3;
-	if (giveTowel == true && towel.PeekCurrentFrame == NULL)
+	if (giveTowel == true)
 	{
 		current_animation = &towel;
 		giveTowel = false;
