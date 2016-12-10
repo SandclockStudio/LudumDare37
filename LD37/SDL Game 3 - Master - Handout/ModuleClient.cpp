@@ -156,10 +156,7 @@ bool Client::Update()
 	{
 		position += GoToPosition(exit);
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 
 
 	return true;
