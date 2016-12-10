@@ -17,6 +17,7 @@ public:
 
 public:
 
+	bool plunger, paper;
 	SDL_Texture* graphics;
 	Collider* collider;
 	Animation* current_animation;

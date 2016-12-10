@@ -17,6 +17,7 @@
 #include "ModuleCollision.h"
 #include "ModuleClient.h"
 #include "ModuleAI.h"
+#include "ModuleBathroom.h"
 
 class Application
 {
@@ -32,6 +33,7 @@ public:
 	ModuleFadeToBlack* fade;
 	ModuleSceneIntro* scene_intro;
 	ModuleParticles* particles;
+	ModuleBathroom* bathrooms;
 	ModuleCollision* collision;
 	ModuleAI* ai;
 

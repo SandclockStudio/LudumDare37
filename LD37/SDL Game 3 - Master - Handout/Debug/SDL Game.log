@@ -1,3 +1,19 @@
-﻿  ModuleClient.cpp
-  SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
-  SDL Game.vcxproj -> C:\Users\Nombre\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+﻿  ModuleWindow.cpp
+  ModuleTextures.cpp
+  ModuleSceneSpace.cpp
+  ModuleSceneIntro.cpp
+  ModuleRender.cpp
+  ModulePlayer.cpp
+  ModuleParticles.cpp
+  ModuleInput.cpp
+  ModuleFadeToBlack.cpp
+  ModuleCollision.cpp
+  ModuleClient.cpp
+  ModuleBathroom.cpp
+  ModuleAudio.cpp
+  ModuleAI.cpp
+  Main.cpp
+  Application.cpp
+  Generating Code...
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)

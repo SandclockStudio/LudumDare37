@@ -8,10 +8,13 @@
 #include "p2Point.h"
 #include "p2List.h"
 #include "ModuleCollision.h"
+#include <time.h>
+using namespace std;
 
 struct Bath
 {
-	Animation anim;
+	Animation openDoor,busyAnim, outOfPaper, clogged;
+
 	unsigned int fx;
 	p2Point<int> position;
 	int shitCount;
@@ -19,6 +22,9 @@ struct Bath
 	bool fx_played;
 	bool busy;
 	Collider* collider;
+	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
+	clock_t t1,t2;
+
 
 	Bath();
 	Bath(const Bath& p);
@@ -42,6 +48,7 @@ public:
 
 	private:
 
+	p2List<Bath*> active;
 	SDL_Texture* graphics;
 
 };
