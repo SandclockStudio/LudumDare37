@@ -120,19 +120,9 @@ Client::Client(const Client& c)
 
 bool Client::Update()
 {
-	//Posicion de ejemplo
-	/*p2Point<int> target;
-	target.x = 10;
-<<<<<<< HEAD
-	target.y = 200;
-=======
-	target.y = 200;*/
 
-	p2Point<int> target = SearchBath();
 
-	//position += GoToPosition(target);
->>>>>>> origin/master
-	position += GoToPosition(target);
+
 
 	return true;
 }

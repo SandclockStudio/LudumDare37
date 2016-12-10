@@ -130,14 +130,14 @@ update_status ModulePlayer::Update()
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	collision = true;
-	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
 	{
 		position.x += ( (c2->rect.x + c2->rect.w)- c1->rect.x )+1;
 		collision = false;
 	}
 	else
 	{
-		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
 		{
 			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w) ) -1;
 			collision = false;
@@ -158,16 +158,5 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				}
 			}
 		}
-	}
-	if(exploding == false && c2->type != COLLIDER_CLIENT)
-	{
-<<<<<<< HEAD
-		App->fade->FadeToBlack(App->bath_scene, App->scene_intro);
-=======
-		
-		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
->>>>>>> origin/master
-		exploding = true;
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
 	}
 }

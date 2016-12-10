@@ -171,9 +171,10 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->cloggedFlagAnim = false;
 			break;
 		}
+		tmp = tmp->next;
 	}
 
-	tmp = tmp->next;
+	
 }
 
 void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TYPE collider_type)

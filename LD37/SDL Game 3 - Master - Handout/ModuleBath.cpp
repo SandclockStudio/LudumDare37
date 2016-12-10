@@ -27,11 +27,21 @@ bool ModuleBath::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
-
+	int scale = 4;
 
 
 
 	App->bathrooms->AddBathroom(App->bathrooms->bath,8,280,COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 24*scale, 280, COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 44*scale , 280 , COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 64*scale , 280 , COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 84*scale , 280 , COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 104 * scale, 280, COLLIDER_BATHROOM);
 	return true;
 }
 
