@@ -119,7 +119,33 @@ Client::Client(const Client& c)
 
 bool Client::Update()
 {
+	//Posicion de ejemplo
+	p2Point<int> target;
+	target.x = 10;
+	target.y = 200;
+
+	position += GoToPosition(target);
+	
 	return true;
+}
+
+p2Point<int> Client::GoToPosition(p2Point<int> target)
+{
+	float max_speed = 1.0f;
+
+	int length = position.Length();
+
+	int distance = position.DistanceTo(target);
+
+	p2Point<int> vec = p2Point<int>(target);
+	vec -= position;
+
+	//normalizar y escalar
+	//vec.Normalize();
+
+	p2Point<int> velocity =  vec.Normalize().Scale(max_speed);
+
+	return velocity;
 }
 
 Client* ModuleClient:: getClient(p2Point<int> pos)

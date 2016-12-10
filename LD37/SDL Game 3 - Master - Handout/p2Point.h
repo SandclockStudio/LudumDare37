@@ -94,7 +94,48 @@ public:
 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
 
-		return sqrt((fx*fx) + (fy*fy));
+		return (TYPE)sqrt((fx*fx) + (fy*fy));
+	}
+
+	float Length()
+	{
+		return (float)sqrt((x*x) + (y*y));
+	}
+
+	p2Point& Scale(float e)
+	{
+		x = (TYPE)x * e;
+		y = (TYPE)y * e;
+
+		return(*this);
+	}
+
+	p2Point& Divide(float e)
+	{
+		float xx = x / e;
+		float yy = y / e;
+		
+		//escala para que no de fallos
+		x = (int)(xx * 2.0f);
+		y = (int)(yy* 2.0f);
+
+		return(*this);
+	}
+
+	p2Point& Normalize()
+	{
+
+		
+		float lon = Length();
+
+		if (lon != 0)
+		{
+			return Divide(lon);
+		}
+		else
+			return SetToZero();
+
+
 	}
 };
 

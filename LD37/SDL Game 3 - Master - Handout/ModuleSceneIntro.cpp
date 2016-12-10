@@ -22,7 +22,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 	menu = EXIT;
 
-	graphics = App->textures->Load("ld37/img/menu-01.png");
+	graphics = App->textures->Load("ld37/menu.png");
 	App->audio->PlayMusic("rtype/intro.ogg", 1.0f);
 	if (fx == 0)
 	fx = App->audio->LoadFx("rtype/starting.wav");

@@ -14,12 +14,9 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
 
-	towel.frames.PushBack({ 274, 296, 33, 30 });
-	towel.frames.PushBack({ 313, 296, 33, 30 });
-	towel.frames.PushBack({ 346, 296, 33, 30 });
-	towel.frames.PushBack({ 382, 296, 33, 30 });
-	towel.frames.PushBack({ 419, 296, 33, 30 });
-	towel.frames.PushBack({ 457, 296, 33, 30 });
+	
+	towel.frames.PushBack({ 100, 1, 32, 14 });
+	towel.frames.PushBack({ 132, 0, 32, 14 });
 	towel.loop = false;
 	towel.speed = 0.1f;
 
@@ -74,49 +71,50 @@ update_status ModulePlayer::Update()
 	int speed = 3;
 	if (giveTowel == true)
 	{
-		App->renderer->Blit(graphics, position.x, position.y, &towel.GetCurrentFrame());
 		current_animation = &towel;
-		//giveTowel = false;
-		
-
+		if (towel.Finished())
+		{
+			towel.Reset();
+			giveTowel = false;
+		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && giveTowel == false)
 	{
 		position.x -= speed;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && giveTowel == false)
 	{
 		position.x += speed;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && giveTowel == false)
 	{
 		position.y += speed;
-		if(current_animation != &down)
+		if(current_animation != &down  && giveTowel == false)
 		{
 			down.Reset();
 			current_animation = &down;
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && giveTowel == false)
 	{
 		position.y -= speed;
-		if(current_animation != &up)
+		if(current_animation != &up && giveTowel == false)
 		{
 			up.Reset();
 			current_animation = &up;
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && giveTowel == false)
 	{
 		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && giveTowel == false)
 		current_animation = &idle;
 
 	collider->SetPos(position.x, position.y);
