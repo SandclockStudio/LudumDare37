@@ -114,22 +114,33 @@ Client::Client(const Client& c)
 	timeBath = c.timeBath;
 	timeWaiting = c.timeWaiting;
 	timeSink = c.timeSink;
+	
 }
 
 
 bool Client::Update()
 {
 	//Posicion de ejemplo
-	p2Point<int> target;
+	/*p2Point<int> target;
 	target.x = 10;
+<<<<<<< HEAD
 	target.y = 200;
+=======
+	target.y = 200;*/
+
+	p2Point<int> target = SearchBath();
+
+	//position += GoToPosition(target);
+>>>>>>> origin/master
 	position += GoToPosition(target);
-	
+
 	return true;
 }
 
 p2Point<int> Client::GoToPosition(p2Point<int> target)
 {
+
+
 	float max_speed = 1.0f;
 
 	int length = position.Length();
@@ -140,13 +151,96 @@ p2Point<int> Client::GoToPosition(p2Point<int> target)
 	vec -= position;
 
 	//normalizar y escalar
-	//vec.Normalize();
-
 	p2Point<int> velocity =  vec.Normalize().Scale(max_speed);
 
 	return velocity;
 }
 
+p2Point<int> Client::SearchBath()
+{
+	
+	//Si tenemos un baño asignado
+	if (ocuppied != false) 
+	{
+		return GoToPosition(assignedBath->position);
+	}
+	return GoToPosition(position); // sino devolver mi position
+}
+
+void Client::WaitForBath()
+{
+	waiting = true;
+	//Sleep?
+	Sleep(4000);
+	//Cambiar animacion a quejarse;
+	waiting = false;
+}
+
+
+
+void ModuleClient::AssignBaths() 
+{
+	p2List_item<Client*>* tmp = active.getFirst();
+	p2List_item<Client*>* tmp_next = active.getFirst();
+
+
+	while (tmp != NULL)
+	{
+		//Cogemos el cliente siguiente
+		Client* c = tmp->data;
+		tmp_next = tmp->next;
+
+		//Si no tiene baño asignado, comprobamos que no este esperando quejandose
+		if (c->assignedBath == NULL && c->waiting == false) 
+		{
+			// buscamos entre todos los baños
+			p2List_item<Bath*>* tmp2 = App->bathrooms->active.getFirst();
+			p2List_item<Bath*>* tmp_next2 = App->bathrooms->active.getFirst();
+
+			while (tmp2 != NULL)
+			{
+				Bath* b = tmp2->data;
+				tmp_next2 = tmp2->next;
+
+				//asignamos el 
+				if (b->busy == false) 
+				{
+					c->assignedBath = b;
+					c->ocuppied = true;
+					break;
+				}
+
+				tmp2 = tmp_next2;
+
+			}
+
+			//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
+			if ((tmp2 == NULL) && (c->assignedBath == NULL))
+			{
+				// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+				c->WaitForBath();
+
+			}
+
+			//Si se ha podido asignar un baño al cliente: hacer un searchPosition
+			if (c->assignedBath != NULL)
+			{
+				//c ocupado hasta el final
+				//c->SearchBath();
+			}
+
+		}
+
+		
+
+
+		tmp = tmp_next;
+	}
+	
+
+
+
+}
 Client* ModuleClient:: getClient(p2Point<int> pos)
 {
 	p2List_item<Client*>* tmp = active.getFirst();
