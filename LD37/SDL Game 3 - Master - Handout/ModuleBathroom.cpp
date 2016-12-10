@@ -190,6 +190,7 @@ void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TY
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 22 * scale, 24 * scale }, collider_type, this);
 	}
 
+	active.add(p);
 }
 
 
