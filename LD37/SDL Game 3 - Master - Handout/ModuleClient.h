@@ -10,6 +10,7 @@
 
 struct Client
 {
+	Animation current_animation;
 	Animation idle, walking, washing;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
 	unsigned int shitRest,paperRest;
@@ -24,7 +25,6 @@ struct Client
 	bool ocuppied = false;
 	int complainMeter = 0;
 	bool pooped = false;
-
 
 
 	Client();
@@ -60,10 +60,10 @@ private:
 
 public:
 	p2Point<int> position;
-	Collider* collider;
+	
 	Client normal;
 	Client fat;
-	Animation* current_animation;
+	
 
 
 	

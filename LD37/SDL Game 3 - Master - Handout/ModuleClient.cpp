@@ -4,7 +4,6 @@
 
 ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
-	collider = NULL;
 }
 
 ModuleClient::~ModuleClient()
@@ -14,10 +13,12 @@ ModuleClient::~ModuleClient()
 bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
-	current_animation = NULL;
 	graphics = App->textures->Load("rtype/ship.png");
 	// idle animation normal client
+
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
+	normal.current_animation = normal.idle;
+
 	return true;
 }
 
@@ -34,7 +35,6 @@ update_status ModuleClient::Update()
 {
 	p2List_item<Client*>* tmp = active.getFirst();
 	p2List_item<Client*>* tmp_next = active.getFirst();
-	current_animation = &normal.idle;
 	while (tmp != NULL)
 	{
 		Client* c = tmp->data;
@@ -48,14 +48,8 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
-			if (collider != NULL)
-			{
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation.GetCurrentFrame()));
 
-				SDL_Rect r = current_animation->PeekCurrentFrame();
-				collider->rect = { c->position.x, c->position.y, r.w, r.h };					
-
-			}
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
@@ -84,8 +78,39 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 		//Colision player cliente.
 		if (aux == c1 && c2->type == COLLIDER_PLAYER)
 		{
-			App->player->giveTowel = true;
-			break;
+			if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+			{
+				tmp->data->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+
+			}
+			else
+			{
+				//derecha
+				if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+				{
+					tmp->data->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+
+				}
+				else
+				{
+					//abajo
+					if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h)
+					{
+						tmp->data->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+
+					}
+					else
+					{
+						//arriba
+						if (c1->rect.h + c1->rect.y > c2->rect.y)
+						{
+							tmp->data->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+
+						}
+					}
+				}
+			}
+			
 		}
 
 		//Colision cliente y pila.
@@ -94,38 +119,8 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			tmp->data->cleanRequest = false;
 			break;
 		}
-		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
-		{
-			tmp->data->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x) + 1;
 
-		}
-		else
-		{
-			//derecha
-			if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
-			{
-				tmp->data->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w)) - 1;
-
-			}
-			else
-			{
-				//abajo
-				if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h)
-				{
-					tmp->data->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y) + 1;
-
-				}
-				else
-				{
-					//arriba
-					if (c1->rect.h + c1->rect.y > c2->rect.y)
-					{
-						tmp->data->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y)) - 1;
-
-					}
-				}
-			}
-		}
+		
 		tmp = tmp->next;
 	}
 	
@@ -143,13 +138,13 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
 	}
 
 	active.add(p);
 }
 
-Client::Client()
+Client::Client() : collider(NULL)
 {
 	waiting = false;
 	ocuppied = false;
@@ -157,14 +152,16 @@ Client::Client()
 	pooped = false;
 }
 
-Client::Client(const Client& c) 
+Client::Client(const Client & c) : collider(c.collider)
 {
+
 	fx = c.fx;
 	born = c.born;
 	life = c.life;
 	timeBath = c.timeBath;
 	timeWaiting = c.timeWaiting;
 	timeSink = c.timeSink;
+	current_animation = c.current_animation;
 	
 }
 
@@ -194,6 +191,15 @@ bool Client::Update()
 	{
 		Poop();
 	}
+
+	if (collider != NULL)
+	{
+
+		SDL_Rect r = current_animation.PeekCurrentFrame();
+		collider->rect = { position.x, position.y, r.w, r.h };
+
+	}
+
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
 	if (pooped == false && ocuppied == true)

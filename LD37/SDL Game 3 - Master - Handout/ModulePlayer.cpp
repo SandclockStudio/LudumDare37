@@ -133,7 +133,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	//izquierda
 	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
 	{
-		position.x += ( (c2->rect.x + c2->rect.w)- c1->rect.x )+1;
+		position.x += ( (c2->rect.x + c2->rect.w)- c1->rect.x );
 		collision = false;
 	}
 	else
@@ -141,7 +141,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		//derecha
 		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
 		{
-			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w) ) -1;
+			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w) );
 			collision = false;
 		}
 		else
@@ -149,7 +149,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			//abajo
 			if( (c1->rect.y < c2->rect.y + c2->rect.h) && ( (c1->rect.h + c1->rect.y)-c2->rect.y) > c1->rect.h)
 			{
-				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y) + 1;
+				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y) ;
 				collision = false;
 			}
 			else
@@ -157,7 +157,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				//arriba
 				if (c1->rect.h + c1->rect.y > c2->rect.y)
 				{
-					position.y += (c2->rect.y-(c1->rect.h + c1->rect.y)) - 1;
+					position.y += (c2->rect.y-(c1->rect.h + c1->rect.y)) ;
 					collision = false;
 				}
 			}
