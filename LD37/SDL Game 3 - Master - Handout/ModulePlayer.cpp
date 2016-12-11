@@ -49,6 +49,8 @@ bool ModulePlayer::Start()
 	giveTowel = false;
 	exploding = false;
 	collision = false;
+	plunger = false;
+	paper = false;
 	return true;
 }
 

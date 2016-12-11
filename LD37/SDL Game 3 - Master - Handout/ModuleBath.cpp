@@ -59,6 +59,7 @@ bool ModuleBath::Start()
 	App->collision->AddCollider({ 0, 0, 8, SCREEN_HEIGHT }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 150 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ SCREEN_WIDTH - 8, 240, 8, 150 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ 8, 8, 100, 80 }, COLLIDER_WALL, this);
 	return true;
 }
 
@@ -96,7 +97,7 @@ update_status ModuleBath::Update()
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->normal, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, COLLIDER_CLIENT);
 	}
 	
 

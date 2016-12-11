@@ -1,3 +1,6 @@
+#ifndef __ModuleCloset_H__
+#define __ModuleCloset_H__
+
 #include "Module.h"
 #include "Animation.h"
 #include "Globals.h"
@@ -14,9 +17,10 @@ public:
 	bool CleanUp();
 
 public: 
-	SDL_Texture* background;
+	SDL_Texture* graphics;
 	SDL_Texture* stars;
 	Animation plunger, noplunger;
-	unsigned int fx;
+
 
 };
+#endif
