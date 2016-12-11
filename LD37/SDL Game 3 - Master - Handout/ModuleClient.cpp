@@ -199,23 +199,29 @@ bool Client::Update()
 	temp -= position;
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (temp.IsZero() && ocuppied == true)
+	if (temp.IsZero() && ocuppied == true || ocuppied == true && pooping == true)
 	{
 
 		position = assignedBath->getCenter();
+		if (t1 == 0)
+		{
+			pooping = true;
+			t1 = SDL_GetPerformanceCounter();
+		}
+			
 
 		Poop();
 	}
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
-	if (pooped == false && ocuppied == true)
+	if (pooped == false && ocuppied == true && pooping == false)
 	{
 		position += GoToPosition(target);
 
 	}
 
 	// si hemos hecho caca, nos dirijimos a la salida
-	if (pooped == true)
+	if (pooped == true && pooping == false)
 	{
 		position += GoToPosition(exit);
 
@@ -341,19 +347,25 @@ void Client::Poop()
 
 	//TODO AÑADIR ANIMACION CAGAR
 
-	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());;
+
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
 	if (time >= 6000) 
 	{
 
 		//TODO ANIMACION SALIR BAÑO
 		pooped = true;
-		//position = assignedBath->position;
+		position = assignedBath->position;
+		//TODO cambiar posicion 
+		position.y -= 20;
+
 		ocuppied = false;
-		//assignedBath->busy = false;
-		//assignedBath = NULL;
+		assignedBath->busy = false;
+		assignedBath = NULL;
 		t1 = -1;
 		t2 = 0;
+		pooping = false;
+
 	}
 
 }

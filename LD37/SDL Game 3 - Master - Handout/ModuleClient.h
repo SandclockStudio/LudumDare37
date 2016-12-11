@@ -24,6 +24,7 @@ struct Client
 	bool waiting = false;
 	bool ocuppied = false;
 	int complainMeter = 0;
+	bool pooping = false;
 	bool pooped = false;
 	Uint64 t1, t2;
 	
