@@ -51,21 +51,10 @@ update_status ModuleClient::Update()
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
 			if (collider != NULL)
 			{
-				p2List_item<Client*>* tmp = active.getFirst();
-				p2List_item<Client*>* tmp_next = active.getFirst();
 
+				SDL_Rect r = current_animation->PeekCurrentFrame();
+				collider->rect = { c->position.x, c->position.y, r.w, r.h };					
 
-				while (tmp != NULL)
-				{
-					Client* c = tmp->data;
-					tmp_next = tmp->next;
-
-					SDL_Rect r = current_animation->PeekCurrentFrame();
-					collider->rect = { c->position.x, c->position.y, r.w, r.h };
-					tmp = tmp_next;
-				}
-
-				
 			}
 			if (c->fx_played == false)
 			{
@@ -127,7 +116,10 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 Client::Client()
 {
-	
+	waiting = false;
+	ocuppied = false;
+	complainMeter = 0;
+	pooped = false;
 }
 
 Client::Client(const Client& c) 
