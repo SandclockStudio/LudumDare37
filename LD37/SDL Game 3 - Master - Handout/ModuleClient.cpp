@@ -160,6 +160,7 @@ Client::Client() : collider(NULL)
 	pooped = false;
 	cleanRequest = false;
 	handCleaned = false;
+	exiting = false;
 }
 
 Client::Client(const Client & c) : collider(c.collider)
@@ -178,6 +179,7 @@ Client::Client(const Client & c) : collider(c.collider)
 	pooped = c.pooped;
 	cleanRequest = c.cleanRequest;
 	handCleaned = c.cleanRequest;
+	exiting = c.exiting;
 
 	t1 = 0;
 	t2 = 0;
@@ -205,16 +207,19 @@ bool Client::Update()
 
 	p2Point<int> bath = SearchBath();
 	p2Point<int> silk = SearchSilk();
+	//silk.y += 10;
 
 	p2Point<int> target;
 	if (pooped == true)
 		target = silk;
 	else
 		target = bath;
+
+	
 	
 
 	p2Point<int> exit;
-	exit.x = 600;
+	exit.x = 500;
 	exit.y = 150;
 
 	p2Point<int> temp = target;
@@ -222,7 +227,7 @@ bool Client::Update()
 
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (temp.IsZero() && ocuppied == true || ocuppied == true && pooping == true)
+	if (temp.IsZero() && ocuppied == true && pooped == false || ocuppied == true && pooping == true)
 	{
 
 		position = assignedBath->getCenter();
@@ -238,7 +243,7 @@ bool Client::Update()
 
 
 	// Si hemos llegado al silk(nuestro objetivo) , nos lavamos las manos
-	if (temp.IsZero() && pooped == true && cleanRequest == true)
+	if (temp.IsZero() && pooped == true && handCleaned == false)
 	{
 
 		if (t1 == 0)
@@ -259,7 +264,7 @@ bool Client::Update()
 	}
 
 	//vamos a lavarnos las manos
-	if (pooped == true && cleanRequest == true)
+	if (pooped == true && cleanRequest == true && washingHands == false)
 	{
 		LOG("going to silk ");
 		position += GoToPosition(silk);
@@ -270,6 +275,14 @@ bool Client::Update()
 	if (pooped == true && pooping == false && handCleaned == true)
 	{
 		LOG("going to exit ");
+
+		if (exiting == false)
+		{
+			if (position.y < 200)
+				position.y += 1;
+			else exiting = true;
+		}
+		
 		position += GoToPosition(exit);
 
 	}
@@ -317,7 +330,10 @@ p2Point<int> Client::SearchSilk()
 	//Si tenemos un baño asignado
 	if (cleanRequest == true)
 	{
-		return assignedSilk->position;
+		p2Point<int> temp = assignedSilk->position;
+		temp.y += 10;
+		temp.x += 5;
+		return temp;
 	}
 	return  position; // sino devolver mi position
 
@@ -351,7 +367,7 @@ void ModuleClient::AssignBaths(Client* c)
 {
 
 //Si no tiene baño asignado y comprobamos que no este esperando quejandose
-if (c->ocuppied == false && c->waiting == false)
+if (c->ocuppied == false && c->waiting == false && c->pooped == false)
 {
 	// TODO FALLO en la lista, no la coge bien
 	p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
@@ -366,7 +382,7 @@ if (c->ocuppied == false && c->waiting == false)
 		LOG("Checking bath");
 
 		//asignamos el  baño si no esta asignado
-		if (b->busy == false)
+		if (b->busy == false && c->pooped == false)
 		{
 			LOG("Bath assigned");
 			c->assignedBath = b;
@@ -402,7 +418,7 @@ void ModuleClient::AssignSilks(Client* c)
 {
 
 	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
-	if (c->cleanRequest == false && c->pooped == true)
+	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
 	{
 		// TODO FALLO en la lista, no la coge bien
 		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
@@ -428,21 +444,6 @@ void ModuleClient::AssignSilks(Client* c)
 
 			tmp = tmp_next;
 
-		}
-
-		//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
-		if ((tmp == NULL) && (c->cleanRequest == false))
-		{
-			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
-			c->WaitForBath();
-
-		}
-
-		//Si se ha podido asignar un baño al cliente: COSAS NAZIS
-		if (c->ocuppied == true)
-		{
-			//c ocupado hasta el final
-			//c->SearchBath();
 		}
 
 	}
@@ -484,14 +485,14 @@ void Client::WashHands()
 {
 	this->t2 = SDL_GetPerformanceCounter();
 
-	LOG("Washing Hands");
+
 
 
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if (time >= 4000)
+	if (time >= 4000 && handCleaned == false)
 	{
-
+		LOG("Washing Hands");
 		//TODO ANIMACION SALIR BAÑO
 		//pooped = true;
 		//position = assignedBath->position;
@@ -505,6 +506,7 @@ void Client::WashHands()
 		t1 = 0;
 		t2 = 0;
 		washingHands = false;
+		handCleaned = true;
 
 	}
 
