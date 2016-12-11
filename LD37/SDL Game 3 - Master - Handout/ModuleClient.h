@@ -10,6 +10,7 @@
 
 struct Client
 {
+	Animation* current_animation;
 	Animation idle, walking, washing;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
 	unsigned int shitRest,paperRest;
@@ -24,7 +25,8 @@ struct Client
 	bool ocuppied = false;
 	int complainMeter = 0;
 	bool pooped = false;
-
+	Uint64 t1, t2;
+	
 
 
 	Client();

@@ -71,6 +71,7 @@ public:
 	// Utils ------------------------------------------------
 	bool IsZero() const
 	{
+		
 		return (x == 0 && y == 0);
 	}
 
@@ -116,8 +117,8 @@ public:
 		float yy = y / e;
 		
 		//escala para que no de fallos
-		x = (int)(xx * 2.0f);
-		y = (int)(yy* 2.0f);
+		x = (int)(xx *2.0f);
+		y = (int)(yy *2.0f);
 
 		return(*this);
 	}
