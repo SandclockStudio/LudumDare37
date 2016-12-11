@@ -29,7 +29,6 @@ struct Silk
 
 class ModuleSilk : public Module
 {
-<<<<<<< HEAD
 	public:
 		ModuleSilk(Application* app, bool start_enabled = true);
 		~ModuleSilk();
@@ -44,22 +43,7 @@ class ModuleSilk : public Module
 
 	private:
 		SDL_Texture* graphics;
-=======
-public:
-	ModuleSilk(Application* app, bool start_enabled = true);
-	~ModuleSilk();
-	bool Start();
-	update_status Update();
-	void OnCollision(Collider * c1, Collider * c2);
-	void AddSilk(const Silk & sink, int x, int y, COLLIDER_TYPE collider_type);
-	Silk silk;
-	Animation* current_animation;
-	p2List<Silk*> active;
 
-
-private:
-	SDL_Texture* graphics;
->>>>>>> origin/master
 };
 
 #endif
