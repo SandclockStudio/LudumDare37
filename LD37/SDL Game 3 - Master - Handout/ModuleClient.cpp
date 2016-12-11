@@ -202,6 +202,8 @@ bool Client::Update()
 	if (temp.IsZero() && ocuppied == true)
 	{
 
+		position = assignedBath->getCenter();
+
 		Poop();
 	}
 
