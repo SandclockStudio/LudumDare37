@@ -19,7 +19,7 @@ bool ModuleBathroom::Start()
 	
 	//Animacion idle
 	bath.idle.frames.PushBack({ 40 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
-	bath.idle.loop = false;
+	bath.idle.loop = true;
 	bath.idle.speed = 0.3f;
 
 	// Animacion abrir baño
@@ -88,6 +88,8 @@ update_status ModuleBathroom::Update()
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
+		
+
 		}
 
 		//Animacion ocupado
@@ -133,6 +135,7 @@ update_status ModuleBathroom::Update()
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
+
 			 
 		}
 

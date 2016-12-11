@@ -1,0 +1,13 @@
+﻿  ModuleClient.cpp
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(312): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(362): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(386): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(509): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(537): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(108): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(107): note: while compiling class template member function 'p2Point<int> &p2Point<int>::Scale(float)'
+  c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(320): note: see reference to function template instantiation 'p2Point<int> &p2Point<int>::Scale(float)' being compiled
+  c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.h(28): note: see reference to class template instantiation 'p2Point<int>' being compiled
+c:\users\david\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  SDL Game.vcxproj -> C:\Users\David\ludumdare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\David\ludumdare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)

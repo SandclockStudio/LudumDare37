@@ -13,11 +13,13 @@ ModuleClient::~ModuleClient()
 bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
 	// idle animation normal client
 
-	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
+	normal.idle.frames.PushBack({ 24, 96, 48, 96 });
+	normal.idle.frames.PushBack({ 96 + 24, 96, 48, 96 });
 	normal.current_animation = &normal.idle;
+	normal.idle.speed = 0.02f;
 
 	return true;
 }
@@ -58,10 +60,14 @@ update_status ModuleClient::Update()
 			}
 		}
 
-		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x > SCREEN_WIDTH && tmp->data->position.y > SCREEN_HEIGHT)
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-30 )
 		{
+
+			
+			tmp->data->collider->type = COLLIDER_NONE;
 			delete tmp->data;
 			active.del(tmp);
+
 			break;
 		}
 
@@ -146,7 +152,7 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 48, 48 }, collider_type, this);
 	}
 
 	active.add(p);
@@ -199,7 +205,11 @@ bool Client::Update()
 		collider->rect = { position.x, position.y, r.w, r.h };
 
 	}
-
+	else
+	{
+		SDL_Rect r = current_animation->PeekCurrentFrame();
+		collider->rect = { 1000, position.y, r.w, r.h };
+	}
 
 	//Posicion de ejemplo
 
@@ -263,7 +273,7 @@ bool Client::Update()
 
 	}
 
-	//vamos a lavarnos las manos
+	//hemos hecho caca, tengo request de lavarme las manos, no me las he lavado -> vamos a lavarnos las manos
 	if (pooped == true && cleanRequest == true && washingHands == false)
 	{
 		LOG("going to silk ");
@@ -331,8 +341,8 @@ p2Point<int> Client::SearchSilk()
 	if (cleanRequest == true)
 	{
 		p2Point<int> temp = assignedSilk->position;
-		temp.y += 10;
-		temp.x += 10;
+		//temp.y += 10;
+		//temp.x += 40;
 		return temp;
 	}
 	return  position; // sino devolver mi position
@@ -364,7 +374,6 @@ void Client::WaitForBath()
 
 void Client::WaitForSilk()
 {
-
 
 
 	this->t2 = SDL_GetPerformanceCounter();
@@ -442,7 +451,7 @@ void ModuleClient::AssignSilks(Client* c)
 	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
 	//if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false)
 	{
-		// TODO FALLO en la lista, no la coge bien
+
 		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
 		p2List_item<Silk*>* tmp_next = App->silks->active.getFirst();
 
@@ -510,7 +519,7 @@ void Client::Poop()
 
 		ocuppied = false;
 		assignedBath->busy = false;
-		//assignedBath = NULL;
+		assignedBath = NULL;
 		t1 = 0;
 		t2 = 0;
 		pooping = false;
@@ -523,8 +532,6 @@ void Client::Poop()
 void Client::WashHands()
 {
 	this->t2 = SDL_GetPerformanceCounter();
-
-
 
 
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
