@@ -112,6 +112,14 @@ Silk::Silk(const Silk & p)
 	busy = false;
 }
 
+p2Point<int> Silk::getCenter(int offsetX, int offsetY)
+{
+	p2Point<int> center;
+	center.x = (position.x + (20 * 4)) + offsetX;	
+	center.y = (position.y + (17 * 4)) + offsetY;
+	return center;
+}
+
 bool Silk::Update()
 {
 	return false;

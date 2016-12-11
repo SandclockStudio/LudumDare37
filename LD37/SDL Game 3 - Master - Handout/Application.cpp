@@ -3,7 +3,7 @@
 
 Application::Application()
 {
-	collision = new ModuleCollision(this, true);
+	collision = new ModuleCollision(this, false);
 	renderer = new ModuleRender(this);
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);

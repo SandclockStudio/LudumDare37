@@ -24,6 +24,7 @@ struct Silk
 	Silk();
 	Silk(const Silk& p);
 
+	p2Point<int> getCenter(int offsetX, int offsetY);
 	bool Update();
 };
 

@@ -17,6 +17,7 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_BATHROOM] = false;
+	matrix[COLLIDER_WALL][COLLIDER_CLIENT] = true;
 	
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
