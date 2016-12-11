@@ -55,7 +55,9 @@ bool ModuleBath::Start()
 
 	App->silks->AddSilk(App->silks->silk, 105 * scale, 2 * scale, COLLIDER_SILK);
 
-	
+	App->collision->AddCollider({ 0, 0, 8, SCREEN_HEIGHT }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 150 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH - 8, 240, 8, 150 }, COLLIDER_WALL, this);
 	return true;
 }
 
@@ -90,7 +92,7 @@ update_status ModuleBath::Update()
 
 	
 	
-	
+
 	App->renderer->Blit(background, 0, 0, &bground,0.0f);
 
 	App->renderer->Blit(background, 8, 280,&wcs , 0.0f);
