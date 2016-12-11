@@ -16,4 +16,7 @@ public:
 public: 
 	SDL_Texture* background;
 	SDL_Texture* stars;
+	Animation plunger, noplunger;
+	unsigned int fx;
+
 };

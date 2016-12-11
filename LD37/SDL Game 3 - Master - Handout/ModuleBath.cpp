@@ -82,26 +82,43 @@ update_status ModuleBath::Update()
 	// Move camera forward if needed -----------------------------
 	int scroll_speed = 0;
 
-	int scale = 2;
+	SDL_Rect bground	= { 0 * SCALE, 0 * SCALE,	256 * SCALE, 192 * SCALE };
 
-	SDL_Rect bground	= { 0 * scale, 0 * scale,	256 * scale, 192 * scale };
+	SDL_Rect overlay	= { 256 * SCALE, 0 * SCALE,	256 * SCALE, 192 * SCALE };
 
-	SDL_Rect overlay	= { 256 * scale, 0 * scale,	256 * scale, 192 * scale };
-	
-	SDL_Rect wcs		= { 0 * scale, 326 * scale,	200 * scale, 64 * scale };
+	//SDL_Rect wcs = { 0 * SCALE, 326 * SCALE,	200 * SCALE, 64 * SCALE };
 
-	SDL_Rect sink		= { 0 * scale, 192 * scale,	160 * scale, 22 * scale};
+	SDL_Rect wcs		= { 0 * SCALE, 326 * SCALE,	40 * SCALE, 64 * SCALE };
 
-	
-	
+	//SDL_Rect sink		= { 0 * SCALE, 192 * SCALE,	160 * SCALE, 22 * SCALE};
+
+	SDL_Rect sink		= { 0 * SCALE, 192 * SCALE,	41 * SCALE, 22 * SCALE };
+
+	SDL_Rect closet		= { 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE };
+
+	SDL_Rect door		= { 236 * SCALE, 192 * SCALE,	20 * SCALE, 27 * SCALE };
+
 
 	App->renderer->Blit(background, 0, 0, &bground,0.0f);
 
-	App->renderer->Blit(background, 52 * scale, 4 * scale, &sink , 0.0f);
+	App->renderer->Blit(background, 236 * SCALE, 56 * SCALE, &door, 0.0f);
 
-	App->renderer->Blit(background, 8 * scale, 124 * scale, &wcs, 0.0f);
+	App->renderer->Blit(background, 52 * SCALE, 4 * SCALE, &sink , 0.0f);
+	App->renderer->Blit(background, (52 + 41) * SCALE, 4 * SCALE, &sink, 0.0f);
+	App->renderer->Blit(background, (52 + 41 * 2) * SCALE, 4 * SCALE, &sink, 0.0f);
+	App->renderer->Blit(background, (52 + 41 * 3) * SCALE, 4 * SCALE, &sink, 0.0f);
+	App->renderer->Blit(background, (52 + 41 * 4) * SCALE, 4 * SCALE, &sink, 0.0f);
 
-	App->renderer->Blit(background, 0 * scale, 0 * scale, &overlay, 0.0f);
+	App->renderer->Blit(background, 8 * SCALE, 124 * SCALE, &wcs, 0.0f);
+	App->renderer->Blit(background, (8 + 40) * SCALE, 124 * SCALE, &wcs, 0.0f);
+	App->renderer->Blit(background, (8 + 40 * 2) * SCALE, 124 * SCALE, &wcs, 0.0f);
+	App->renderer->Blit(background, (8 + 40 * 3) * SCALE, 124 * SCALE, &wcs, 0.0f);
+	App->renderer->Blit(background, (8 + 40 * 4) * SCALE, 124 * SCALE, &wcs, 0.0f);
+	App->renderer->Blit(background, (8 + 40 * 5) * SCALE, 124 * SCALE, &wcs, 0.0f);
+
+	App->renderer->Blit(background, 4 * SCALE, 4 * SCALE, &closet, 0.0f);
+
+	App->renderer->Blit(background, 0 * SCALE, 0 * SCALE, &overlay, 0.0f);
 
 
 	
