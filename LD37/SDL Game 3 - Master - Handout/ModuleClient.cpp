@@ -83,9 +83,9 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 		Collider* aux = tmp->data->collider;
 
 		//Colision player cliente.
-		if (aux == c1 && c2->type == COLLIDER_PLAYER)
+		if (aux == c1 && (c2->type == COLLIDER_PLAYER || c2->type == COLLIDER_WALL || c2->type == COLLIDER_SILK))
 		{
-			if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+			if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4)
 			{
 				tmp->data->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
 
@@ -93,7 +93,7 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			else
 			{
 				//derecha
-				if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+				if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4)
 				{
 					tmp->data->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
 
@@ -202,7 +202,7 @@ bool Client::Update()
 
 	p2Point<int> exit;
 	exit.x = 600;
-	exit.y = 100;
+	exit.y = 150;
 
 	p2Point<int> temp = target;
 	temp -= position;
