@@ -30,12 +30,11 @@ bool ModuleClient::CleanUp()
 }
 
 // Update: draw background
-update_status ModuleClient::Update()
+update_status ModuleClient::Update() 
 {
 	p2List_item<Client*>* tmp = active.getFirst();
 	p2List_item<Client*>* tmp_next = active.getFirst();
 	current_animation = &normal.idle;
-
 	while (tmp != NULL)
 	{
 		Client* c = tmp->data;
@@ -50,6 +49,24 @@ update_status ModuleClient::Update()
 		{
 			AssignBaths(c);
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
+			if (collider != NULL)
+			{
+				p2List_item<Client*>* tmp = active.getFirst();
+				p2List_item<Client*>* tmp_next = active.getFirst();
+
+
+				while (tmp != NULL)
+				{
+					Client* c = tmp->data;
+					tmp_next = tmp->next;
+
+					SDL_Rect r = current_animation->PeekCurrentFrame();
+					collider->rect = { c->position.x, c->position.y, r.w, r.h };
+					tmp = tmp_next;
+				}
+
+				
+			}
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
@@ -66,7 +83,6 @@ update_status ModuleClient::Update()
 // Collision detection
 void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 {
-
 	p2List_item<Client*>* tmp = active.getFirst();
 
 
@@ -103,7 +119,7 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
+		collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
 	}
 
 	active.add(p);
@@ -156,12 +172,15 @@ bool Client::Update()
 	if (pooped == false && ocuppied == true)
 	{
 		position += GoToPosition(target);
+
 	}
 
 	// si hemos hecho caca, nos dirijimos a la salida
 	if (pooped == true)
 	{
 		position += GoToPosition(exit);
+		
+
 	}
 
 

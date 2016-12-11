@@ -41,6 +41,5 @@ public:
 
 
 private:
-	p2List<Silk*> active;
 	SDL_Texture* graphics;
 };
