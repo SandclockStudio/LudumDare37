@@ -18,7 +18,7 @@ struct Client
 	Uint32 born;
 	Uint32 life;
 	bool fx_played;
-	bool cleanRequest;
+	bool cleanRequest,handCleaned;
 	Collider* collider;
 	Bath* assignedBath;
 	bool waiting = false;
