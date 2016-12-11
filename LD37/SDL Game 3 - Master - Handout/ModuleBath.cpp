@@ -26,7 +26,9 @@ bool ModuleBath::Start()
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 	t1 = SDL_GetPerformanceCounter();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
+
 	App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
+
 	int scale = 4;
 
 
@@ -94,7 +96,7 @@ update_status ModuleBath::Update()
 	t2 = SDL_GetPerformanceCounter();
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if(randomVar <=  0.2 && time >= 3000)
+	if(randomVar <=  0.2 && time >= 7000)
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
