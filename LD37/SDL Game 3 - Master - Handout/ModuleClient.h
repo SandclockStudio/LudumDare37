@@ -28,7 +28,8 @@ struct Client
 	int complainMeter = 0;
 	bool pooping = false;
 	bool pooped = false;
-	bool washingHands;
+	bool washingHands = false;
+	bool exiting = false;
 	Uint64 t1, t2;
 	
 

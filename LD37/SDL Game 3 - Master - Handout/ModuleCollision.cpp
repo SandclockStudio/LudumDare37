@@ -88,7 +88,7 @@ update_status ModuleCollision::Update()
 		tmp = tmp->next;
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		debug = !debug;
 

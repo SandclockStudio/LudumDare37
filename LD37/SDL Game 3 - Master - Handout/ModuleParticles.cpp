@@ -13,9 +13,28 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("rtype/particles.png");
+
+	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
+
+	plunger.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
+	plunger.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.anim.frames.PushBack({ 48 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.anim.frames.PushBack({ 96 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.anim.frames.PushBack({ 144 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.anim.loop = true;
+	plunger.anim.speed = 0.15f;
+
+	// Animacion no plunger
+	noplunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.anim.frames.PushBack({ 48 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.anim.frames.PushBack({ 96 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.anim.frames.PushBack({ 144 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.anim.loop = false;
+	noplunger.anim.speed = 0.3f;
 
 	// Explosion particle
+	//graphics = App->textures->Load("rtype/spritesheet-bathroom");
 	explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
 	explosion.anim.frames.PushBack({274, 296, 33, 30});
 	explosion.anim.frames.PushBack({313, 296, 33, 30});
@@ -64,15 +83,16 @@ update_status ModuleParticles::Update()
 			active.del(tmp);
 			delete p;
 		}
-		else if(SDL_GetTicks() >= p->born)
+		else if (SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
-			if(p->fx_played == false)
+			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
 		}
+		
 
 		tmp = tmp_next;
 	}

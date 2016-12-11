@@ -46,5 +46,6 @@ public:
 	Particle laser;
 	Particle plunger;
 	Particle paper;
+	Particle noplunger;
 
 };

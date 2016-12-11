@@ -19,6 +19,7 @@
 #include "ModuleAI.h"
 #include "ModuleBathroom.h"
 #include "ModuleSilk.h"
+#include "ModuleCloset.h"
 
 
 class Application
@@ -39,6 +40,7 @@ public:
 	ModuleSilk* silks;
 	ModuleCollision* collision;
 	ModuleAI* ai;
+	ModuleCloset* closet;
 
 private:
 
