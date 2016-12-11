@@ -13,10 +13,11 @@ using namespace std;
 
 struct Bath
 {
-	Animation openDoor,busyAnim,outOfPaper,clogged;
+	Animation openDoor,busyAnim,outOfPaper,clogged,idle;
 
 	unsigned int fx;
 	p2Point<int> position;
+	Uint32 born;
 	int shitCount;
 	int paperCount;
 	bool fx_played;
@@ -24,7 +25,7 @@ struct Bath
 	Collider* collider;
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
 	clock_t t1,t2;
-
+	Animation* current_animation;
 	p2Point<int> getCenter();
 	Bath();
 	Bath(const Bath& p);
@@ -45,7 +46,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void AddBathroom(const Bath & bathroom, int x, int y, COLLIDER_TYPE collider_type);
 	Bath bath;
-	Animation* current_animation;
+
 	p2List<Bath*> active;
 
 	private:

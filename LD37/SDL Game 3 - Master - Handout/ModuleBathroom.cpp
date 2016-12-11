@@ -16,13 +16,19 @@ bool ModuleBathroom::Start()
 {
 	LOG("Loading baths");
 	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
- 
+	
+	//Animacion idle
+	bath.idle.frames.PushBack({ 40 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.idle.loop = false;
+	bath.idle.speed = 0.3f;
+
 	// Animacion abrir baño
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
-	bath.openDoor.frames.PushBack({ 40 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
-	bath.openDoor.frames.PushBack({ 80 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
-	bath.openDoor.frames.PushBack({ 120 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
-	bath.openDoor.frames.PushBack({ 160 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 40 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 80 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 120 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 160 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 40 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoor.loop = false;
 	bath.openDoor.speed = 0.3f;
 
@@ -58,22 +64,25 @@ update_status ModuleBathroom::Update()
 	{
 		Bath* p = tmp->data;
 		tmp_next = tmp->next;
+		p->current_animation = &p->idle;
 		
-		if (p->paperCount > 0)
+		if (p->paperCount >  0)
 		{
-			p->outOfPaperFlagAnim = true;
+			p->outOfPaperFlagAnim = false;
 		}
 
 		if (p->shitCount > 0)
 		{
-			p->outOfPaperFlagAnim = true;
+			p->outOfPaperFlagAnim = false;
 		}
+
+		
 
 		//Animacion abrir puerta
 		if(p->openDoorAnim == true)
 		{
-			current_animation = &p->openDoor;
 			
+			p->current_animation = &p->openDoor;
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -84,7 +93,7 @@ update_status ModuleBathroom::Update()
 		//Animacion ocupado
 		if (p->busyFlagAnim == true)
 		{
-			current_animation = &p->busyAnim;
+			p->current_animation = &p->busyAnim;
 			
 			if (p->fx_played == false)
 			{
@@ -104,7 +113,7 @@ update_status ModuleBathroom::Update()
 		//Animacion outOfPaper
 		if (p->outOfPaperFlagAnim == true)
 		{
-			current_animation = &p->outOfPaper;
+			p->current_animation = &p->outOfPaper;
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -117,7 +126,7 @@ update_status ModuleBathroom::Update()
 		//Animacion atascado
 		if (p->cloggedFlagAnim == true)
 		{
-			current_animation = &p->clogged;
+			p->current_animation = &p->clogged;
 			
 			if (p->fx_played == false)
 			{
@@ -127,7 +136,10 @@ update_status ModuleBathroom::Update()
 			 
 		}
 
-		App->renderer->Blit(graphics, p->position.x, p->position.y, &(current_animation->GetCurrentFrame()));
+		if(SDL_GetTicks() >= p->born)
+		{
+			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
+		}
 		tmp = tmp_next;
 	}
 
@@ -152,7 +164,6 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		//Colision entrar en baño cliente.
 		if (aux == c1 && c2->type == COLLIDER_CLIENT)
 		{
-		
 			tmp->data->openDoorAnim = true;
 			tmp->data->t1 = clock();
 			Client* aux = App->client->getClient(tmp->data->position);
@@ -187,14 +198,13 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TYPE collider_type)
 {
 	Bath* p = new Bath(bathroom);
+	p->born = SDL_GetTicks();
 	p->position.x = x;
 	p->position.y = y;
-	
-	int scale = 4;
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 22 * scale, 24 * scale }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 40 * SCALE, 64 * SCALE }, collider_type, this);
 	}
 
 	active.add(p);
@@ -205,21 +215,36 @@ p2Point<int> Bath::getCenter()
 {
 	p2Point<int> center;
 
-	center.x = position.x + ((40 * SCALE)/ 2);
-	center.y = position.y + ((64 * SCALE)/2);
+	center.x = position.x + ((40 * SCALE) / 2);
+	center.y = position.y + ((64 * SCALE) / 2);
 
 	return center;
 }
 
 Bath::Bath()
-{}
+{
+	
+}
 
 Bath::Bath(const Bath & p)
 {
 	shitCount = 15;
 	paperCount = 10;
+
+	openDoor = p.openDoor;
+	busyAnim = p.busyAnim;
+	outOfPaper = p.outOfPaper;
+	clogged = p.clogged;
+	idle = p.idle;
+
 	fx_played = false;
 	busy = false;
+	openDoorAnim = false;
+	busyFlagAnim = false;
+	outOfPaperFlagAnim = false;
+	cloggedFlagAnim = false;
+
+	//outOfPaperFlagAnim = false;
 }
 
 
