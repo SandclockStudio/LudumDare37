@@ -4,7 +4,6 @@
 
 ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
-	collider = NULL;
 }
 
 ModuleClient::~ModuleClient()
@@ -14,10 +13,12 @@ ModuleClient::~ModuleClient()
 bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
-	current_animation = NULL;
 	graphics = App->textures->Load("rtype/ship.png");
 	// idle animation normal client
+
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
+	normal.current_animation = &normal.idle;
+
 	return true;
 }
 
@@ -34,7 +35,6 @@ update_status ModuleClient::Update()
 {
 	p2List_item<Client*>* tmp = active.getFirst();
 	p2List_item<Client*>* tmp_next = active.getFirst();
-	current_animation = &normal.idle;
 	while (tmp != NULL)
 	{
 		Client* c = tmp->data;
@@ -48,19 +48,20 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
-			if (collider != NULL)
-			{
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation->GetCurrentFrame()));
 
-				SDL_Rect r = current_animation->PeekCurrentFrame();
-				collider->rect = { c->position.x, c->position.y, r.w, r.h };					
-
-			}
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
 				App->audio->PlayFx(c->fx);
 			}
+		}
+
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x > SCREEN_WIDTH && tmp->data->position.y > SCREEN_HEIGHT)
+		{
+			delete tmp->data;
+			active.del(tmp);
+			break;
 		}
 
 		tmp = tmp_next;
@@ -78,13 +79,45 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 	while (tmp != NULL)
 	{
 
+
 		Collider* aux = tmp->data->collider;
 
 		//Colision player cliente.
 		if (aux == c1 && c2->type == COLLIDER_PLAYER)
 		{
-			App->player->giveTowel = true;
-			break;
+			if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+			{
+				tmp->data->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+
+			}
+			else
+			{
+				//derecha
+				if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+				{
+					tmp->data->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+
+				}
+				else
+				{
+					//abajo
+					if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h)
+					{
+						tmp->data->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+
+					}
+					else
+					{
+						//arriba
+						if (c1->rect.h + c1->rect.y > c2->rect.y)
+						{
+							tmp->data->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+
+						}
+					}
+				}
+			}
+			
 		}
 
 		//Colision cliente y pila.
@@ -93,9 +126,13 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			tmp->data->cleanRequest = false;
 			break;
 		}
-	}
 
-	tmp = tmp->next;
+		
+		tmp = tmp->next;
+	}
+	
+
+	
 
 }
 void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
@@ -108,28 +145,40 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
 	}
 
 	active.add(p);
 }
 
-Client::Client()
+Client::Client() : collider(NULL)
 {
 	waiting = false;
 	ocuppied = false;
 	complainMeter = 0;
 	pooped = false;
+	cleanRequest = false;
+	handCleaned = false;
 }
 
-Client::Client(const Client& c) 
+Client::Client(const Client & c) : collider(c.collider)
 {
+
 	fx = c.fx;
 	born = c.born;
 	life = c.life;
 	timeBath = c.timeBath;
 	timeWaiting = c.timeWaiting;
 	timeSink = c.timeSink;
+	current_animation = c.current_animation;
+	waiting = c.waiting;
+	ocuppied = c.ocuppied;
+	complainMeter = c.complainMeter;
+	pooped = c.pooped;
+
+	t1 = 0;
+	t2 = 0;
+
 	
 }
 
@@ -138,14 +187,18 @@ bool Client::Update()
 {
 
 
+	if (collider != NULL)
+	{
+
+		SDL_Rect r = current_animation->PeekCurrentFrame();
+		collider->rect = { position.x, position.y, r.w, r.h };
+
+	}
+
+
 	//Posicion de ejemplo
-	p2Point<int> target;
-	target.x = 10;
-	target.y = 200;
 
-	//p2Point<int> target = SearchBath();
-
-	//position += GoToPosition(target);
+	p2Point<int> target = SearchBath();
 
 	p2Point<int> exit;
 	exit.x = 600;
@@ -155,29 +208,37 @@ bool Client::Update()
 	temp -= position;
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (temp.IsZero())
+	if (temp.IsZero() && ocuppied == true || ocuppied == true && pooping == true)
 	{
+
+		position = assignedBath->getCenter();
+		if (t1 == 0)
+		{
+			pooping = true;
+			t1 = SDL_GetPerformanceCounter();
+		}
+			
+
 		Poop();
 	}
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
-	if (pooped == false && ocuppied == true)
+	if (pooped == false && ocuppied == true && pooping == false)
 	{
 		position += GoToPosition(target);
 
 	}
 
 	// si hemos hecho caca, nos dirijimos a la salida
-	if (pooped == true)
+	if (pooped == true && pooping == false)
 	{
 		position += GoToPosition(exit);
-		
 
 	}
 
 
-
 	return true;
+
 
 }
 
@@ -207,9 +268,9 @@ p2Point<int> Client::SearchBath()
 	//Si tenemos un baño asignado
 	if (ocuppied == true)
 	{
-		return GoToPosition(assignedBath->position);
+		return assignedBath->position;
 	}
-	return GoToPosition(position); // sino devolver mi position
+	return  position; // sino devolver mi position
 
 }
 
@@ -289,15 +350,33 @@ if (c->ocuppied == false && c->waiting == false)
 
 void Client::Poop()
 {
-	//Sleep(6000);
-	//liberar recursos
-	LOG("Pooping");
-	pooped = true;
+	this->t2 = SDL_GetPerformanceCounter();
 
-	/*if(assignedBath != NULL)
-		assignedBath->busy = false;*/
-	//liberamos el puntero
-	assignedBath = NULL;
+	LOG("Pooping");
+
+	//TODO AÑADIR ANIMACION CAGAR
+
+
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+
+	if (time >= 6000) 
+	{
+
+		//TODO ANIMACION SALIR BAÑO
+		pooped = true;
+		position = assignedBath->position;
+		//TODO cambiar posicion 
+		position.y -= 20;
+
+		ocuppied = false;
+		assignedBath->busy = false;
+		assignedBath = NULL;
+		t1 = -1;
+		t2 = 0;
+		pooping = false;
+
+	}
+
 }
 
 Client* ModuleClient:: getClient(p2Point<int> pos)
@@ -317,7 +396,7 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 			delete c;
 		}
 		
-		if (c->position.x == pos.x && c->position.y == pos.y)
+		if (abs(c->position.x - pos.x)<=3 && abs(c->position.y- pos.y)<=3)
 		{
 			return c;
 		}

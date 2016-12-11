@@ -10,6 +10,7 @@
 
 struct Client
 {
+	Animation* current_animation;
 	Animation idle, walking, washing;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
 	unsigned int shitRest,paperRest;
@@ -17,14 +18,16 @@ struct Client
 	Uint32 born;
 	Uint32 life;
 	bool fx_played;
-	bool cleanRequest;
+	bool cleanRequest,handCleaned;
 	Collider* collider;
 	Bath* assignedBath;
 	bool waiting = false;
 	bool ocuppied = false;
 	int complainMeter = 0;
+	bool pooping = false;
 	bool pooped = false;
-
+	Uint64 t1, t2;
+	
 
 
 	Client();
