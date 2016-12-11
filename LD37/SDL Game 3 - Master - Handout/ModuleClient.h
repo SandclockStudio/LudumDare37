@@ -30,6 +30,7 @@ struct Client
 	bool pooped = false;
 	bool washingHands = false;
 	bool exiting = false;
+	bool waitCleaning = false;
 	Uint64 t1, t2;
 	
 
@@ -45,6 +46,7 @@ struct Client
 	p2Point<int> SearchBath();
 	void Poop();
 
+	void WaitForSilk();
 	p2Point<int> SearchSilk();
 	void WashHands();
 	

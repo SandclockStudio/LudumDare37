@@ -332,7 +332,7 @@ p2Point<int> Client::SearchSilk()
 	{
 		p2Point<int> temp = assignedSilk->position;
 		temp.y += 10;
-		temp.x += 5;
+		temp.x += 10;
 		return temp;
 	}
 	return  position; // sino devolver mi position
@@ -343,74 +343,95 @@ p2Point<int> Client::SearchSilk()
 void Client::WaitForBath()
 {
 
+	this->t2 = SDL_GetPerformanceCounter();
+
 	LOG("Waiting for the bath");
 
-	waiting = true;
-	complainMeter += 1;
-	//Sleep?
-	//Sleep(4000);
-	//Cambiar animacion a quejarse;
 
 
-	//TODO comprobar que el medidor sea 2 o 3 y si es asi, hacer caca o POOP en el suelo.
-	/*if (complainMeter == 2)
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+
+	if (time > 4000)
 	{
-		Poop();
-	}*/
+
+		waiting = false;
+		complainMeter += 1;
+
+	}
+	else waiting = true;
+
+}
+
+void Client::WaitForSilk()
+{
 
 
-	waiting = false;
+
+	this->t2 = SDL_GetPerformanceCounter();
+
+	LOG("Waiting for Silk");
+
+	//TODO AÑADIR ANIMACION CAGAR
+
+
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+
+	if (time > 4000)
+	{
+
+		waiting = false;
+		complainMeter += 1;
+
+
+
+	}
+	else waiting = true;
 
 }
 
 void ModuleClient::AssignBaths(Client* c)
 {
 
-//Si no tiene baño asignado y comprobamos que no este esperando quejandose
-if (c->ocuppied == false && c->waiting == false && c->pooped == false)
-{
-	// TODO FALLO en la lista, no la coge bien
-	p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
-	p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
-
-	while (tmp != NULL)
+	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
+	if (c->ocuppied == false && c->waiting == false && c->pooped == false)
 	{
-		//Cogemos el siguiente baño
-		Bath* b = tmp->data;
-		tmp_next = tmp->next;
 
-		LOG("Checking bath");
+		p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
+		p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
 
-		//asignamos el  baño si no esta asignado
-		if (b->busy == false && c->pooped == false)
+		while (tmp != NULL)
 		{
-			LOG("Bath assigned");
-			c->assignedBath = b;
-			c->ocuppied = true;
-			b->busy = true;
-			break;
+			//Cogemos el siguiente baño
+			Bath* b = tmp->data;
+			tmp_next = tmp->next;
+
+			LOG("Checking bath");
+
+			//asignamos el  baño si no esta asignado
+			if (b->busy == false && c->pooped == false)
+			{
+				LOG("Bath assigned");
+				c->assignedBath = b;
+				c->ocuppied = true;
+				b->busy = true;
+				break;
+			}
+
+			tmp = tmp_next;
+
 		}
 
-		tmp = tmp_next;
+		//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
+		if ((tmp == NULL) && (c->ocuppied == false))
+		{
+			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+			if(c->waiting == false)
+				c->t1 = SDL_GetPerformanceCounter();
+			c->WaitForBath();
+
+		}
 
 	}
-
-	//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
-	if ((tmp == NULL) && (c->ocuppied == false))
-	{
-		// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
-		c->WaitForBath();
-
-	}
-
-	//Si se ha podido asignar un baño al cliente: COSAS NAZIS
-	if (c->ocuppied == true)
-	{
-		//c ocupado hasta el final
-		//c->SearchBath();
-	}
-
-}
 }
 
 
@@ -419,6 +440,7 @@ void ModuleClient::AssignSilks(Client* c)
 
 	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
 	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
+	//if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false)
 	{
 		// TODO FALLO en la lista, no la coge bien
 		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
@@ -433,7 +455,7 @@ void ModuleClient::AssignSilks(Client* c)
 			LOG("Checking silk");
 
 			//asignamos el  baño si no esta asignado
-			if (s->busy == false)
+			if (s->busy == false && c->waiting == false)
 			{
 				LOG("Silk assigned");
 				c->assignedSilk = s;
@@ -445,6 +467,23 @@ void ModuleClient::AssignSilks(Client* c)
 			tmp = tmp_next;
 
 		}
+
+		//si no se ha podido asignar ningun silk al cliente: Esperar y quejarse
+		if ((tmp == NULL) && (c->ocuppied == false))
+		{
+			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+			if (c->waiting == false)
+				c->t1 = SDL_GetPerformanceCounter();
+			c->WaitForSilk();
+
+		}
+
+		/*//Si se ha podido asignar un baño al cliente: COSAS NAZIS
+		if (c->ocuppied == true)
+		{
+			//c ocupado hasta el final
+			//c->SearchBath();
+		}*/
 
 	}
 }
@@ -471,7 +510,7 @@ void Client::Poop()
 
 		ocuppied = false;
 		assignedBath->busy = false;
-		assignedBath = NULL;
+		//assignedBath = NULL;
 		t1 = 0;
 		t2 = 0;
 		pooping = false;
@@ -490,7 +529,7 @@ void Client::WashHands()
 
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if (time >= 4000 && handCleaned == false)
+	if (time >= 4000 && handCleaned == false && pooped == true )
 	{
 		LOG("Washing Hands");
 		//TODO ANIMACION SALIR BAÑO
@@ -499,10 +538,14 @@ void Client::WashHands()
 		//TODO cambiar posicion 
 		//position.y -= 20;
 
+
+
 		ocuppied = false;
 
-		assignedSilk->busy = false;
-		assignedSilk = NULL;
+//		assignedSilk->busy = false;
+		
+		
+		//assignedSilk = NULL;
 		t1 = 0;
 		t2 = 0;
 		washingHands = false;
