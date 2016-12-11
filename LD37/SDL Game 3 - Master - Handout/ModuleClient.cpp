@@ -241,6 +241,10 @@ bool Client::Update()
 	{
 
 		position = assignedBath->getCenter();
+		position.y -= 30;
+		position.x -= 25;
+
+
 		if (t1 == 0)
 		{
 			pooping = true;
