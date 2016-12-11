@@ -18,6 +18,8 @@
 #include "ModuleClient.h"
 #include "ModuleAI.h"
 #include "ModuleBathroom.h"
+#include "ModuleSilk.h"
+
 
 class Application
 {
@@ -34,6 +36,7 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleParticles* particles;
 	ModuleBathroom* bathrooms;
+	ModuleSilk* silks;
 	ModuleCollision* collision;
 	ModuleAI* ai;
 

@@ -30,7 +30,7 @@ bool ModuleBath::Start()
 	int scale = 4;
 
 
-
+	// Añadir lavabos
 	App->bathrooms->AddBathroom(App->bathrooms->bath,8,280,COLLIDER_BATHROOM);
 
 	App->bathrooms->AddBathroom(App->bathrooms->bath, 24*scale, 280, COLLIDER_BATHROOM);
@@ -42,6 +42,20 @@ bool ModuleBath::Start()
 	App->bathrooms->AddBathroom(App->bathrooms->bath, 84*scale , 280 , COLLIDER_BATHROOM);
 
 	App->bathrooms->AddBathroom(App->bathrooms->bath, 104 * scale, 280, COLLIDER_BATHROOM);
+
+	//Añadir pilas
+	
+	App->silks->AddSilk(App->silks->silk, 24*scale, 2*scale, COLLIDER_SILK);
+
+	App->silks->AddSilk(App->silks->silk, 45 * scale, 2 * scale, COLLIDER_SILK);
+
+	App->silks->AddSilk(App->silks->silk, 65 * scale, 2 * scale, COLLIDER_SILK);
+
+	App->silks->AddSilk(App->silks->silk, 85 * scale, 2 * scale, COLLIDER_SILK);
+
+	App->silks->AddSilk(App->silks->silk, 105 * scale, 2 * scale, COLLIDER_SILK);
+
+	
 	return true;
 }
 
@@ -54,6 +68,8 @@ bool ModuleBath::CleanUp()
 	App->player->Disable();
 	App->collision->Disable();
 	App->client->Disable();
+	App->silks->Disable();
+	App->bathrooms->Disable();
 	
 	return true;
 }
@@ -70,7 +86,7 @@ update_status ModuleBath::Update()
 	
 	SDL_Rect wcs = { 0,755,492,96 };
 
-	SDL_Rect sink = {0,2003,495,71};
+	SDL_Rect sink = {0,2003,495,64};
 
 	
 	
@@ -79,7 +95,7 @@ update_status ModuleBath::Update()
 
 	App->renderer->Blit(background, 8, 280,&wcs , 0.0f);
 
-	App->renderer->Blit(background, 8, 7, &sink, 0.0f);
+	App->renderer->Blit(background, 8, 8, &sink, 0.0f);
 
 
 	

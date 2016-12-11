@@ -1,6 +1,6 @@
-#include "Animation.h"
 #include "Globals.h"
 #include "ModuleSilk.h"
+#include "Application.h"
 
 ModuleSilk::ModuleSilk(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -13,14 +13,15 @@ ModuleSilk::~ModuleSilk()
 bool ModuleSilk::Start()
 {
 	LOG("Loading sinks");
-	graphics = graphics = App->textures->Load("IMAGESHEET-BAÑO");
+	graphics = App->textures->Load("ld37/menu.png");
 
 	// Animacion grifo
-	silk.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
+	silk.fx = App->audio->LoadFx("rtype/starting.wav");
 	silk.waterOpen.frames.PushBack({ 274, 296, 33, 30 });
 	silk.waterOpen.loop = false;
 	silk.waterOpen.speed = 0.3f;
-	return false;
+
+	return true;
 }
 
 update_status ModuleSilk::Update()
@@ -32,7 +33,7 @@ update_status ModuleSilk::Update()
 	{
 		Silk* p = tmp->data;
 		tmp_next = tmp->next;
-
+		current_animation = &p->waterOpen;
 		if (p->busy == true)
 		{
 			current_animation = &p->waterOpen;
@@ -43,6 +44,7 @@ update_status ModuleSilk::Update()
 				App->audio->PlayFx(p->fx);
 			}
 		}
+
 
 
 		App->renderer->Blit(graphics, p->position.x, p->position.y, &(current_animation->GetCurrentFrame()));
@@ -93,7 +95,7 @@ void ModuleSilk::AddSilk(const Silk& sink, int x, int y, COLLIDER_TYPE collider_
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		s->collider = App->collision->AddCollider({ s->position.x, s->position.y, 22 * scale, 24 * scale }, collider_type, this);
+		s->collider = App->collision->AddCollider({ s->position.x, s->position.y, 20 * scale, 17 * scale }, collider_type, this);
 	}
 
 	active.add(s);

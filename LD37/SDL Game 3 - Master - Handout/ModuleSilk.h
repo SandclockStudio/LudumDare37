@@ -1,11 +1,12 @@
+#ifndef __ModuleSilk_H__
+#define __ModuleSilk_H__
+
 #include "Module.h"
 #include "Animation.h"
 #include "Globals.h"
 #include "p2Point.h"
-#include "p2List.h"
-#include "Application.h"
+#include "ModuleBathroom.h"
 
-struct Collider;
 
 
 struct Silk
@@ -28,19 +29,20 @@ struct Silk
 
 class ModuleSilk : public Module
 {
-public:
-	ModuleSilk(Application* app, bool start_enabled = true);
-	~ModuleSilk();
-	bool Start();
-	update_status Update();
-	void OnCollision(Collider * c1, Collider * c2);
-	void AddSilk(const Silk & sink, int x, int y, COLLIDER_TYPE collider_type);
-	Silk silk;
-	Animation* current_animation;
-	p2List<Silk*> active;
+	public:
+		ModuleSilk(Application* app, bool start_enabled = true);
+		~ModuleSilk();
+		bool Start();
+		update_status Update();
+		void OnCollision(Collider * c1, Collider * c2);
+		void AddSilk(const Silk & sink, int x, int y, COLLIDER_TYPE collider_type);
+		Silk silk;
+		Animation* current_animation;
+		p2List<Silk*> active;
 
 
-private:
-	p2List<Silk*> active;
-	SDL_Texture* graphics;
+	private:
+		SDL_Texture* graphics;
 };
+
+#endif

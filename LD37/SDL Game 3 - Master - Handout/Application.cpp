@@ -17,6 +17,7 @@ Application::Application()
 	particles = new ModuleParticles(this);
 	ai = new ModuleAI(this,false);
 	bathrooms = new ModuleBathroom(this, true);
+	silks = new ModuleSilk(this, true);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -43,6 +44,7 @@ Application::Application()
 	AddModule(particles);
 	AddModule(collision);
 	AddModule(bathrooms);
+	AddModule(silks);
 	AddModule(ai);
 
 	AddModule(fade); // let this after all drawing
@@ -64,6 +66,7 @@ Application::~Application()
 	delete fade;
 	delete collision;
 	delete bathrooms;
+	delete silks;
 }
 
 bool Application::Init()

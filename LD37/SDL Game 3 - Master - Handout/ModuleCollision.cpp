@@ -5,12 +5,19 @@
 
 ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	matrix[COLLIDER_SILK][COLLIDER_WALL] = true;
+	matrix[COLLIDER_SILK][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_SILK][COLLIDER_CLIENT] = true;
+	matrix[COLLIDER_SILK][COLLIDER_ENEMY_SHOT] = true;
+	matrix[COLLIDER_SILK][COLLIDER_BATHROOM] = false;
+	
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_BATHROOM] = false;
+	
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
