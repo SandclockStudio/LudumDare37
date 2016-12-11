@@ -4,7 +4,6 @@
 
 ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
-	collider = NULL;
 }
 
 ModuleClient::~ModuleClient()
@@ -14,10 +13,12 @@ ModuleClient::~ModuleClient()
 bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
-	current_animation = NULL;
 	graphics = App->textures->Load("rtype/ship.png");
 	// idle animation normal client
+
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
+	normal.current_animation = normal.idle;
+
 	return true;
 }
 
@@ -34,7 +35,6 @@ update_status ModuleClient::Update()
 {
 	p2List_item<Client*>* tmp = active.getFirst();
 	p2List_item<Client*>* tmp_next = active.getFirst();
-	current_animation = &normal.idle;
 	while (tmp != NULL)
 	{
 		Client* c = tmp->data;
@@ -48,7 +48,8 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(current_animation->GetCurrentFrame()));
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation.GetCurrentFrame()));
+
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
@@ -71,13 +72,45 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 	while (tmp != NULL)
 	{
 
+
 		Collider* aux = tmp->data->collider;
 
 		//Colision player cliente.
 		if (aux == c1 && c2->type == COLLIDER_PLAYER)
 		{
-			App->player->giveTowel = true;
-			break;
+			if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+			{
+				tmp->data->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+
+			}
+			else
+			{
+				//derecha
+				if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) > 2 && ((c2->rect.y + c2->rect.h) - c1->rect.y) >3 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-3)
+				{
+					tmp->data->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+
+				}
+				else
+				{
+					//abajo
+					if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h)
+					{
+						tmp->data->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+
+					}
+					else
+					{
+						//arriba
+						if (c1->rect.h + c1->rect.y > c2->rect.y)
+						{
+							tmp->data->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+
+						}
+					}
+				}
+			}
+			
 		}
 
 		//Colision cliente y pila.
@@ -87,16 +120,12 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			break;
 		}
 
-		//Colision cliente y bath
-		if (aux == c1 && c2->type == COLLIDER_BATHROOM)
-		{
-			tmp->data->t1 = SDL_GetPerformanceCounter();
-			tmp->data->position = tmp->data->assignedBath->getCenter();
-			break;
-		}
+		
+		tmp = tmp->next;
 	}
+	
 
-	tmp = tmp->next;
+	
 
 }
 void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
@@ -109,37 +138,31 @@ void ModuleClient::AddClient(const Client& client, int x, int y, COLLIDER_TYPE c
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 32, 14 }, collider_type, this);
 	}
 
 	active.add(p);
 }
 
-Client::Client()
+Client::Client() : collider(NULL)
 {
 	waiting = false;
 	ocuppied = false;
 	complainMeter = 0;
 	pooped = false;
-	t1 = 0;
-	t2 = 0;
 }
 
-Client::Client(const Client& c) 
+Client::Client(const Client & c) : collider(c.collider)
 {
+
 	fx = c.fx;
 	born = c.born;
 	life = c.life;
 	timeBath = c.timeBath;
 	timeWaiting = c.timeWaiting;
 	timeSink = c.timeSink;
-	waiting = c.waiting;
-	ocuppied = c.ocuppied;
-	complainMeter = c.complainMeter;
-	pooped = c.pooped;
-
-	t1 = 0;
-	t2 = 0;
+	current_animation = c.current_animation;
+	
 }
 
 
@@ -148,8 +171,13 @@ bool Client::Update()
 
 
 	//Posicion de ejemplo
+	p2Point<int> target;
+	target.x = 10;
+	target.y = 200;
 
-	p2Point<int> target = SearchBath();
+	//p2Point<int> target = SearchBath();
+
+	//position += GoToPosition(target);
 
 	p2Point<int> exit;
 	exit.x = 600;
@@ -159,11 +187,19 @@ bool Client::Update()
 	temp -= position;
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (temp.IsZero() && ocuppied == true)
+	if (temp.IsZero())
 	{
-
 		Poop();
 	}
+
+	if (collider != NULL)
+	{
+
+		SDL_Rect r = current_animation.PeekCurrentFrame();
+		collider->rect = { position.x, position.y, r.w, r.h };
+
+	}
+
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
 	if (pooped == false && ocuppied == true)
@@ -176,10 +212,12 @@ bool Client::Update()
 	if (pooped == true)
 	{
 		position += GoToPosition(exit);
+		
 
 	}
 
-	
+
+
 	return true;
 
 }
@@ -200,7 +238,6 @@ p2Point<int> Client::GoToPosition(p2Point<int> target)
 	//normalizar y escalar
 	p2Point<int> velocity =  vec.Normalize().Scale(max_speed);
 
-
 	return velocity;
 }
 
@@ -211,9 +248,9 @@ p2Point<int> Client::SearchBath()
 	//Si tenemos un baño asignado
 	if (ocuppied == true)
 	{
-		return assignedBath->position;
+		return GoToPosition(assignedBath->position);
 	}
-	return position; // sino devolver mi position
+	return GoToPosition(position); // sino devolver mi position
 
 }
 
@@ -243,76 +280,65 @@ void Client::WaitForBath()
 void ModuleClient::AssignBaths(Client* c)
 {
 
-	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
-	if (c->ocuppied == false && c->waiting == false)
+	LOG("Assigning baths");
+//Si no tiene baño asignado y comprobamos que no este esperando quejandose
+if (c->ocuppied == false && c->waiting == false)
+{
+	// TODO FALLO en la lista, no la coge bien
+	p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
+	p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
+
+	while (tmp != NULL)
 	{
-		// TODO FALLO en la lista, no la coge bien
-		p2List_item<Bath*>* tmp = App->bathrooms->active.getFirst();
-		p2List_item<Bath*>* tmp_next = App->bathrooms->active.getFirst();
+		//Cogemos el siguiente baño
+		Bath* b = tmp->data;
+		tmp_next = tmp->next;
 
-		while (tmp != NULL)
+		LOG("Checking bath");
+
+		//asignamos el  baño si no esta asignado
+		if (b->busy == false)
 		{
-			//Cogemos el siguiente baño
-			Bath* b = tmp->data;
-			tmp_next = tmp->next;
-
-			LOG("Checking bath");
-
-			//asignamos el  baño si no esta asignado
-			if (b->busy == false)
-			{
-				LOG("Bath assigned");
-				c->assignedBath = b;
-				c->ocuppied = true;
-				b->busy = true;
-				break;
-			}
-
-			tmp = tmp_next;
-
+			LOG("Bath assigned");
+			c->assignedBath = b;
+			c->ocuppied = true;
+			b->busy = true;
+			break;
 		}
 
-		//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
-		if ((tmp == NULL) && (c->ocuppied == false))
-		{
-			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
-			c->WaitForBath();
-
-		}
-
-		//Si se ha podido asignar un baño al cliente: COSAS NAZIS
-		if (c->ocuppied == true)
-		{
-			//c ocupado hasta el final
-			//c->SearchBath();
-		}
+		tmp = tmp_next;
 
 	}
+
+	//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
+	if ((tmp == NULL) && (c->ocuppied == false))
+	{
+		// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+		c->WaitForBath();
+
+	}
+
+	//Si se ha podido asignar un baño al cliente: COSAS NAZIS
+	if (c->ocuppied == true)
+	{
+		//c ocupado hasta el final
+		//c->SearchBath();
+	}
+
+}
 }
 
 void Client::Poop()
 {
-
-	this->t2 = SDL_GetPerformanceCounter();
-
+	//Sleep(6000);
+	//liberar recursos
 	LOG("Pooping");
+	pooped = true;
 
-	//TODO AÑADIR ANIMACION CAGAR
-
-	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());;
-
-	//if (time >= 6000) 
-	//{
-
-		//TODO ANIMACION SALIR BAÑO
-		pooped = true;
-		position = assignedBath->position;
-		ocuppied = false;
-		assignedBath->busy = false;
-		assignedBath = NULL;
-		t1 = -1;
-		t2 = 0;
-	//}
+	/*if(assignedBath != NULL)
+		assignedBath->busy = false;*/
+	//liberamos el puntero
+	assignedBath = NULL;
 }
 
 Client* ModuleClient:: getClient(p2Point<int> pos)
