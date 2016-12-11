@@ -9,7 +9,7 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
-#include "ModuleSceneSpace.h"
+#include "ModuleBath.h"
 #include "ModulePlayer.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleSceneIntro.h"
@@ -18,6 +18,8 @@
 #include "ModuleClient.h"
 #include "ModuleAI.h"
 #include "ModuleBathroom.h"
+#include "ModuleSilk.h"
+
 
 class Application
 {
@@ -27,13 +29,14 @@ public:
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleAudio* audio;
-	ModuleSceneSpace* scene_space;
+	ModuleBath* bath_scene;
 	ModulePlayer* player;
 	ModuleClient* client;
 	ModuleFadeToBlack* fade;
 	ModuleSceneIntro* scene_intro;
 	ModuleParticles* particles;
 	ModuleBathroom* bathrooms;
+	ModuleSilk* silks;
 	ModuleCollision* collision;
 	ModuleAI* ai;
 

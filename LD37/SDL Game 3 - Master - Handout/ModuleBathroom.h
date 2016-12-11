@@ -20,12 +20,12 @@ struct Bath
 	int shitCount;
 	int paperCount;
 	bool fx_played;
-	bool busy;
+	bool busy = false;
 	Collider* collider;
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
 	clock_t t1,t2;
 
-
+	p2Point<int> getCenter();
 	Bath();
 	Bath(const Bath& p);
 
@@ -46,10 +46,11 @@ public:
 	void AddBathroom(const Bath & bathroom, int x, int y, COLLIDER_TYPE collider_type);
 	Bath bath;
 	Animation* current_animation;
+	p2List<Bath*> active;
 
 	private:
 
-	p2List<Bath*> active;
+	
 	SDL_Texture* graphics;
 
 };

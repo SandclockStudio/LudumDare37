@@ -171,9 +171,10 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->cloggedFlagAnim = false;
 			break;
 		}
+		tmp = tmp->next;
 	}
 
-	tmp = tmp->next;
+	
 }
 
 void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TYPE collider_type)
@@ -181,24 +182,37 @@ void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TY
 	Bath* p = new Bath(bathroom);
 	p->position.x = x;
 	p->position.y = y;
+	
+	int scale = 4;
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
+		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 22 * scale, 24 * scale }, collider_type, this);
 	}
 
+	active.add(p);
 }
 
+
+p2Point<int> Bath::getCenter()
+{
+	p2Point<int> center;
+
+	center.x = position.x + ((22*4)/ 2);
+	center.y = position.y + ((24*4)/2);
+
+	return center;
+}
 
 Bath::Bath()
 {}
 
 Bath::Bath(const Bath & p)
 {
-	shitCount = p.shitCount;
-	paperCount = p.paperCount;
+	shitCount = 15;
+	paperCount = 10;
 	fx_played = false;
-	busy = p.busy;
+	busy = false;
 }
 
 

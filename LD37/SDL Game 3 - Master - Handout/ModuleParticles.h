@@ -44,5 +44,7 @@ public:
 
 	Particle explosion;
 	Particle laser;
+	Particle plunger;
+	Particle paper;
 
 };

@@ -9,13 +9,15 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, false);
-	scene_space = new ModuleSceneSpace(this, false);
+	bath_scene = new ModuleBath(this, false);
 	player = new ModulePlayer(this, false);
 	client = new ModuleClient(this, false);
 	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
 	particles = new ModuleParticles(this);
 	ai = new ModuleAI(this,false);
+	bathrooms = new ModuleBathroom(this, true);
+	silks = new ModuleSilk(this, true);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -31,7 +33,7 @@ Application::Application()
 	
 	
 	// Scenes
-	AddModule(scene_space);
+	AddModule(bath_scene);
 	AddModule(scene_intro);
 	
 	// Characters
@@ -41,6 +43,8 @@ Application::Application()
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
+	AddModule(bathrooms);
+	AddModule(silks);
 	AddModule(ai);
 
 	AddModule(fade); // let this after all drawing
@@ -56,11 +60,13 @@ Application::~Application()
 	delete particles;
 	delete audio;
 	delete scene_intro;
-	delete scene_space;
+	delete bath_scene;
 	delete player;
 	delete client;
 	delete fade;
 	delete collision;
+	delete bathrooms;
+	delete silks;
 }
 
 bool Application::Init()

@@ -64,9 +64,6 @@
     <ClInclude Include="ModuleSceneIntro.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneSpace.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleAI.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
@@ -74,6 +71,15 @@
       <Filter>Game Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleClient.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleBath.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSilk.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleCloset.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,9 +123,6 @@
     <ClCompile Include="ModuleSceneIntro.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSceneSpace.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleAI.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
@@ -127,6 +130,15 @@
       <Filter>Game Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleClient.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleBath.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSilk.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCloset.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

@@ -34,6 +34,9 @@ bool ModuleParticles::Start()
 	laser.life = 1000;
 	laser.anim.speed = 0.05f;
 
+	//Paper particle
+	//Plunger particle
+
 	return true;
 }
 
