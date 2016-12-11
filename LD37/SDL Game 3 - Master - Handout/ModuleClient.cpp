@@ -17,7 +17,7 @@ bool ModuleClient::Start()
 	// idle animation normal client
 
 	normal.idle.frames.PushBack({ 66, 1, 32, 14 });
-	normal.current_animation = normal.idle;
+	normal.current_animation = &normal.idle;
 
 	return true;
 }
@@ -48,7 +48,7 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation.GetCurrentFrame()));
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation->GetCurrentFrame()));
 
 			if (c->fx_played == false)
 			{
@@ -162,6 +162,14 @@ Client::Client(const Client & c) : collider(c.collider)
 	timeWaiting = c.timeWaiting;
 	timeSink = c.timeSink;
 	current_animation = c.current_animation;
+	waiting = c.waiting;
+	ocuppied = c.ocuppied;
+	complainMeter = c.complainMeter;
+	pooped = c.pooped;
+
+	t1 = 0;
+	t2 = 0;
+
 	
 }
 
@@ -195,7 +203,7 @@ bool Client::Update()
 	if (collider != NULL)
 	{
 
-		SDL_Rect r = current_animation.PeekCurrentFrame();
+		SDL_Rect r = current_animation->PeekCurrentFrame();
 		collider->rect = { position.x, position.y, r.w, r.h };
 
 	}
@@ -248,9 +256,9 @@ p2Point<int> Client::SearchBath()
 	//Si tenemos un baño asignado
 	if (ocuppied == true)
 	{
-		return GoToPosition(assignedBath->position);
+		return assignedBath->position;
 	}
-	return GoToPosition(position); // sino devolver mi position
+	return  position; // sino devolver mi position
 
 }
 
@@ -330,15 +338,27 @@ if (c->ocuppied == false && c->waiting == false)
 
 void Client::Poop()
 {
-	//Sleep(6000);
-	//liberar recursos
-	LOG("Pooping");
-	pooped = true;
+	this->t2 = SDL_GetPerformanceCounter();
 
-	/*if(assignedBath != NULL)
-		assignedBath->busy = false;*/
-	//liberamos el puntero
+	LOG("Pooping");
+
+	//TODO AÑADIR ANIMACION CAGAR
+
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());;
+
+	if (time >= 6000) 
+	{
+
+	//TODO ANIMACION SALIR BAÑO
+	pooped = true;
+	position = assignedBath->position;
+	ocuppied = false;
+	assignedBath->busy = false;
 	assignedBath = NULL;
+	t1 = -1;
+	t2 = 0;
+	}
+
 }
 
 Client* ModuleClient:: getClient(p2Point<int> pos)
@@ -358,7 +378,7 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 			delete c;
 		}
 		
-		if (c->position.x == pos.x && c->position.y == pos.y)
+		if (abs(c->position.x - pos.x)<=3 && abs(c->position.y- pos.y)<=3)
 		{
 			return c;
 		}

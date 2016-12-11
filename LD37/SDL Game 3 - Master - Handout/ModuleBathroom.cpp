@@ -153,8 +153,12 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->openDoorAnim = true;
 			tmp->data->t1 = clock();
 			Client* aux = App->client->getClient(tmp->data->position);
-			tmp->data->shitCount -= aux->shitRest;
-			tmp->data->paperCount -= aux->shitRest;
+			if (aux != NULL)
+			{
+				tmp->data->shitCount -= aux->shitRest;
+				tmp->data->paperCount -= aux->shitRest;
+			}
+
 			break;
 		}
 
