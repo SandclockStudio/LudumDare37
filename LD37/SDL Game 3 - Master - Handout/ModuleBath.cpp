@@ -96,7 +96,7 @@ update_status ModuleBath::Update()
 	t2 = SDL_GetPerformanceCounter();
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if(randomVar <=  0.2 && time >= 7000)
+	if(randomVar <=  0.2 && time >= 9000)
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();

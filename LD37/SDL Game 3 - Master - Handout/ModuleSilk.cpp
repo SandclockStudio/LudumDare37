@@ -23,6 +23,8 @@ bool ModuleSilk::Start()
 	silk.waterOpen.loop = false;
 	silk.waterOpen.speed = 0.3f;
 
+
+
 	return true;
 }
 
@@ -111,7 +113,7 @@ Silk::Silk()
 Silk::Silk(const Silk & p)
 {
 	fx_played = false;
-	busy = false;
+	busy = p.busy;
 }
 
 p2Point<int> Silk::getCenter(int offsetX, int offsetY)
