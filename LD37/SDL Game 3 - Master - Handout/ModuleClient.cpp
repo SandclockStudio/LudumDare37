@@ -48,6 +48,7 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
+			AssignSilks(c);
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation->GetCurrentFrame()));
 
 			if (c->fx_played == false)
@@ -175,6 +176,8 @@ Client::Client(const Client & c) : collider(c.collider)
 	ocuppied = c.ocuppied;
 	complainMeter = c.complainMeter;
 	pooped = c.pooped;
+	cleanRequest = c.cleanRequest;
+	handCleaned = c.cleanRequest;
 
 	t1 = 0;
 	t2 = 0;
@@ -198,7 +201,17 @@ bool Client::Update()
 
 	//Posicion de ejemplo
 
-	p2Point<int> target = SearchBath();
+
+
+	p2Point<int> bath = SearchBath();
+	p2Point<int> silk = SearchSilk();
+
+	p2Point<int> target;
+	if (pooped == true)
+		target = silk;
+	else
+		target = bath;
+	
 
 	p2Point<int> exit;
 	exit.x = 600;
@@ -206,6 +219,7 @@ bool Client::Update()
 
 	p2Point<int> temp = target;
 	temp -= position;
+
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
 	if (temp.IsZero() && ocuppied == true || ocuppied == true && pooping == true)
@@ -222,16 +236,40 @@ bool Client::Update()
 		Poop();
 	}
 
+
+	// Si hemos llegado al silk(nuestro objetivo) , nos lavamos las manos
+	if (temp.IsZero() && pooped == true && cleanRequest == true)
+	{
+
+		if (t1 == 0)
+		{
+			washingHands = true;
+			t1 = SDL_GetPerformanceCounter();
+		}
+
+
+		WashHands();
+	}
+
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
 	if (pooped == false && ocuppied == true && pooping == false)
 	{
-		position += GoToPosition(target);
+		position += GoToPosition(bath);
 
 	}
 
-	// si hemos hecho caca, nos dirijimos a la salida
-	if (pooped == true && pooping == false)
+	//vamos a lavarnos las manos
+	if (pooped == true && cleanRequest == true)
 	{
+		LOG("going to silk ");
+		position += GoToPosition(silk);
+	}
+
+
+	// si hemos hecho caca y nos hemos lavado las manos nos dirijimos a la salida
+	if (pooped == true && pooping == false && handCleaned == true)
+	{
+		LOG("going to exit ");
 		position += GoToPosition(exit);
 
 	}
@@ -274,6 +312,18 @@ p2Point<int> Client::SearchBath()
 
 }
 
+p2Point<int> Client::SearchSilk()
+{
+	//Si tenemos un baño asignado
+	if (cleanRequest == true)
+	{
+		return assignedSilk->position;
+	}
+	return  position; // sino devolver mi position
+
+}
+
+
 void Client::WaitForBath()
 {
 
@@ -287,10 +337,10 @@ void Client::WaitForBath()
 
 
 	//TODO comprobar que el medidor sea 2 o 3 y si es asi, hacer caca o POOP en el suelo.
-	if (complainMeter == 2)
+	/*if (complainMeter == 2)
 	{
 		Poop();
-	}
+	}*/
 
 
 	waiting = false;
@@ -300,7 +350,6 @@ void Client::WaitForBath()
 void ModuleClient::AssignBaths(Client* c)
 {
 
-	LOG("Assigning baths");
 //Si no tiene baño asignado y comprobamos que no este esperando quejandose
 if (c->ocuppied == false && c->waiting == false)
 {
@@ -348,6 +397,57 @@ if (c->ocuppied == false && c->waiting == false)
 }
 }
 
+
+void ModuleClient::AssignSilks(Client* c)
+{
+
+	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
+	if (c->cleanRequest == false && c->pooped == true)
+	{
+		// TODO FALLO en la lista, no la coge bien
+		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
+		p2List_item<Silk*>* tmp_next = App->silks->active.getFirst();
+
+		while (tmp != NULL)
+		{
+			//Cogemos el siguiente baño
+			Silk* s = tmp->data;
+			tmp_next = tmp->next;
+
+			LOG("Checking silk");
+
+			//asignamos el  baño si no esta asignado
+			if (s->busy == false)
+			{
+				LOG("Silk assigned");
+				c->assignedSilk = s;
+				c->cleanRequest = true;
+				s->busy = true;
+				break;
+			}
+
+			tmp = tmp_next;
+
+		}
+
+		//si no se ha podido asignar ningun baño al cliente: Esperar y quejarse
+		if ((tmp == NULL) && (c->cleanRequest == false))
+		{
+			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+			c->WaitForBath();
+
+		}
+
+		//Si se ha podido asignar un baño al cliente: COSAS NAZIS
+		if (c->ocuppied == true)
+		{
+			//c ocupado hasta el final
+			//c->SearchBath();
+		}
+
+	}
+}
+
 void Client::Poop()
 {
 	this->t2 = SDL_GetPerformanceCounter();
@@ -359,7 +459,7 @@ void Client::Poop()
 
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if (time >= 6000) 
+	if (time >= 6000 && pooped == false) 
 	{
 
 		//TODO ANIMACION SALIR BAÑO
@@ -371,9 +471,40 @@ void Client::Poop()
 		ocuppied = false;
 		assignedBath->busy = false;
 		assignedBath = NULL;
-		t1 = -1;
+		t1 = 0;
 		t2 = 0;
 		pooping = false;
+
+	}
+
+}
+
+
+void Client::WashHands()
+{
+	this->t2 = SDL_GetPerformanceCounter();
+
+	LOG("Washing Hands");
+
+
+	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+
+	if (time >= 4000)
+	{
+
+		//TODO ANIMACION SALIR BAÑO
+		//pooped = true;
+		//position = assignedBath->position;
+		//TODO cambiar posicion 
+		//position.y -= 20;
+
+		ocuppied = false;
+
+		assignedSilk->busy = false;
+		assignedSilk = NULL;
+		t1 = 0;
+		t2 = 0;
+		washingHands = false;
 
 	}
 

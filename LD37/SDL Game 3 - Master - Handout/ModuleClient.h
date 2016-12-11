@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "ModuleBathroom.h"
+#include "ModuleSilk.h"
 #include "conio.h"
 
 
@@ -21,11 +22,13 @@ struct Client
 	bool cleanRequest,handCleaned;
 	Collider* collider;
 	Bath* assignedBath;
+	Silk* assignedSilk;
 	bool waiting = false;
 	bool ocuppied = false;
 	int complainMeter = 0;
 	bool pooping = false;
 	bool pooped = false;
+	bool washingHands;
 	Uint64 t1, t2;
 	
 
@@ -40,6 +43,9 @@ struct Client
 	void WaitForBath();
 	p2Point<int> SearchBath();
 	void Poop();
+
+	p2Point<int> SearchSilk();
+	void WashHands();
 	
 
 };
@@ -57,6 +63,7 @@ public:
 	void AddClient(const Client& client, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
 	Client* getClient(p2Point<int> pos);
 	void AssignBaths(Client* c);
+	void AssignSilks(Client* c);
 private:
 	SDL_Texture* graphics;
 	p2List<Client*> active;
