@@ -178,14 +178,18 @@ bool Client::Update()
 {
 
 
+	if (collider != NULL)
+	{
+
+		SDL_Rect r = current_animation->PeekCurrentFrame();
+		collider->rect = { position.x, position.y, r.w, r.h };
+
+	}
+
+
 	//Posicion de ejemplo
-	p2Point<int> target;
-	target.x = 10;
-	target.y = 200;
 
-	//p2Point<int> target = SearchBath();
-
-	//position += GoToPosition(target);
+	p2Point<int> target = SearchBath();
 
 	p2Point<int> exit;
 	exit.x = 600;
@@ -195,19 +199,11 @@ bool Client::Update()
 	temp -= position;
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (temp.IsZero())
+	if (temp.IsZero() && ocuppied == true)
 	{
+
 		Poop();
 	}
-
-	if (collider != NULL)
-	{
-
-		SDL_Rect r = current_animation->PeekCurrentFrame();
-		collider->rect = { position.x, position.y, r.w, r.h };
-
-	}
-
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
 	if (pooped == false && ocuppied == true)
@@ -220,13 +216,12 @@ bool Client::Update()
 	if (pooped == true)
 	{
 		position += GoToPosition(exit);
-		
 
 	}
 
 
-
 	return true;
+
 
 }
 
@@ -349,14 +344,14 @@ void Client::Poop()
 	if (time >= 6000) 
 	{
 
-	//TODO ANIMACION SALIR BAÑO
-	pooped = true;
-	position = assignedBath->position;
-	ocuppied = false;
-	assignedBath->busy = false;
-	assignedBath = NULL;
-	t1 = -1;
-	t2 = 0;
+		//TODO ANIMACION SALIR BAÑO
+		pooped = true;
+		//position = assignedBath->position;
+		ocuppied = false;
+		//assignedBath->busy = false;
+		//assignedBath = NULL;
+		t1 = -1;
+		t2 = 0;
 	}
 
 }
