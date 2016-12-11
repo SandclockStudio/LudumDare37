@@ -57,6 +57,13 @@ update_status ModuleClient::Update()
 			}
 		}
 
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x > SCREEN_WIDTH && tmp->data->position.y > SCREEN_HEIGHT)
+		{
+			delete tmp->data;
+			active.del(tmp);
+			break;
+		}
+
 		tmp = tmp_next;
 	}
 
@@ -150,6 +157,8 @@ Client::Client() : collider(NULL)
 	ocuppied = false;
 	complainMeter = 0;
 	pooped = false;
+	cleanRequest = false;
+	handCleaned = false;
 }
 
 Client::Client(const Client & c) : collider(c.collider)
