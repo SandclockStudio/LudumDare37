@@ -14,6 +14,24 @@ ModuleCloset::~ModuleCloset()
 // Load assets
 bool ModuleCloset::Start()
 {	
+	// Animacion plunger
+	fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
+	plunger.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.frames.PushBack({ 48 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.frames.PushBack({ 96 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.frames.PushBack({ 144 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	plunger.loop = false;
+	plunger.speed = 0.3f;
+
+	// Animacion no plunger
+	noplunger.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.frames.PushBack({ 48 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.frames.PushBack({ 96 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.frames.PushBack({ 144 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	noplunger.loop = false;
+	noplunger.speed = 0.3f;
+
 	return true;
 }
 

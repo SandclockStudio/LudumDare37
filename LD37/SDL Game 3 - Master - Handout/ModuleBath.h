@@ -2,6 +2,11 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Globals.h"
+#include <random>
+#include <chrono>
+#include <time.h>
+using namespace std;
+
 
 struct Collider;
 
@@ -15,8 +20,12 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+
 public:
-	
+	double randomVar;
+	mt19937_64 range2;
+	uint64_t timeSeed2;
 	SDL_Texture* background;
-	SDL_Texture* stars;
+	Uint64 t1, t2;
+
 };

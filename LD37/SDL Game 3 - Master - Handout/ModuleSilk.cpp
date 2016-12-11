@@ -13,11 +13,13 @@ ModuleSilk::~ModuleSilk()
 bool ModuleSilk::Start()
 {
 	LOG("Loading sinks");
-	graphics = App->textures->Load("ld37/menu.png");
+	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
 
 	// Animacion grifo
 	silk.fx = App->audio->LoadFx("rtype/starting.wav");
-	silk.waterOpen.frames.PushBack({ 274, 296, 33, 30 });
+	silk.waterOpen.frames.PushBack({ 40 * SCALE, 192 * SCALE, 40 * SCALE, 22 * SCALE });
+	silk.waterOpen.frames.PushBack({ 80 * SCALE, 192 * SCALE, 40 * SCALE, 22 * SCALE });
+	silk.waterOpen.frames.PushBack({ 120 * SCALE, 192 * SCALE, 40 * SCALE, 22 * SCALE });
 	silk.waterOpen.loop = false;
 	silk.waterOpen.speed = 0.3f;
 

@@ -15,29 +15,32 @@ ModuleBathroom::~ModuleBathroom()
 bool ModuleBathroom::Start()
 {
 	LOG("Loading baths");
-	graphics = graphics = App->textures->Load("IMAGESHEET-BAÑO");
+	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
  
 	// Animacion abrir baño
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
-	bath.openDoor.frames.PushBack({ 274, 296, 33, 30 });
+	bath.openDoor.frames.PushBack({ 40 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 80 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 120 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoor.frames.PushBack({ 160 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoor.loop = false;
 	bath.openDoor.speed = 0.3f;
 
 	// Animacion baño ocupado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-OCUPARSE");
-	bath.busyAnim.frames.PushBack({ 274, 296, 33, 30 });
+	bath.busyAnim.frames.PushBack({ 40 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.busyAnim.loop = true;
 	bath.busyAnim.speed = 0.3f;
 
 	// Animacion baño sin papel
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-QUEDARSE-SIN-PAPEL");
-	bath.outOfPaper.frames.PushBack({ 274, 296, 33, 30 });
+	bath.outOfPaper.frames.PushBack({ 0 * SCALE, 264 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.outOfPaper.loop = true;
 	bath.outOfPaper.speed = 0.3f;
 
 	// Animacion baño atascado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
-	bath.clogged.frames.PushBack({ 274, 296, 33, 30 });
+	bath.clogged.frames.PushBack({ 0 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.clogged.loop = true;
 	bath.clogged.speed = 0.3f;
 
@@ -202,8 +205,8 @@ p2Point<int> Bath::getCenter()
 {
 	p2Point<int> center;
 
-	center.x = position.x + ((22*4)/ 2);
-	center.y = position.y + ((24*4)/2);
+	center.x = position.x + ((40 * SCALE)/ 2);
+	center.y = position.y + ((64 * SCALE)/2);
 
 	return center;
 }
