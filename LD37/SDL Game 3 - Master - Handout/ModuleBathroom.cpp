@@ -15,7 +15,7 @@ ModuleBathroom::~ModuleBathroom()
 bool ModuleBathroom::Start()
 {
 	LOG("Loading baths");
-	graphics = graphics = App->textures->Load("IMAGESHEET-BAÑO");
+	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
  
 	// Animacion abrir baño
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");

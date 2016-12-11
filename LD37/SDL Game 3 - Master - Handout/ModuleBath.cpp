@@ -18,7 +18,7 @@ bool ModuleBath::Start()
 {
 	LOG("Loading space scene");
 	
-	background = App->textures->Load("ld37/spritesheet.png");
+	background = App->textures->Load("ld37/spritesheet-bathroom.png");
 
 	App->collision->Enable(); // enable before player
 	App->player->Enable();
@@ -31,7 +31,7 @@ bool ModuleBath::Start()
 
 
 	// Añadir lavabos
-	App->bathrooms->AddBathroom(App->bathrooms->bath,8,280,COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 8, 280, COLLIDER_BATHROOM);
 
 	App->bathrooms->AddBathroom(App->bathrooms->bath, 24*scale, 280, COLLIDER_BATHROOM);
 
@@ -80,22 +80,26 @@ update_status ModuleBath::Update()
 	// Move camera forward if needed -----------------------------
 	int scroll_speed = 0;
 
-	int scale = 6;
+	int scale = 2;
 
-	SDL_Rect bground = { 0 * scale,0 * scale,128 * scale, 96 * scale };
+	SDL_Rect bground	= { 0 * scale, 0 * scale,	256 * scale, 192 * scale };
+
+	SDL_Rect overlay	= { 256 * scale, 0 * scale,	256 * scale, 192 * scale };
 	
-	SDL_Rect wcs = { 0,755,492,96 };
+	SDL_Rect wcs		= { 0 * scale, 326 * scale,	200 * scale, 64 * scale };
 
-	SDL_Rect sink = {0,2003,495,64};
+	SDL_Rect sink		= { 0 * scale, 192 * scale,	160 * scale, 22 * scale};
 
 	
 	
 	
 	App->renderer->Blit(background, 0, 0, &bground,0.0f);
 
-	App->renderer->Blit(background, 8, 280,&wcs , 0.0f);
+	App->renderer->Blit(background, 52 * scale, 4 * scale, &sink , 0.0f);
 
-	App->renderer->Blit(background, 8, 8, &sink, 0.0f);
+	App->renderer->Blit(background, 8 * scale, 124 * scale, &wcs, 0.0f);
+
+	App->renderer->Blit(background, 0 * scale, 0 * scale, &overlay, 0.0f);
 
 
 	
