@@ -25,7 +25,7 @@ struct Bath
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
 	clock_t t1,t2;
 
-
+	p2Point<int> getCenter();
 	Bath();
 	Bath(const Bath& p);
 

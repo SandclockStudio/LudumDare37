@@ -194,6 +194,16 @@ void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TY
 }
 
 
+p2Point<int> Bath::getCenter()
+{
+	p2Point<int> center;
+
+	center.x = position.x + ((22*4)/ 2);
+	center.y = position.y + ((24*4)/2);
+
+	return center;
+}
+
 Bath::Bath()
 {}
 
