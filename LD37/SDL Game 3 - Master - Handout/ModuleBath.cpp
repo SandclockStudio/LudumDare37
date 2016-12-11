@@ -32,17 +32,18 @@ bool ModuleBath::Start()
 
 
 	// Añadir lavabos
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 8, 280, COLLIDER_BATHROOM);
 
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 24*scale, 280, COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, 8 * SCALE, 124 * SCALE, COLLIDER_BATHROOM);
 
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 44*scale , 280 , COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, (8 + 40)* SCALE, 124 * SCALE, COLLIDER_BATHROOM);
 
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 64*scale , 280 , COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, (8 + 40 * 2) * SCALE, 124 * SCALE, COLLIDER_BATHROOM);
 
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 84*scale , 280 , COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, (8 + 40 * 3) * SCALE, 124 * SCALE, COLLIDER_BATHROOM);
 
-	App->bathrooms->AddBathroom(App->bathrooms->bath, 104 * scale, 280, COLLIDER_BATHROOM);
+	App->bathrooms->AddBathroom(App->bathrooms->bath, (8 + 40 * 4) * SCALE, 124 * SCALE, COLLIDER_BATHROOM);
+
+	App->bathrooms->AddBathroom(App->bathrooms->bath, (8 + 40 * 5) * SCALE, 124 * SCALE, COLLIDER_BATHROOM);
 
 	//Añadir pilas
 	
@@ -114,7 +115,7 @@ update_status ModuleBath::Update()
 
 	//SDL_Rect wcs = { 0 * SCALE, 326 * SCALE,	200 * SCALE, 64 * SCALE };
 
-	SDL_Rect wcs		= { 0 * SCALE, 326 * SCALE,	40 * SCALE, 64 * SCALE };
+
 
 	//SDL_Rect sink		= { 0 * SCALE, 192 * SCALE,	160 * SCALE, 22 * SCALE};
 
@@ -135,12 +136,7 @@ update_status ModuleBath::Update()
 	App->renderer->Blit(background, (52 + 41 * 3) * SCALE, 4 * SCALE, &sink, 0.0f);
 	App->renderer->Blit(background, (52 + 41 * 4) * SCALE, 4 * SCALE, &sink, 0.0f);
 
-	App->renderer->Blit(background, 8 * SCALE, 124 * SCALE, &wcs, 0.0f);
-	App->renderer->Blit(background, (8 + 40) * SCALE, 124 * SCALE, &wcs, 0.0f);
-	App->renderer->Blit(background, (8 + 40 * 2) * SCALE, 124 * SCALE, &wcs, 0.0f);
-	App->renderer->Blit(background, (8 + 40 * 3) * SCALE, 124 * SCALE, &wcs, 0.0f);
-	App->renderer->Blit(background, (8 + 40 * 4) * SCALE, 124 * SCALE, &wcs, 0.0f);
-	App->renderer->Blit(background, (8 + 40 * 5) * SCALE, 124 * SCALE, &wcs, 0.0f);
+
 
 	App->renderer->Blit(background, 4 * SCALE, 4 * SCALE, &closet, 0.0f);
 
