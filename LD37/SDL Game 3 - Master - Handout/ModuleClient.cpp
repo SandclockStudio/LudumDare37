@@ -19,6 +19,7 @@ bool ModuleClient::Start()
 	normal.idle.frames.PushBack({ 24, 96, 48, 96 });
 	normal.idle.frames.PushBack({ 96 + 24, 96, 48, 96 });
 	normal.current_animation = &normal.idle;
+	normal.idle.speed = 0.02f;
 
 	return true;
 }
