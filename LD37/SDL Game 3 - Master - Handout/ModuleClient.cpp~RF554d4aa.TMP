@@ -83,7 +83,7 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 		}
 
 		//Colision cliente y pila.
-		if (aux == c1 && c2->type == COLLIDER_SILK && tmp->data->cleanRequest == true)
+		if (aux == c1 && c2->type == COLLIDER_SILK)
 		{
 			tmp->data->cleanRequest = false;
 			break;

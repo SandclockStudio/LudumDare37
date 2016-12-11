@@ -47,6 +47,7 @@ public:
 	Bath bath;
 	Animation* current_animation;
 	p2List<Bath*> active;
+
 	private:
 
 	
