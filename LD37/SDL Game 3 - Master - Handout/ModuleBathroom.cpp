@@ -83,12 +83,19 @@ update_status ModuleBathroom::Update()
 		{
 			
 			p->current_animation = &p->openDoor;
+
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
-		
+
+			p->t2 = clock();
+			if (difftime(p->t2, p->t1) > 5)
+			{
+				p->openDoor.Reset();
+				p->openDoorAnim = false;
+			}
 
 		}
 

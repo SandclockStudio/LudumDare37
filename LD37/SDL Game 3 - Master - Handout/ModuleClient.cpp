@@ -19,11 +19,8 @@ bool ModuleClient::Start()
 	normal.idle.frames.PushBack({ 24, 96, 48, 96 });
 	normal.idle.frames.PushBack({ 96 + 24, 96, 48, 96 });
 	normal.current_animation = &normal.idle;
-<<<<<<< HEAD
-=======
 	normal.idle.speed = 0.02f;
 
->>>>>>> origin/master
 	return true;
 }
 
@@ -44,8 +41,7 @@ update_status ModuleClient::Update()
 	{
 		Client* c = tmp->data;
 		tmp_next = tmp->next;
-		AssignBaths(c);
-		AssignSilks(c);
+
 		if (c->Update() == false)
 		{
 			active.del(tmp);
@@ -53,7 +49,8 @@ update_status ModuleClient::Update()
 		}
 		else if (SDL_GetTicks() >= c->born)
 		{
-
+			AssignBaths(c);
+			AssignSilks(c);
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation->GetCurrentFrame()));
 
 			if (c->fx_played == false)
@@ -205,7 +202,7 @@ bool Client::Update()
 	{
 
 		SDL_Rect r = current_animation->PeekCurrentFrame();
-		collider->rect = { position.x, position.y, r.w-50, r.h-50 };
+		collider->rect = { position.x, position.y, r.w, r.h };
 
 	}
 	else
@@ -235,15 +232,12 @@ bool Client::Update()
 	exit.x = 500;
 	exit.y = 150;
 
-	p2Point<int> tempBath = target;
-	tempBath -= position;
-
-	p2Point<int> tempSilk = target;
-	tempSilk -= position;
+	p2Point<int> temp = target;
+	temp -= position;
 
 
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
-	if (tempBath.IsZero() && ocuppied == true && pooped == false || ocuppied == true && pooping == true)
+	if (temp.IsZero() && ocuppied == true && pooped == false || ocuppied == true && pooping == true)
 	{
 
 		position = assignedBath->getCenter();
@@ -259,9 +253,9 @@ bool Client::Update()
 
 
 	// Si hemos llegado al silk(nuestro objetivo) , nos lavamos las manos
-	if (tempSilk.IsZero() && pooped == true && handCleaned == false)
+	if (temp.IsZero() && pooped == true && handCleaned == false)
 	{
-		//position = assignedSilk->position;
+
 		if (t1 == 0)
 		{
 			washingHands = true;
@@ -283,8 +277,7 @@ bool Client::Update()
 	if (pooped == true && cleanRequest == true && washingHands == false)
 	{
 		LOG("going to silk ");
-		position.x += 10;
-		position.y += 10;
+		position += GoToPosition(silk);
 	}
 
 
@@ -470,7 +463,7 @@ void ModuleClient::AssignSilks(Client* c)
 
 			LOG("Checking silk");
 
-			//asignamos el  silk si no esta asignado
+			//asignamos el  baño si no esta asignado
 			if (s->busy == false && c->waiting == false)
 			{
 				LOG("Silk assigned");
@@ -556,9 +549,10 @@ void Client::WashHands()
 
 		ocuppied = false;
 
-		assignedSilk->busy = false;
+//		assignedSilk->busy = false;
+		
+		
 		//assignedSilk = NULL;
-
 		t1 = 0;
 		t2 = 0;
 		washingHands = false;
