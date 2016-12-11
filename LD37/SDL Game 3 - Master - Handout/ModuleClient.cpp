@@ -59,10 +59,14 @@ update_status ModuleClient::Update()
 			}
 		}
 
-		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x > SCREEN_WIDTH && tmp->data->position.y > SCREEN_HEIGHT)
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-30 )
 		{
+
+			
+			tmp->data->collider->type = COLLIDER_NONE;
 			delete tmp->data;
 			active.del(tmp);
+
 			break;
 		}
 
@@ -200,7 +204,11 @@ bool Client::Update()
 		collider->rect = { position.x, position.y, r.w, r.h };
 
 	}
-
+	else
+	{
+		SDL_Rect r = current_animation->PeekCurrentFrame();
+		collider->rect = { 1000, position.y, r.w, r.h };
+	}
 
 	//Posicion de ejemplo
 
