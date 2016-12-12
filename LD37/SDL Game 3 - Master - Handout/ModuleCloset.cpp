@@ -40,7 +40,7 @@ update_status ModuleCloset::Update()
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && App->player->paper == false)
 		{
 			App->particles->AddParticle(App->particles->plunger, 8, 8 );
-			App->particles->AddParticle(App->particles->iconPaper, 8, 8);
+			App->particles->AddParticle(App->particles->iconPaper, 35, 15);
 			App->player->paper = true;
 		}
 	}

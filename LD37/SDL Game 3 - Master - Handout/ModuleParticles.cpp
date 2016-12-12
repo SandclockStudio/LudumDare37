@@ -14,6 +14,28 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 
+	graphics2 = App->textures->Load("ld37/spritesheet-UI.png");
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.loop = false;
+	iconPlunger.anim.speed = 0.1f;
+
+
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
+	iconPaper.anim.loop = false;
+	iconPaper.anim.speed = 0.1f;
+
 	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
 
 	plunger.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
@@ -25,16 +47,7 @@ bool ModuleParticles::Start()
 	plunger.anim.loop = true;
 	plunger.anim.speed = 0.15f;
 
-	graphics2 = App->textures->Load("ld37/spritesheet-UI.png");
-	iconPlunger.anim.frames.PushBack({620,8,33,34});
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.loop = false;
-	iconPlunger.anim.speed = 0.1f;
+	
 	//Animacion atascado
 	plogged.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
 

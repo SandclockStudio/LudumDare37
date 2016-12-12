@@ -97,7 +97,7 @@ void ModuleSilk::AddSilk(const Silk& sink, int x, int y, COLLIDER_TYPE collider_
 
 	if (collider_type != COLLIDER_NONE)
 	{
-		s->collider = App->collision->AddCollider({ s->position.x, s->position.y, 20 * scale, 17 * scale }, collider_type, this);
+		s->collider = App->collision->AddCollider({ s->position.x, s->position.y, 20 * scale, 10 * scale }, collider_type, this);
 	}
 
 	active.add(s);
