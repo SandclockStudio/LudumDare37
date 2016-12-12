@@ -15,7 +15,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	int w = 48, h = 64;
 	float walkAnimSpeed = 0.3;
-	float idleAnimSpeed = 0.03;
+	float idleAnimSpeed = 0.01;
 
 	idle.frames.PushBack({ 8 + h, 0, w, h});
 	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
@@ -29,7 +29,8 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	idlePaper.frames.PushBack({ 8 + h * 3, 0, w, h });
 	idlePaper.speed = idleAnimSpeed;
 
-	towel.frames.PushBack({ 8, 6 * h, w, h });
+	towel.frames.PushBack({ 8, h * 5, w, h });
+	towel.frames.PushBack({ 8 + h, h * 5, w, h });
 	towel.loop = false;
 	towel.speed = 0.1f;
 
@@ -192,15 +193,6 @@ update_status ModulePlayer::Update()
 		return UPDATE_CONTINUE;
 
 	int speed = 3;
-	if (giveTowel == true)
-	{
-		current_animation = &towel;
-		if (towel.Finished())
-		{
-			towel.Reset();
-			giveTowel = false;
-		}
-	}
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
@@ -219,7 +211,7 @@ update_status ModulePlayer::Update()
 		
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collision == false && giveTowel == false)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x += speed;
 
@@ -272,6 +264,22 @@ update_status ModulePlayer::Update()
 		if (plunger) current_animation = &idlePlunger;
 		else if (paper) current_animation = &idlePaper;
 		else current_animation = &idle;
+
+	}
+
+	if (giveTowel == true)
+	{
+		current_animation = &towel;
+		if (towel.Finished())
+		{
+			towel.Reset();
+			giveTowel = false;
+		}
+	}
+	if (unclog == true) {
+
+		unclogging.Reset();
+		current_animation = &unclogging;
 
 	}
 
