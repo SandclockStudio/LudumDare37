@@ -31,22 +31,15 @@ bool ModuleBathroom::Start()
 	bath.openDoor.loop = false;
 	bath.openDoor.speed = 0.3f;
 
-
-	//icono idle 
+		//icono idle 
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
-	bath.idle_particle.frames.PushBack({ 0 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	//bath.idle_particle.frames.PushBack({ 0 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.idle_particle.loop = true;
 	bath.idle_particle.speed = 0.3f;
 
-	// Animacion baño ocupado
-	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-OCUPARSE");
-	bath.busyAnim.frames.PushBack({ 40 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
-	bath.busyAnim.loop = true;
-	bath.busyAnim.speed = 0.3f;
-
 	// Animacion baño sin papel
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-QUEDARSE-SIN-PAPEL");
-	bath.outOfPaper.frames.PushBack({ 0 * SCALE, 264 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.outOfPaper.frames.PushBack({ 40 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.outOfPaper.loop = true;
 	bath.outOfPaper.speed = 0.3f;
 
@@ -74,14 +67,15 @@ update_status ModuleBathroom::Update()
 		tmp_next = tmp->next;
 		p->current_animation = &p->idle;
 		p->animation_particle = &p->idle_particle;
-		if (p->paperCount >  0)
+
+		if (p->paperCount <=  0)
 		{
-			p->outOfPaperFlagAnim = false;
+			p->outOfPaperFlagAnim = true;
 		}
 
-		if (p->shitCount > 0)
+		if (p->shitCount <= 0)
 		{
-			p->outOfPaperFlagAnim = false;
+			p->outOfPaperFlagAnim = true;
 		}
 
 		//Animacion abrir puerta
@@ -104,26 +98,22 @@ update_status ModuleBathroom::Update()
 		//Animacion outOfPaper
 		if (p->outOfPaperFlagAnim == true)
 		{
-			p->animation_particle = &p->outOfPaper;
+			p->current_animation = &p->outOfPaper;
 	
 		}
 
 		//Animacion atascado
 		if (p->cloggedFlagAnim == true)
 		{
-			p->current_animation = &p->clogged;
+			p->animation_particle = &p->clogged;
 			
-			if (p->fx_played == false)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
+		
 		}
 
 		if(SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
-			//App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
+			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
 		}
 
 		
@@ -152,27 +142,28 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		//Colision entrar en baño cliente.
 		if (aux == c1 && c2->type == COLLIDER_CLIENT)
 		{
-			tmp->data->openDoorAnim = true;
+			
 			tmp->data->t1 = clock();
 			Client* aux = App->client->getClient(tmp->data->position);
-			if (aux != NULL)
+			if (aux != NULL && tmp->data->openDoorAnim == false)
 			{
 				tmp->data->shitCount -= aux->shitRest;
-				tmp->data->paperCount -= aux->shitRest;
+				tmp->data->paperCount -= aux->paperRest;
+				tmp->data->openDoorAnim = true;
 			}
 
 			break;
 		}
 
 		//Colision para arreglar papel
-		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount > 10)
+		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount <= 0)
 		{
 			tmp->data->outOfPaperFlagAnim = false;
 			break;
 		}
 
 		//Colision para arreglar atasco
-		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->plunger == true && tmp->data->shitCount > 15)
+		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->plunger == true && tmp->data->shitCount <= 0)
 		{
 			tmp->data->cloggedFlagAnim = false;
 			break;
@@ -180,7 +171,6 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		tmp = tmp->next;
 	}
 
-	
 }
 
 void ModuleBathroom::AddBathroom(const Bath& bathroom, int x, int y, COLLIDER_TYPE collider_type)
