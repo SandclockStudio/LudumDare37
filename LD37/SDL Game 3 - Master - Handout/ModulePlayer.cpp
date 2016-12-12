@@ -21,6 +21,19 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
 	idle.speed = 0.03;
 
+	// idle when you have paper
+	idlePaper.frames.PushBack({8 + h, h * 7, w, h });
+	idlePaper.frames.PushBack({ 8 + h * 3, h * 7, w, h });
+	idlePaper.speed = 0.03;
+	idlePaper.loop = true; 
+
+
+	// idle when you have plunger
+	idlePlunger.frames.PushBack({ 8 + h * 5, h * 7, w, h });
+	idlePlunger.frames.PushBack({ 8 + h * 7, h * 7, w, h });
+	idlePlunger.speed = 0.03;
+	idlePlunger.loop = true;
+
 	towel.frames.PushBack({ 8, 6 * h, w, h });
 	towel.loop = false;
 	towel.speed = walkingSpeed;
@@ -119,7 +132,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPaper.frames.PushBack({ 8 + h, h * 8,		w, h });
 	downPaper.frames.PushBack({ 8, h * 8,		w, h });
 	downPaper.frames.PushBack({ 8 + h * 2 , h * 8,		w, h });
-	downPaper.loop = false;
+	downPaper.loop = true;
 	downPaper.speed = walkingSpeed;
 
 
@@ -130,7 +143,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	leftPaper.frames.PushBack({ 8 + h * 5, h * 13,		w, h });
 	leftPaper.frames.PushBack({ 8 + h * 6, h * 13,		w, h });
 	leftPaper.frames.PushBack({ 8 + h * 7, h * 13,		w, h });
-	leftPaper.loop = false;
+	leftPaper.loop = true;
 	leftPaper.speed = walkingSpeed;
 
 
@@ -141,7 +154,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	rightPaper.frames.PushBack({ 8 + h * 0, h * 11,		w, h });
 	rightPaper.frames.PushBack({ 8 + h * 1, h * 11,		w, h });
 	rightPaper.frames.PushBack({ 8 + h * 2, h * 11,		w, h });
-	rightPaper.loop = false;
+	rightPaper.loop = true;
 	rightPaper.speed = walkingSpeed;
 
 	// win the game 
@@ -273,12 +286,27 @@ update_status ModulePlayer::Update()
 		}
 
 		if (plunger) current_animation = &upPlunger;
-		if (paper) current_animation = &upPaper;
+		else if (paper) current_animation = &upPaper;
 		else current_animation = &up;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false)
-		current_animation = &idle;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false) {
+		
+		/*
+		if (current_animation != &idle  && collision == false && giveTowel == false)
+		{
+			idle.Reset();
+			idlePaper.Reset();
+			idlePlunger.Reset();
+		}
+		*/
+		
+		//position.y -= speed; 
+			
+		if (plunger) current_animation = &idlePlunger;
+		else if (paper) current_animation = &idlePaper;
+		else current_animation = &idle;
+	}
 
 	collider->SetPos(position.x + 10, position.y + 25);
 

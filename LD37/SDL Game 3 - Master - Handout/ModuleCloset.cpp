@@ -36,11 +36,13 @@ update_status ModuleCloset::Update()
 			App->particles->AddParticle(App->particles->plunger, 8, 8);
 			App->particles->AddParticle(App->particles->iconPlunger, 35, 15);
 			App->player->plunger = true;
+			App->player->paper = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && App->player->paper == false)
 		{
 			App->particles->AddParticle(App->particles->plunger, 8, 8 );
 			App->particles->AddParticle(App->particles->iconPaper, 35, 15);
+			App->player->plunger = false;
 			App->player->paper = true;
 		}
 	}
