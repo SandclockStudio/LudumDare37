@@ -14,8 +14,8 @@ bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
+	
 	// idle animation normal client
-
 	normal.idle.frames.PushBack({ 24 * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.idle.frames.PushBack({ (96 + 24) * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.current_animation = &normal.idle;
@@ -26,9 +26,10 @@ bool ModuleClient::Start()
 	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
 	normal.poopingAnim.speed = 0.02f;
 
+	
 
 	normal.shitRest = 1;
-	normal.paperRest = 2;
+	normal.paperRest = 5;
 
 	fat.shitRest = 4;
 	fat.paperRest = 2;
@@ -81,11 +82,11 @@ update_status ModuleClient::Update()
 		}
 
 		
-		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-30 )
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-70 )
 		{
 
 			
-			tmp->data->collider->type = COLLIDER_NONE;
+			//tmp->data->collider->type = COLLIDER_NONE;
 			//delete tmp->data;
 			active.del(tmp);
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  ModuleWindow.cpp
   ModuleTextures.cpp
   ModuleSilk.cpp
@@ -33,3 +34,19 @@ c:\users\david\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\p
   Generating Code...
   SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
   SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+=======
+﻿  ModuleClient.cpp
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(216): warning C4244: '=': conversion from 'Uint64' to 'unsigned int', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(342): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(392): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(416): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(539): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(567): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(108): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(107): note: while compiling class template member function 'p2Point<int> &p2Point<int>::Scale(float)'
+  c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(350): note: see reference to function template instantiation 'p2Point<int> &p2Point<int>::Scale(float)' being compiled
+  c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.h(38): note: see reference to class template instantiation 'p2Point<int>' being compiled
+c:\users\nombre\desktop\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  SDL Game.vcxproj -> C:\Users\Nombre\Desktop\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\Nombre\Desktop\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550

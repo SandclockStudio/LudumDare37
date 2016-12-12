@@ -1,4 +1,3 @@
-
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleBathroom.h"
@@ -43,6 +42,14 @@ bool ModuleBathroom::Start()
 	bath.outOfPaper.loop = true;
 	bath.outOfPaper.speed = 0.3f;
 
+	bath.openDoorNoPaper.frames.PushBack({ 40 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoorNoPaper.frames.PushBack({ 80 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoorNoPaper.frames.PushBack({ 120 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoorNoPaper.frames.PushBack({ 160 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoorNoPaper.frames.PushBack({ 40 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.openDoorNoPaper.loop = false;
+	bath.openDoorNoPaper.speed = 0.3f;
+
 	// Animacion baño atascado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
 	bath.clogged.frames.PushBack({ 0 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
@@ -65,7 +72,7 @@ update_status ModuleBathroom::Update()
 	{
 		Bath* p = tmp->data;
 		tmp_next = tmp->next;
-		p->current_animation = &p->idle;
+
 		p->animation_particle = &p->idle_particle;
 
 		if (p->paperCount <=  0)
@@ -78,16 +85,23 @@ update_status ModuleBathroom::Update()
 			p->outOfPaperFlagAnim = true;
 		}
 
+		if (p->outOfPaperFlagAnim)
+			p->current_animation = &p->outOfPaper;
+		else
+			p->current_animation = &p->idle;
+
 		//Animacion abrir puerta
-		if(p->openDoorAnim == true)
+		if(p->openDoorAnim == true )
 		{
 			
-			p->current_animation = &p->openDoor;
+			if (p->outOfPaperFlagAnim) p->current_animation = &p->openDoorNoPaper;
+			else p->current_animation = &p->openDoor;
 			
 			p->t2 = clock();
 			if (difftime(p->t2, p->t1) > 300)
 			{
 				p->openDoor.Reset();
+				p->openDoorNoPaper.Reset();
 				p->openDoorAnim = false;
 				p->busyFlagAnim = false;
 			}
@@ -95,18 +109,12 @@ update_status ModuleBathroom::Update()
 		}
 
 
-		//Animacion outOfPaper
-		if (p->outOfPaperFlagAnim == true)
-		{
-			p->current_animation = &p->outOfPaper;
 	
-		}
 
 		//Animacion atascado
 		if (p->cloggedFlagAnim == true)
 		{
 			p->animation_particle = &p->clogged;
-			
 		
 		}
 
@@ -158,7 +166,11 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		//Colision para arreglar papel
 		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount <= 0)
 		{
+			tmp->data->idle.Reset();
+			tmp->data->outOfPaper.Reset();
+			tmp->data->paperCount = 15;
 			tmp->data->outOfPaperFlagAnim = false;
+			App->player->paper = false;
 			break;
 		}
 
@@ -215,6 +227,7 @@ Bath::Bath(const Bath & p)
 	clogged = p.clogged;
 	idle = p.idle;
 	idle_particle = p.idle_particle;
+	openDoorNoPaper = p.openDoorNoPaper;
 
 	fx_played = false;
 	busy = false;

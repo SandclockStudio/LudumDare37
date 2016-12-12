@@ -25,14 +25,25 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	towel.loop = false;
 	towel.speed = walkingSpeed;
 
+	//Unclogging
+	unclogging.frames.PushBack({ 8, h * 6,		w,h});
+	unclogging.frames.PushBack({ 8 + h, 6 * h,	w,h });
+	towel.loop = true;
+	towel.speed = 0.1f;
+
 	// move upwards - OK
 	up.frames.PushBack({ 8,			h * 2,		w, h});
 	up.frames.PushBack({ 8 + h,		h * 2,		w, h });
 	up.frames.PushBack({ 8,			h * 2,		w, h });
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
 
+<<<<<<< HEAD
 	up.loop = false;
 	up.speed = walkingSpeed;
+=======
+	up.loop = true;
+	up.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 	
 	// Move down - OK
 	down.frames.PushBack({ 8,			h,		w, h });
@@ -40,8 +51,13 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
 
+<<<<<<< HEAD
 	down.loop = false;
 	down.speed = walkingSpeed;
+=======
+	down.loop = true;
+	down.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 
 	// move left
 	
@@ -52,8 +68,13 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	left.frames.PushBack({ 8 + h * 6, h * 6,		w, h });
 	left.frames.PushBack({ 8 + h * 7, h * 6,		w, h });
 	
+<<<<<<< HEAD
 	left.loop = false;
 	left.speed = walkingSpeed;
+=======
+	left.loop = true;
+	left.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 
 
 	// move right
@@ -63,8 +84,13 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 0, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
+<<<<<<< HEAD
 	right.loop = false;
 	right.speed = walkingSpeed;
+=======
+	right.loop = true;
+	right.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 
 
 	// move up with plunger
@@ -72,8 +98,13 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	upPlunger.frames.PushBack({ 8 + h * 4, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
+<<<<<<< HEAD
 	upPlunger.loop = false;
 	upPlunger.speed = walkingSpeed;
+=======
+	upPlunger.loop = true;
+	upPlunger.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 
 
 	// move down with plunger
@@ -81,6 +112,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPlunger.frames.PushBack({ 8 + h * 4, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
+<<<<<<< HEAD
 	downPlunger.loop = false;
 	downPlunger.speed = walkingSpeed;
 
@@ -147,6 +179,20 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
 	loseGame.loop = false;
 	loseGame.speed = walkingSpeed;
+=======
+	downPlunger.loop = true;
+	downPlunger.speed = 0.1f;
+
+	// move left with plunger
+	leftPlunger.frames.PushBack({ 0, 0, w, h });
+	leftPlunger.loop = true;
+	leftPlunger.speed = 0.1f;
+
+	// move right with plunger
+	rightPlunger.frames.PushBack({ 0, 0, w, h });
+	rightPlunger.loop = true;
+	rightPlunger.speed = 0.1f;
+>>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
 
 }
 

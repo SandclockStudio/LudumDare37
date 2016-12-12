@@ -30,6 +30,7 @@ public:
 	Animation down;
 	Animation right;
 	Animation left;
+	Animation unclogging;
 
 	Animation upPaper;
 	Animation downPaper;

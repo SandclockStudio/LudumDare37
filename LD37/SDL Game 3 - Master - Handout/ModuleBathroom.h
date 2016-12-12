@@ -14,7 +14,7 @@ using namespace std;
 
 struct Bath
 {
-	Animation openDoor,busyAnim,outOfPaper,clogged,idle,idle_particle;
+	Animation openDoor,busyAnim,outOfPaper, openDoorNoPaper, clogged,idle,idle_particle;
 
 	unsigned int fx;
 	p2Point<int> position;
