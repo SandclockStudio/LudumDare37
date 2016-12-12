@@ -14,8 +14,8 @@ bool ModuleClient::Start()
 {
 	LOG("Loading Clients");
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
+	
 	// idle animation normal client
-
 	normal.idle.frames.PushBack({ 24 * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.idle.frames.PushBack({ (96 + 24) * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.current_animation = &normal.idle;
@@ -25,6 +25,14 @@ bool ModuleClient::Start()
 	normal.poopingAnim.frames.PushBack({ 0,64 * 8, 64, 64});
 	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
 	normal.poopingAnim.speed = 0.02f;
+
+	
+
+	normal.shitRest = 1;
+	normal.paperRest = 5;
+
+	fat.shitRest = 4;
+	fat.paperRest = 2;
 	return true;
 }
 
@@ -74,11 +82,11 @@ update_status ModuleClient::Update()
 		}
 
 		
-		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-30 )
+		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-70 )
 		{
 
 			
-			tmp->data->collider->type = COLLIDER_NONE;
+			//tmp->data->collider->type = COLLIDER_NONE;
 			//delete tmp->data;
 			active.del(tmp);
 
@@ -202,7 +210,9 @@ Client::Client(const Client & c) : collider(c.collider)
 	exiting = c.exiting;
 	poopingAnim = c.poopingAnim;
 	idle = c.idle;
-
+	shitRest = c.shitRest;
+	paperRest = c.paperRest;
+	shitRest =
 	t1 = 0;
 	t2 = 0;
 
@@ -218,7 +228,7 @@ bool Client::Update()
 	{
 
 		SDL_Rect r = current_animation->PeekCurrentFrame();
-		collider->rect = { position.x, position.y, r.w, r.h };
+		collider->rect = { position.x, position.y+25, r.w, r.h-25 };
 
 	}
 	else
@@ -535,7 +545,7 @@ void Client::Poop()
 		pooped = true;
 		position = assignedBath->position;
 		//TODO cambiar posicion 
-		position.y -= 20;
+		position.y -= 70;
 
 		ocuppied = false;
 		assignedBath->busy = false;
@@ -599,7 +609,7 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 			delete c;
 		}
 		
-		if (abs(c->position.x - pos.x)<=3 && abs(c->position.y- pos.y)<=3)
+		if (abs(c->position.x - pos.x)<=30 && abs(c->position.y- pos.y)<=30)
 		{
 			return c;
 		}

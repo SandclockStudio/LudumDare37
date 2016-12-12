@@ -21,6 +21,8 @@ bool ModuleFadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");
 	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
+	spritesheet = App->textures->Load("ld37/spritesheet-bathroom.png");
+
 	return true;
 }
 
@@ -55,6 +57,10 @@ update_status ModuleFadeToBlack::Update()
 				start_time = 0;
 		}
 	}
+
+	SDL_Rect overlay = { 0 * SCALE, 0 * SCALE,	0 * SCALE, 0 * SCALE };
+	App->renderer->Blit(spritesheet, 0, 0, &overlay, 0.0f);
+
 
 	return UPDATE_CONTINUE;
 }

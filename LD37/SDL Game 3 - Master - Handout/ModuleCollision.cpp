@@ -23,13 +23,13 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_CLIENT] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_CLIENT] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_BATHROOM] = true;
 
 	matrix[COLLIDER_CLIENT][COLLIDER_WALL] = true;
-	matrix[COLLIDER_CLIENT][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_CLIENT][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_CLIENT][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_CLIENT][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_CLIENT][COLLIDER_ENEMY_SHOT] = false;

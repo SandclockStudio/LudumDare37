@@ -27,7 +27,7 @@ bool ModuleBath::Start()
 	t1 = SDL_GetPerformanceCounter();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
+	//App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
 
 	int scale = 4;
 
@@ -60,8 +60,8 @@ bool ModuleBath::Start()
 	App->silks->AddSilk(App->silks->silk, 105 * scale, 2 * scale, COLLIDER_SILK);
 
 	App->collision->AddCollider({ 0, 0, 8, SCREEN_HEIGHT }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 150 }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH - 8, 240, 8, 150 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 110 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH - 8, 170, 8, 220 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 8, 8, 100, 80 }, COLLIDER_WALL, this);
 	return true;
 }
@@ -96,13 +96,21 @@ update_status ModuleBath::Update()
 	t2 = SDL_GetPerformanceCounter();
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if(randomVar <=  0.2 && time >= 7000)
+	if(randomVar <=  0.75 && time >= 2000)
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->normal, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
 	}
 	
+	/*
+	if (randomVar <= 1 && randomVar>= 0.75 && time >= 2000)
+	{
+		time = 0;
+		t1 = SDL_GetPerformanceCounter();
+		App->client->AddClient(App->client->fat, SCREEN_WIDTH + 20, (SCREEN_HEIGHT / 2) - 95, COLLIDER_CLIENT);
+	}
+	*/
 
 
 	

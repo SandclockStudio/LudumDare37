@@ -25,6 +25,16 @@ public:
 	Animation towel;
 	Animation up;
 	Animation down;
+	Animation right;
+	Animation left;
+	Animation unclogging;
+
+	Animation upPlunger;
+	Animation downPlunger;
+	Animation rightPlunger;
+	Animation leftPlunger;
+
+
 	p2Point<int> position;
 	bool exploding;
 	bool giveTowel;
