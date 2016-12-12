@@ -79,6 +79,7 @@ update_status ModuleBathroom::Update()
 		if (p->paperCount <=  0)
 		{
 			p->outOfPaperFlagAnim = true;
+			p->busy = true;
 		}
 
 		if (p->shitCount <= 0)
@@ -178,6 +179,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 				tmp->data->shitCount -= aux->shitRest;
 				tmp->data->paperCount -= aux->paperRest;
 				tmp->data->openDoorAnim = true;
+				
 			}
 
 			break;
@@ -191,6 +193,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->outOfPaper.Reset();
 			tmp->data->paperCount = 15;
 			tmp->data->outOfPaperFlagAnim = false;
+			tmp->data->busy = false;
 			App->player->paper = false;
 			break;
 		}
@@ -199,6 +202,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->plunger == true && tmp->data->shitCount <= 0)
 		{
 			tmp->data->cloggedFlagAnim = false;
+			tmp->data->busy = false;
 			break;
 		}
 		tmp = tmp->next;

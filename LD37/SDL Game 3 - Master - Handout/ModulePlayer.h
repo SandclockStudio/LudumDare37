@@ -22,9 +22,6 @@ public:
 	Collider* collider;
 	Animation* current_animation;
 	Animation idle;
-	Animation idlePaper;
-	Animation idlePlunger;
-
 	Animation towel;
 	Animation up;
 	Animation down;
@@ -32,18 +29,10 @@ public:
 	Animation left;
 	Animation unclogging;
 
-	Animation upPaper;
-	Animation downPaper;
-	Animation rightPaper;
-	Animation leftPaper;
-
 	Animation upPlunger;
 	Animation downPlunger;
 	Animation rightPlunger;
 	Animation leftPlunger;
-
-	Animation winGame;
-	Animation loseGame;
 
 
 	p2Point<int> position;
