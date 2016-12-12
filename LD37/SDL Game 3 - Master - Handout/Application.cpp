@@ -39,12 +39,13 @@ Application::Application()
 	
 	// Characters
 	AddModule(player);
-	AddModule(client);
+
 
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
 	AddModule(bathrooms);
+	AddModule(client);
 	AddModule(closet);
 	AddModule(silks);
 	AddModule(ai);

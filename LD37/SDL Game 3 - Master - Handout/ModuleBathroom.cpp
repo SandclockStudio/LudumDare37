@@ -124,7 +124,7 @@ update_status ModuleBathroom::Update()
 		if(SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
+			//App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
 		}
 
 		
