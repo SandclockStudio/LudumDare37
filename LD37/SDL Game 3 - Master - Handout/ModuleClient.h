@@ -32,6 +32,7 @@ struct Client
 	bool exiting = false;
 	bool waitCleaning = false;
 	Uint64 t1, t2;
+	int pointClient = 0;
 	
 
 
@@ -77,6 +78,7 @@ public:
 	Client normal;
 	Client fat;
 	Animation* current_animation;
+
 
 
 	

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleClient.h"
+#include "ModulePoints.h"
 
 ModuleClient::ModuleClient(Application* app, bool start_enabled) : Module(app, start_enabled), graphics(NULL)
 {
@@ -12,6 +13,7 @@ ModuleClient::~ModuleClient()
 // Load assets
 bool ModuleClient::Start()
 {
+	
 	LOG("Loading Clients");
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
 	
@@ -53,7 +55,7 @@ update_status ModuleClient::Update()
 	{
 		Client* c = tmp->data;
 		tmp_next = tmp->next;
-
+		App->point->points += tmp->data->pointClient;
 		if (c->Update() == false)
 		{
 			active.del(tmp);
@@ -480,7 +482,7 @@ void ModuleClient::AssignSilks(Client* c)
 	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
 	//if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false)
 	{
-
+		
 		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
 		p2List_item<Silk*>* tmp_next = App->silks->active.getFirst();
 
@@ -561,6 +563,8 @@ void Client::Poop()
 					position = assignedBath->position;
 					//TODO cambiar posicion 
 					position.y -= 70;
+					if(pointClient==0)
+						pointClient += 1;
 
 					ocuppied = false;
 					assignedBath->busy = false;
@@ -579,8 +583,8 @@ void Client::Poop()
 			else
 			{
 
-
-
+				if (pointClient == 0)
+					pointClient += 5;
 				//TODO ANIMACION SALIR BAÑO
 				pooped = true;
 				position = assignedBath->position;
