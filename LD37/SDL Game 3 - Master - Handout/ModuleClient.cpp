@@ -16,8 +16,8 @@ bool ModuleClient::Start()
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
 	// idle animation normal client
 
-	normal.idle.frames.PushBack({ 24, 96, 48, 96 });
-	normal.idle.frames.PushBack({ 96 + 24, 96, 48, 96 });
+	normal.idle.frames.PushBack({ 24 * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
+	normal.idle.frames.PushBack({ (96 + 24) * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.current_animation = &normal.idle;
 	normal.idle.speed = 0.02f;
 
