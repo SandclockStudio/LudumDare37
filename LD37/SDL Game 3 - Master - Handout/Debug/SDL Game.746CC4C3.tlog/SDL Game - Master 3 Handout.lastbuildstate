@@ -1,6 +1,2 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-<<<<<<< HEAD
-Debug|Win32|C:\Users\David\Documents\GitHub\ludumdare37\LD37\SDL Game 3 - Master - Handout\|
-=======
-Debug|Win32|C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\|
->>>>>>> 2499132131c77e40f7836bfd148d1abc2d8db2df
+Debug|Win32|C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\|

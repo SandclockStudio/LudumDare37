@@ -100,9 +100,13 @@ update_status ModuleBathroom::Update()
 		if(p->openDoorAnim == true )
 		{
 			
-			if (p->outOfPaperFlagAnim) p->current_animation = &p->openDoorNoPaper;
-			else p->current_animation = &p->openDoor;
-			
+			if (p->outOfPaperFlagAnim) {
+				App->particles->AddParticle(App->particles->iconPaper, p->position.x + 20, p->position.y - 55);
+				p->current_animation = &p->openDoorNoPaper;
+			}
+			else {
+				p->current_animation = &p->openDoor;
+			}
 			p->t2 = clock();
 			if (difftime(p->t2, p->t1) > 300)
 			{
@@ -120,8 +124,8 @@ update_status ModuleBathroom::Update()
 		//Animacion atascado
 		if (p->cloggedFlagAnim == true)
 		{
-			p->animation_particle = &p->clogged;
-		
+			//p->animation_particle = &p->clogged;
+			App->particles->AddParticle(App->particles->iconPlunger, p->position.x + 20, p->position.y - 55);
 		}
 
 		if(SDL_GetTicks() >= p->born)
