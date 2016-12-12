@@ -96,13 +96,21 @@ update_status ModuleBath::Update()
 	t2 = SDL_GetPerformanceCounter();
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if(randomVar <=  0.2 && time >= 2000)
+	if(randomVar <=  0.75 && time >= 2000)
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
 		App->client->AddClient(App->client->normal, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
 	}
 	
+	/*
+	if (randomVar <= 1 && randomVar>= 0.75 && time >= 2000)
+	{
+		time = 0;
+		t1 = SDL_GetPerformanceCounter();
+		App->client->AddClient(App->client->fat, SCREEN_WIDTH + 20, (SCREEN_HEIGHT / 2) - 95, COLLIDER_CLIENT);
+	}
+	*/
 
 
 	

@@ -27,6 +27,7 @@ public:
 	Animation down;
 	Animation right;
 	Animation left;
+	Animation unclogging;
 
 	Animation upPlunger;
 	Animation downPlunger;

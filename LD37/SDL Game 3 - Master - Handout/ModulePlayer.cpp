@@ -23,13 +23,19 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	towel.loop = false;
 	towel.speed = 0.1f;
 
+	//Unclogging
+	unclogging.frames.PushBack({ 8, h * 6,		w,h});
+	unclogging.frames.PushBack({ 8 + h, 6 * h,	w,h });
+	towel.loop = true;
+	towel.speed = 0.1f;
+
 	// move upwards - OK
 	up.frames.PushBack({ 8,			h * 2,		w, h});
 	up.frames.PushBack({ 8 + h,		h * 2,		w, h });
 	up.frames.PushBack({ 8,			h * 2,		w, h });
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
 
-	up.loop = false;
+	up.loop = true;
 	up.speed = 0.1f;
 	
 	// Move down - OK
@@ -38,7 +44,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
 
-	down.loop = false;
+	down.loop = true;
 	down.speed = 0.1f;
 
 	// move left
@@ -50,7 +56,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	left.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
 	left.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
 	
-	left.loop = false;
+	left.loop = true;
 	left.speed = 0.1f;
 
 
@@ -61,7 +67,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 0, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
-	right.loop = false;
+	right.loop = true;
 	right.speed = 0.1f;
 
 
@@ -70,7 +76,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	upPlunger.frames.PushBack({ 8 + h * 4, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
-	upPlunger.loop = false;
+	upPlunger.loop = true;
 	upPlunger.speed = 0.1f;
 
 
@@ -79,17 +85,17 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPlunger.frames.PushBack({ 8 + h * 4, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
-	downPlunger.loop = false;
+	downPlunger.loop = true;
 	downPlunger.speed = 0.1f;
 
 	// move left with plunger
 	leftPlunger.frames.PushBack({ 0, 0, w, h });
-	leftPlunger.loop = false;
+	leftPlunger.loop = true;
 	leftPlunger.speed = 0.1f;
 
 	// move right with plunger
 	rightPlunger.frames.PushBack({ 0, 0, w, h });
-	rightPlunger.loop = false;
+	rightPlunger.loop = true;
 	rightPlunger.speed = 0.1f;
 
 }
