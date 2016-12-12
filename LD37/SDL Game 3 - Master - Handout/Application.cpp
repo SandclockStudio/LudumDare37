@@ -44,9 +44,8 @@ Application::Application()
 	// Misc
 	AddModule(particles);
 	AddModule(collision);
-
-	AddModule(client);
 	AddModule(bathrooms);
+	AddModule(client);
 	AddModule(closet);
 	AddModule(silks);
 	AddModule(ai);
