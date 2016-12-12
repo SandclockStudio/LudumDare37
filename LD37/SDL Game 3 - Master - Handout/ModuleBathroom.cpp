@@ -89,10 +89,9 @@ update_status ModuleBathroom::Update()
 		{
 			
 			p->current_animation = &p->openDoor;
-			p->animation_particle = &p->busyAnim;
-	
+			
 			p->t2 = clock();
-			if (difftime(p->t2, p->t1) > 5)
+			if (difftime(p->t2, p->t1) > 300)
 			{
 				p->openDoor.Reset();
 				p->openDoorAnim = false;

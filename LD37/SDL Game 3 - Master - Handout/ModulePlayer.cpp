@@ -12,26 +12,86 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	exploding = false;
 
 	// idle animation (just the ship)
-	idle.frames.PushBack({64+8, 0, 64, 64});
-	idle.frames.PushBack({ 64 * 3 +8, 0, 64, 64 });
+
+	int w = 48, h = 64;
+
+	idle.frames.PushBack({ 8 + h, 0, w, h});
+	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
 	idle.speed = 0.03;
 
-	towel.frames.PushBack({ 0, 6 * 64, 64, 64 });
-	//towel.frames.PushBack({ 132, 0, 32, 14 });
+	towel.frames.PushBack({ 8, 6 * h, w, h });
 	towel.loop = false;
 	towel.speed = 0.1f;
 
-	// move upwards
-	up.frames.PushBack({64 * 2, 0, 64, 64});
-	//up.frames.PushBack({132, 0, 32, 14});
+	// move upwards - OK
+	up.frames.PushBack({ 8,			h * 2,		w, h});
+	up.frames.PushBack({ 8 + h,		h * 2,		w, h });
+	up.frames.PushBack({ 8,			h * 2,		w, h });
+	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
+
 	up.loop = false;
 	up.speed = 0.1f;
 	
-	// Move down
-	down.frames.PushBack({0, 0, 64, 64});
-	//down.frames.PushBack({0, 1, 32, 14});
+	// Move down - OK
+	down.frames.PushBack({ 8,			h,		w, h });
+	down.frames.PushBack({ 8 + h,		h,		w, h });
+	down.frames.PushBack({ 8,			h,		w, h });
+	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
+
 	down.loop = false;
 	down.speed = 0.1f;
+
+	// move left
+	
+	left.frames.PushBack({ 8 + h * 2, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 2, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
+	
+	left.loop = false;
+	left.speed = 0.1f;
+
+
+	// move right
+	right.frames.PushBack({ 8 + h * 0, h * 3,		w, h });
+	right.frames.PushBack({ 8 + h * 1, h * 3,		w, h });
+	right.frames.PushBack({ 8 + h * 2, h * 3,		w, h });
+	right.frames.PushBack({ 8 + h * 0, h * 4,		w, h });
+	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
+	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
+	right.loop = false;
+	right.speed = 0.1f;
+
+
+	// move up with plunger
+	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
+	upPlunger.frames.PushBack({ 8 + h * 4, h * 2, w, h });
+	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
+	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
+	upPlunger.loop = false;
+	upPlunger.speed = 0.1f;
+
+
+	// move down with plunger
+	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
+	downPlunger.frames.PushBack({ 8 + h * 4, h * 1, w, h });
+	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
+	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
+	downPlunger.loop = false;
+	downPlunger.speed = 0.1f;
+
+	// move left with plunger
+	leftPlunger.frames.PushBack({ 0, 0, w, h });
+	leftPlunger.loop = false;
+	leftPlunger.speed = 0.1f;
+
+	// move right with plunger
+	rightPlunger.frames.PushBack({ 0, 0, w, h });
+	rightPlunger.loop = false;
+	rightPlunger.speed = 0.1f;
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -85,11 +145,34 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x -= speed;
+
+		if (current_animation != &left && collision == false && giveTowel == false)
+		{
+			left.Reset();
+			leftPlunger.Reset();
+		}
+
+		if (plunger) current_animation = &leftPlunger;
+		else 
+			current_animation = &left;
+		
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x += speed;
+
+		if (current_animation != &right && collision == false && giveTowel == false)
+		{
+			rightPlunger.Reset();
+			right.Reset();
+		}
+		
+		if (plunger) 
+			current_animation = &rightPlunger;
+		else
+			current_animation = &right;
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && collision == false && giveTowel == false)
@@ -98,8 +181,11 @@ update_status ModulePlayer::Update()
 		if(current_animation != &down  && collision == false && giveTowel == false)
 		{
 			down.Reset();
-			current_animation = &down;
+			downPlunger.Reset();
 		}
+
+		if (plunger) current_animation = &downPlunger;
+		else current_animation = &down;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && collision == false && giveTowel == false)
@@ -108,16 +194,14 @@ update_status ModulePlayer::Update()
 		if(current_animation != &up && collision == false && giveTowel == false)
 		{
 			up.Reset();
-			current_animation = &up;
+			upPlunger.Reset();
 		}
+
+		if (plunger) current_animation = &upPlunger;
+		else current_animation = &up;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && collision == false && giveTowel == false)
-	{
-		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && collision == false && giveTowel == false)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false)
 		current_animation = &idle;
 
 	collider->SetPos(position.x, position.y);
