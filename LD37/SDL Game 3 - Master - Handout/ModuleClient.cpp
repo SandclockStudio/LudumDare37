@@ -15,16 +15,61 @@ bool ModuleClient::Start()
 	LOG("Loading Clients");
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
 	
-	// idle animation normal client
-	normal.idle.frames.PushBack({ 24 * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
-	normal.idle.frames.PushBack({ (96 + 24) * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
+	// Animacion normal idle
+	int w = 48, h = 64;
+	float walkAnimSpeed = 0.3f;
+
+	normal.idle.frames.PushBack({ 8, 0, w, h });
+	normal.idle.frames.PushBack({ 8 + h * 3, 0, w, h });
 	normal.current_animation = &normal.idle;
 	normal.idle.speed = 0.02f;
+	normal.idle.loop = true;
 
-	//Animacion cagar
-	normal.poopingAnim.frames.PushBack({ 0,64 * 8, 64, 64});
-	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
+	//Animacion normal cagar
+	normal.poopingAnim.frames.PushBack({ 8, h * 8, w, h});
+	normal.poopingAnim.frames.PushBack({ 8 + h, h * 8, w, h });
 	normal.poopingAnim.speed = 0.02f;
+	normal.poopingAnim.loop = true;
+
+	//Animacion normal izquierda
+	normal.walking_left.frames.PushBack({ 8, h * 5, w, h});
+	normal.walking_left.frames.PushBack({ 8 + h, h * 5, w, h });
+	normal.walking_left.frames.PushBack({ 8, h * 5, w, h });
+	normal.walking_left.frames.PushBack({ 8 + h * 2, h * 5, w, h });
+	normal.walking_left.speed = walkAnimSpeed;
+	normal.walking_left.loop = true;
+
+	//Animacion normal derecha
+	normal.walking_left.frames.PushBack({ 8, h * 4, w, h});
+	normal.walking_left.frames.PushBack({ 8 + h, h * 4, w, h });
+	normal.walking_left.frames.PushBack({ 8, h * 4, w, h });
+	normal.walking_left.frames.PushBack({ 8 + h * 2, h * 4, w, h });
+	normal.walking_left.speed = walkAnimSpeed;
+	normal.walking_left.loop = true;
+	
+	//Animacion normal arriba
+	normal.walking_up.frames.PushBack({ 8, h * 3, w, h});
+	normal.walking_up.frames.PushBack({ 8 + h, h * 3, w, h });
+	normal.walking_up.frames.PushBack({ 8, h * 3, w, h });
+	normal.walking_up.frames.PushBack({ 8 + h * 2, h * 3, w, h });
+	normal.walking_up.speed = walkAnimSpeed;
+	normal.walking_up.loop = true;
+
+	//Animacion normal abajo
+	normal.walking_down.frames.PushBack({ 8, h * 2, w, h});
+	normal.walking_down.frames.PushBack({ 8 + h, h * 2, w, h });
+	normal.walking_down.frames.PushBack({ 8, h * 2, w, h });
+	normal.walking_down.frames.PushBack({ 8 + h * 2, h * 2, w, h });
+	normal.walking_down.speed = walkAnimSpeed;
+	normal.walking_down.loop = true;
+
+
+	//Animacion fat idle
+	//Animacion fat cagar
+	//Animacion fat izquierda
+	//Animacion fat derecha
+	//Animacion fat arriba
+	//Animacion fat abajo
 
 	normal.assignedBath = new Bath();
 
@@ -64,12 +109,22 @@ update_status ModuleClient::Update()
 			AssignBaths(c);
 			AssignSilks(c);
 
+
+
 			if (c->pooping)
 			{
 				c->current_animation = &c->poopingAnim;
 			}
 			else
-				c->current_animation = &c->idle;
+			{
+				if (c->targetPosition.x > 0)
+					c->current_animation = &c->walking_right;
+				else if(c->targetPosition.x < 0)
+					c->current_animation = &c->walking_left;
+				else if(c->targetPosition.x == 0)
+					c->current_animation = &c->idle;
+			}
+				
 		
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(c->current_animation->GetCurrentFrame()));
 
@@ -208,6 +263,11 @@ Client::Client(const Client & c) : collider(c.collider)
 	shitRest = c.shitRest;
 	paperRest = c.paperRest;
 	assignedBath = c.assignedBath;
+	walking_down = c.walking_down;
+	walking_left = c.walking_left;
+	walking_right = c.walking_right;
+	walking_up = c.walking_up;
+
 	t1 = 0;
 	t2 = 0;
 
@@ -217,7 +277,6 @@ Client::Client(const Client & c) : collider(c.collider)
 
 bool Client::Update()
 {
-
 
 	if (collider != NULL)
 	{
@@ -256,14 +315,15 @@ bool Client::Update()
 	p2Point<int> temp = target;
 	temp -= position;
 
-
+	targetPosition = temp;
+	
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
 	if (temp.IsZero() && ocuppied == true && pooped == false || ocuppied == true && pooping == true)
 	{
 
 		position = assignedBath->getCenter();
 		position.y -=23;
-		position.x -=32 ;
+		position.x -= 24;
 		
 
 
