@@ -14,70 +14,47 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 
-	graphics2 = App->textures->Load("ld37/spritesheet-UI.png");
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
-	iconPlunger.anim.loop = false;
+	graphics = App->textures->Load("ld37/spritesheet-UI.png");
+	iconPlunger.anim.frames.PushBack({ 612, 0, 50, 50});
+	iconPlunger.anim.loop = true;
 	iconPlunger.anim.speed = 0.1f;
 
-
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.frames.PushBack({ 809,7,33,34 });
-	iconPaper.anim.loop = false;
+	iconPaper.anim.frames.PushBack({ 762, 0, 50, 50 });
+	iconPaper.anim.loop = true;
 	iconPaper.anim.speed = 0.1f;
 
-	graphics = App->textures->Load("ld37/spritesheet-bathroom.png");
-
-	plunger.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ABRIRSE");
-	plunger.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
-	plunger.anim.frames.PushBack({ 48 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
-	plunger.anim.frames.PushBack({ 96 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
-	plunger.anim.frames.PushBack({ 144 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
-	plunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
-	plunger.anim.loop = true;
-	plunger.anim.speed = 0.15f;
-
+	
 	
 	//Animacion atascado
-	plogged.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+	//plogged.anim.frames.PushBack({ 512 + 56 * 2, 0, 56, 56 });
 
 	// Animacion no plunger
-	noplunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
-	noplunger.anim.frames.PushBack({ 48 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
-	noplunger.anim.frames.PushBack({ 96 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
-	noplunger.anim.frames.PushBack({ 144 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
-	noplunger.anim.loop = false;
-	noplunger.anim.speed = 0.3f;
+	//noplunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	//noplunger.anim.frames.PushBack({ 48 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	//noplunger.anim.frames.PushBack({ 96 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	//noplunger.anim.frames.PushBack({ 144 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
+	//noplunger.anim.loop = false;
+	//noplunger.anim.speed = 0.3f;
 
 	// Explosion particle
 	//graphics = App->textures->Load("rtype/spritesheet-bathroom");
-	explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
-	explosion.anim.frames.PushBack({274, 296, 33, 30});
-	explosion.anim.frames.PushBack({313, 296, 33, 30});
-	explosion.anim.frames.PushBack({346, 296, 33, 30});
-	explosion.anim.frames.PushBack({382, 296, 33, 30});
-	explosion.anim.frames.PushBack({419, 296, 33, 30});
-	explosion.anim.frames.PushBack({457, 296, 33, 30});
-	explosion.anim.loop = false;
-	explosion.anim.speed = 0.3f;
+	//explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
+	//explosion.anim.frames.PushBack({274, 296, 33, 30});
+	//explosion.anim.frames.PushBack({313, 296, 33, 30});
+	//explosion.anim.frames.PushBack({346, 296, 33, 30});
+	//explosion.anim.frames.PushBack({382, 296, 33, 30});
+	//explosion.anim.frames.PushBack({419, 296, 33, 30});
+	//explosion.anim.frames.PushBack({457, 296, 33, 30});
+	//explosion.anim.loop = false;
+	//explosion.anim.speed = 0.3f;
 
-	// Laser particle
-	laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
-	laser.anim.frames.PushBack({200, 120, 32, 12});
-	laser.anim.frames.PushBack({230, 120, 32, 12});
-	laser.speed.x = 7;
-	laser.life = 1000;
-	laser.anim.speed = 0.05f;
+	//// Laser particle
+	//laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
+	//laser.anim.frames.PushBack({200, 120, 32, 12});
+	//laser.anim.frames.PushBack({230, 120, 32, 12});
+	//laser.speed.x = 7;
+	//laser.life = 1000;
+	//laser.anim.speed = 0.05f;
 
 	//Paper particle
 	//Plunger particle
@@ -90,7 +67,6 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
-	App->textures->Unload(graphics2);
 	return true;
 }
 
@@ -113,7 +89,6 @@ update_status ModuleParticles::Update()
 		else if (SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
-			App->renderer->Blit(graphics2, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;

@@ -70,12 +70,14 @@ update_status ModuleSceneIntro::Update()
 
 	if (menu == START)
 	{
-		App->renderer->DrawQuad({ 750,385,420,125 }, 255, 0, 0, 80, true);
+		SDL_Rect menu = { 511, 384,	512, 384 };
+		App->renderer->Blit(graphics, 0, 0, &menu, 0.0f);
 	}
 	
 	if (menu == EXIT)
 	{
-		App->renderer->DrawQuad({ 750,565,420,125 }, 255, 0, 0, 80, true);
+		SDL_Rect menu = { 0, 384,	512, 384 };
+		App->renderer->Blit(graphics, 0, 0, &menu, 0.0f);
 	}
 
 	return UPDATE_CONTINUE;

@@ -50,7 +50,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	up.frames.PushBack({ 8,			h * 2,		w, h });
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
 	up.loop = true;
+<<<<<<< HEAD
 	up.speed = walkingSpeed;
+=======
+	up.speed = 0.3f;
+>>>>>>> f44c31a9f1e50b54d4a952345795943884ab5915
 	
 	// Move down - OK
 	down.frames.PushBack({ 8,			h,		w, h });
@@ -58,7 +62,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
 	down.loop = true;
+<<<<<<< HEAD
 	down.speed = walkingSpeed;
+=======
+	down.speed = 0.3f;
+>>>>>>> f44c31a9f1e50b54d4a952345795943884ab5915
 
 	// move left
 	left.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
@@ -68,7 +76,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	left.frames.PushBack({ 8 + h * 6, h * 6,		w, h });
 	left.frames.PushBack({ 8 + h * 7, h * 6,		w, h });
 	left.loop = true;
+<<<<<<< HEAD
 	left.speed = walkingSpeed;
+=======
+	left.speed = 0.3f;
+>>>>>>> f44c31a9f1e50b54d4a952345795943884ab5915
 
 
 	// move right
@@ -79,7 +91,11 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
 	right.loop = true;
+<<<<<<< HEAD
 	right.speed = walkingSpeed;
+=======
+	right.speed = 0.3f;
+>>>>>>> f44c31a9f1e50b54d4a952345795943884ab5915
 
 
 	// move up with plunger

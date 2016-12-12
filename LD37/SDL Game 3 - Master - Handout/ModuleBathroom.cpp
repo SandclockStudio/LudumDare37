@@ -67,6 +67,7 @@ update_status ModuleBathroom::Update()
 {
 	p2List_item<Bath*>* tmp = active.getFirst();
 	p2List_item<Bath*>* tmp_next = active.getFirst();
+	int checkBathColapsing = 0;
 
 	while (tmp != NULL)
 	{
@@ -124,7 +125,22 @@ update_status ModuleBathroom::Update()
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
 		}
 
-		
+		if (p->outOfPaperFlagAnim || p->cloggedFlagAnim)
+		{
+			checkBathColapsing++;
+			
+		}
+
+		/*
+		if (checkBathColapsing >= 4)
+		{
+			App->bath_scene->CleanUp();
+
+			App->fade->FadeToBlack(this, App->scene_intro, 0.0f);
+			
+			
+		}
+		*/
 
 		tmp = tmp_next;
 	}
@@ -134,7 +150,10 @@ update_status ModuleBathroom::Update()
 
 bool ModuleBathroom::CleanUp()
 {
-	return false;
+	LOG("Unloading particles");
+	//App->textures->Unload(graphics);
+
+	return true;
 }
 
 void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
@@ -148,6 +167,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		Collider* aux = tmp->data->collider;
 
 		//Colision entrar en baño cliente.
+		
 		if (aux == c1 && c2->type == COLLIDER_CLIENT)
 		{
 			
@@ -162,6 +182,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 
 			break;
 		}
+		
 
 		//Colision para arreglar papel
 		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount <= 0)
