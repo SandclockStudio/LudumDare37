@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-﻿  ModuleSceneIntro.cpp
-  SDL Game.vcxproj -> C:\Users\Nombre\Desktop\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
-  SDL Game.vcxproj -> C:\Users\Nombre\Desktop\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
-=======
 ﻿  ModulePlayer.cpp
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(20): warning C4305: '=': truncation from 'double' to 'float'
-  SDL Game.vcxproj -> C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
-  SDL Game.vcxproj -> C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
->>>>>>> 08d9511f9b4e69aa5d619bc6cf99ad6921a21925
+c:\users\david\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(17): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\david\documents\github\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.cpp(18): warning C4305: 'initializing': truncation from 'double' to 'float'
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)

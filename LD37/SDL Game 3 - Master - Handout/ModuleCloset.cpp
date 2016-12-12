@@ -34,6 +34,7 @@ update_status ModuleCloset::Update()
 			App->particles->AddParticle(App->particles->iconPlunger, 45, 15);
 			App->player->plunger = true;
 			App->player->paper = false;
+
 		}
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && App->player->paper == false)
 		{
