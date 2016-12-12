@@ -26,10 +26,10 @@ bool ModuleClient::Start()
 	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
 	normal.poopingAnim.speed = 0.02f;
 
-	
+	normal.assignedBath = new Bath();
 
 	normal.shitRest = 1;
-	normal.paperRest = 5;
+	normal.paperRest = 15;
 
 	fat.shitRest = 4;
 	fat.paperRest = 2;
@@ -82,7 +82,7 @@ update_status ModuleClient::Update()
 		}
 
 		
-		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-70 )
+		if (tmp->data->pooped && tmp->data->position.x >= SCREEN_WIDTH-20 )
 		{
 
 			
@@ -149,13 +149,7 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			
 		}
 
-		//Colision cliente y pila.
-		if (aux == c1 && c2->type == COLLIDER_SILK && tmp->data->cleanRequest == true)
-		{
-			tmp->data->cleanRequest = false;
-			break;
-		}
-
+		
 	
 		tmp = tmp->next;
 	}
@@ -189,6 +183,7 @@ Client::Client() : collider(NULL)
 	cleanRequest = false;
 	handCleaned = false;
 	exiting = false;
+	pooping = false;
 }
 
 Client::Client(const Client & c) : collider(c.collider)
@@ -212,7 +207,7 @@ Client::Client(const Client & c) : collider(c.collider)
 	idle = c.idle;
 	shitRest = c.shitRest;
 	paperRest = c.paperRest;
-	shitRest =
+	assignedBath = c.assignedBath;
 	t1 = 0;
 	t2 = 0;
 
@@ -255,8 +250,8 @@ bool Client::Update()
 	
 
 	p2Point<int> exit;
-	exit.x = 500;
-	exit.y = 150;
+	exit.x = SCREEN_WIDTH;
+	exit.y = SCREEN_HEIGHT/2-125;
 
 	p2Point<int> temp = target;
 	temp -= position;
@@ -269,6 +264,7 @@ bool Client::Update()
 		position = assignedBath->getCenter();
 		position.y -=23;
 		position.x -=32 ;
+		
 
 
 		if (t1 == 0)
@@ -304,15 +300,16 @@ bool Client::Update()
 	}
 
 	//hemos hecho caca, tengo request de lavarme las manos, no me las he lavado -> vamos a lavarnos las manos
+	/*
 	if (pooped == true && cleanRequest == true && washingHands == false)
 	{
 		LOG("going to silk ");
 		position += GoToPosition(silk);
 	}
-
+	*/
 
 	// si hemos hecho caca y nos hemos lavado las manos nos dirijimos a la salida
-	if (pooped == true && pooping == false && handCleaned == true)
+	if (pooped == true && pooping == false)
 	{
 		LOG("going to exit ");
 
@@ -349,6 +346,7 @@ p2Point<int> Client::GoToPosition(p2Point<int> target)
 	//normalizar y escalar
 	p2Point<int> velocity =  vec.Normalize().Scale(max_speed);
 
+
 	return velocity;
 }
 
@@ -371,6 +369,7 @@ p2Point<int> Client::SearchSilk()
 	if (cleanRequest == true)
 	{
 		p2Point<int> temp = assignedSilk->position;
+		temp.y -= 50;
 		//temp.y += 10;
 		//temp.x += 40;
 		return temp;
@@ -603,12 +602,6 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 		Client* c = tmp->data;
 		tmp_next = tmp->next;
 
-		if (c->Update() == false)
-		{
-			active.del(tmp);
-			delete c;
-		}
-		
 		if (abs(c->position.x - pos.x)<=30 && abs(c->position.y- pos.y)<=30)
 		{
 			return c;
