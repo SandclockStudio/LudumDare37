@@ -12,8 +12,9 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	exploding = false;
 
 	// idle animation (just the ship)
-	idle.frames.PushBack({64, 0, 64, 64});
-	idle.frames.PushBack({ 64 * 3, 0, 64, 64 });
+	idle.frames.PushBack({64+8, 0, 64, 64});
+	idle.frames.PushBack({ 64 * 3 +8, 0, 64, 64 });
+	idle.speed = 0.03;
 
 	towel.frames.PushBack({ 0, 6 * 64, 64, 64 });
 	//towel.frames.PushBack({ 132, 0, 32, 14 });
@@ -27,7 +28,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	up.speed = 0.1f;
 	
 	// Move down
-	down.frames.PushBack({64, 0, 64, 64});
+	down.frames.PushBack({0, 0, 64, 64});
 	//down.frames.PushBack({0, 1, 32, 14});
 	down.loop = false;
 	down.speed = 0.1f;
@@ -41,11 +42,11 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/spritesheet-maincharacter.png");
+	graphics = App->textures->Load("ld37/spritesheet-maincharacter.png");
 
 	position.x = 150;
 	position.y = 120;
-	collider = App->collision->AddCollider({position.x, position.y, 32, 14}, COLLIDER_PLAYER, this);
+	collider = App->collision->AddCollider({position.x, position.y, 48, 64}, COLLIDER_PLAYER, this);
 	giveTowel = false;
 	exploding = false;
 	collision = false;
