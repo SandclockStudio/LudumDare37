@@ -25,6 +25,13 @@ bool ModuleClient::Start()
 	normal.poopingAnim.frames.PushBack({ 0,64 * 8, 64, 64});
 	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
 	normal.poopingAnim.speed = 0.02f;
+
+
+	normal.shitRest = 1;
+	normal.paperRest = 2;
+
+	fat.shitRest = 4;
+	fat.paperRest = 2;
 	return true;
 }
 
@@ -202,7 +209,9 @@ Client::Client(const Client & c) : collider(c.collider)
 	exiting = c.exiting;
 	poopingAnim = c.poopingAnim;
 	idle = c.idle;
-
+	shitRest = c.shitRest;
+	paperRest = c.paperRest;
+	shitRest =
 	t1 = 0;
 	t2 = 0;
 
@@ -599,7 +608,7 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 			delete c;
 		}
 		
-		if (abs(c->position.x - pos.x)<=3 && abs(c->position.y- pos.y)<=3)
+		if (abs(c->position.x - pos.x)<=30 && abs(c->position.y- pos.y)<=30)
 		{
 			return c;
 		}
