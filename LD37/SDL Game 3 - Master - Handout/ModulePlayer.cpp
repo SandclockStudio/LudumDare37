@@ -106,7 +106,7 @@ bool ModulePlayer::Start()
 
 	position.x = 150;
 	position.y = 120;
-	collider = App->collision->AddCollider({position.x, position.y, 48, 64}, COLLIDER_PLAYER, this);
+	collider = App->collision->AddCollider({position.x+20, position.y+25, 25, 40}, COLLIDER_PLAYER, this);
 	giveTowel = false;
 	exploding = false;
 	collision = false;
@@ -204,7 +204,7 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false)
 		current_animation = &idle;
 
-	collider->SetPos(position.x, position.y);
+	collider->SetPos(position.x + 10, position.y + 25);
 
 	// Draw everything --------------------------------------
 

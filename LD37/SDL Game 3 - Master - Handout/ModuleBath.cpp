@@ -27,7 +27,7 @@ bool ModuleBath::Start()
 	t1 = SDL_GetPerformanceCounter();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
+	//App->client->AddClient(App->client->normal, 50, 50, COLLIDER_CLIENT);
 
 	int scale = 4;
 
@@ -96,11 +96,11 @@ update_status ModuleBath::Update()
 	t2 = SDL_GetPerformanceCounter();
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-	if(randomVar <=  0.2 && time >= 7000)
+	if(randomVar <=  0.2 && time >= 2000)
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->normal, SCREEN_WIDTH+50, (SCREEN_HEIGHT/2)-20, COLLIDER_CLIENT);
 	}
 	
 

@@ -1,24 +1,4 @@
-﻿  ModuleFadeToBlack.cpp
-  Generating Code...
-  Compiling...
-  Application.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  ModuleWindow.cpp
-  ModuleTextures.cpp
-  ModuleSilk.cpp
-  ModuleSceneIntro.cpp
-  ModuleRender.cpp
-  ModulePlayer.cpp
-  ModuleParticles.cpp
-  ModuleInput.cpp
-  ModuleCollision.cpp
-  ModuleCloset.cpp
-  ModuleClient.cpp
-  ModuleBathroom.cpp
-  ModuleBath.cpp
-  ModuleAudio.cpp
-  ModuleAI.cpp
-  Main.cpp
-  SDL Game.vcxproj -> C:\Users\David\ludumdare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
-  SDL Game.vcxproj -> C:\Users\David\ludumdare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)
+﻿  ModuleBath.cpp
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\modulebath.cpp(97): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+  SDL Game.vcxproj -> C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe
+  SDL Game.vcxproj -> C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.pdb (Full PDB)

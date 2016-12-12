@@ -25,6 +25,16 @@ bool ModuleParticles::Start()
 	plunger.anim.loop = true;
 	plunger.anim.speed = 0.15f;
 
+	graphics2 = App->textures->Load("ld37/spritesheet-UI.png");
+	iconPlunger.anim.frames.PushBack({620,8,33,34});
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.frames.PushBack({ 620,8,33,34 });
+	iconPlunger.anim.loop = false;
+	iconPlunger.anim.speed = 0.1f;
 	//Animacion atascado
 	plogged.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
 
@@ -67,6 +77,7 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
+	App->textures->Unload(graphics2);
 	return true;
 }
 
@@ -89,6 +100,7 @@ update_status ModuleParticles::Update()
 		else if (SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			App->renderer->Blit(graphics2, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;

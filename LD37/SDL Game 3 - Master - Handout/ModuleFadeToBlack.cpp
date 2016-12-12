@@ -58,7 +58,7 @@ update_status ModuleFadeToBlack::Update()
 		}
 	}
 
-	SDL_Rect overlay = { 256 * SCALE, 0 * SCALE,	256 * SCALE, 192 * SCALE };
+	SDL_Rect overlay = { 0 * SCALE, 0 * SCALE,	0 * SCALE, 0 * SCALE };
 	App->renderer->Blit(spritesheet, 0, 0, &overlay, 0.0f);
 
 

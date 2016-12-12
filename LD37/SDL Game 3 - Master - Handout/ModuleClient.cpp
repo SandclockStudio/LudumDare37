@@ -218,7 +218,7 @@ bool Client::Update()
 	{
 
 		SDL_Rect r = current_animation->PeekCurrentFrame();
-		collider->rect = { position.x, position.y, r.w, r.h };
+		collider->rect = { position.x, position.y+25, r.w, r.h-25 };
 
 	}
 	else
@@ -535,7 +535,7 @@ void Client::Poop()
 		pooped = true;
 		position = assignedBath->position;
 		//TODO cambiar posicion 
-		position.y -= 20;
+		position.y -= 70;
 
 		ocuppied = false;
 		assignedBath->busy = false;

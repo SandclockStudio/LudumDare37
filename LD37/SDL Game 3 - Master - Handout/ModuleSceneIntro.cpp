@@ -50,7 +50,7 @@ update_status ModuleSceneIntro::Update()
 	if(App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP && menu == START)
 	{
 		App->audio->PlayFx(fx);
-		App->fade->FadeToBlack(this, App->bath_scene, 3.0f);
+		App->fade->FadeToBlack(this, App->bath_scene,1.0f);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP && menu == EXIT)

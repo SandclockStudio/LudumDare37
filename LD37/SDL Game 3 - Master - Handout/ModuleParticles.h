@@ -39,6 +39,7 @@ public:
 private:
 
 	SDL_Texture* graphics;
+	SDL_Texture* graphics2;
 	p2List<Particle*> active;
 
 public:
@@ -46,7 +47,8 @@ public:
 	Particle explosion;
 	Particle laser;
 	Particle plunger;
-	Particle paper;
+	Particle iconPlunger;
+	Particle iconPaper;
 	Particle noplunger;
 	Particle plogged;
 
