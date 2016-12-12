@@ -17,6 +17,7 @@ struct Particle
 	bool fx_played;
 	Collider* collider;
 
+	bool plogged;
 	Particle();
 	Particle(const Particle& p);
 	bool Update();
@@ -47,5 +48,6 @@ public:
 	Particle plunger;
 	Particle paper;
 	Particle noplunger;
+	Particle plogged;
 
 };

@@ -34,6 +34,7 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 	matrix[COLLIDER_CLIENT][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_CLIENT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_CLIENT][COLLIDER_BATHROOM] = true;
+	matrix[COLLIDER_CLIENT][COLLIDER_CLIENT] = false;
 
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER] = false;

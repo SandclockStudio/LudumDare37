@@ -16,11 +16,15 @@ bool ModuleClient::Start()
 	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
 	// idle animation normal client
 
-	normal.idle.frames.PushBack({ 24, 96, 48, 96 });
-	normal.idle.frames.PushBack({ 96 + 24, 96, 48, 96 });
+	normal.idle.frames.PushBack({ 24 * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
+	normal.idle.frames.PushBack({ (96 + 24) * 2 / 3, 96 * 2 / 3, 48 * 2 / 3, 96 * 2 / 3 });
 	normal.current_animation = &normal.idle;
 	normal.idle.speed = 0.02f;
 
+	//Animacion cagar
+	normal.poopingAnim.frames.PushBack({ 0,64 * 8, 64, 64});
+	normal.poopingAnim.frames.PushBack({ 64,64 * 8, 64, 64 });
+	normal.poopingAnim.speed = 0.02f;
 	return true;
 }
 
@@ -51,8 +55,17 @@ update_status ModuleClient::Update()
 		{
 			AssignBaths(c);
 			AssignSilks(c);
-			App->renderer->Blit(graphics, c->position.x, c->position.y, &(normal.current_animation->GetCurrentFrame()));
 
+			if (c->pooping)
+			{
+				c->current_animation = &c->poopingAnim;
+			}
+			else
+				c->current_animation = &c->idle;
+		
+			App->renderer->Blit(graphics, c->position.x, c->position.y, &(c->current_animation->GetCurrentFrame()));
+
+		
 			if (c->fx_played == false)
 			{
 				c->fx_played = true;
@@ -60,17 +73,18 @@ update_status ModuleClient::Update()
 			}
 		}
 
+		
 		if (tmp->data->pooped && tmp->data->handCleaned && tmp->data->position.x >= SCREEN_WIDTH-30 )
 		{
 
 			
 			tmp->data->collider->type = COLLIDER_NONE;
-			delete tmp->data;
+			//delete tmp->data;
 			active.del(tmp);
 
 			break;
 		}
-
+		
 		tmp = tmp_next;
 	}
 
@@ -134,7 +148,7 @@ void ModuleClient::OnCollision(Collider* c1, Collider* c2)
 			break;
 		}
 
-		
+	
 		tmp = tmp->next;
 	}
 	
@@ -186,6 +200,8 @@ Client::Client(const Client & c) : collider(c.collider)
 	cleanRequest = c.cleanRequest;
 	handCleaned = c.cleanRequest;
 	exiting = c.exiting;
+	poopingAnim = c.poopingAnim;
+	idle = c.idle;
 
 	t1 = 0;
 	t2 = 0;
@@ -241,6 +257,10 @@ bool Client::Update()
 	{
 
 		position = assignedBath->getCenter();
+		position.y -=23;
+		position.x -=32 ;
+
+
 		if (t1 == 0)
 		{
 			pooping = true;

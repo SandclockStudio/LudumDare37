@@ -25,6 +25,9 @@ bool ModuleParticles::Start()
 	plunger.anim.loop = true;
 	plunger.anim.speed = 0.15f;
 
+	//Animacion atascado
+	plogged.anim.frames.PushBack({ 0 * SCALE, 214 * SCALE, 48 * SCALE, 56 * SCALE });
+
 	// Animacion no plunger
 	noplunger.anim.frames.PushBack({ 0 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
 	noplunger.anim.frames.PushBack({ 48 * SCALE, 270 * SCALE, 48 * SCALE, 56 * SCALE });
@@ -117,6 +120,7 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 			break;
 		}
 
+	
 		tmp = tmp->next;
 	}
 }

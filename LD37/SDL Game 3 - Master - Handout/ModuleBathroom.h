@@ -9,11 +9,12 @@
 #include "p2List.h"
 #include "ModuleCollision.h"
 #include <time.h>
+
 using namespace std;
 
 struct Bath
 {
-	Animation openDoor,busyAnim,outOfPaper,clogged,idle;
+	Animation openDoor,busyAnim,outOfPaper,clogged,idle,idle_particle;
 
 	unsigned int fx;
 	p2Point<int> position;
@@ -26,10 +27,10 @@ struct Bath
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
 	clock_t t1,t2;
 	Animation* current_animation;
+	Animation* animation_particle;
 	p2Point<int> getCenter();
 	Bath();
 	Bath(const Bath& p);
-
 	bool Update();
 };
 

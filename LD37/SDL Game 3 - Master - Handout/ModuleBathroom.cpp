@@ -2,7 +2,6 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleBathroom.h"
-#include "Module.h"
 #include "Application.h"
 
 ModuleBathroom::ModuleBathroom(Application * app, bool start_enabled) : Module(app, start_enabled)
@@ -32,6 +31,13 @@ bool ModuleBathroom::Start()
 	bath.openDoor.loop = false;
 	bath.openDoor.speed = 0.3f;
 
+
+	//icono idle 
+	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
+	bath.idle_particle.frames.PushBack({ 0 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
+	bath.idle_particle.loop = true;
+	bath.idle_particle.speed = 0.3f;
+
 	// Animacion baño ocupado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-OCUPARSE");
 	bath.busyAnim.frames.PushBack({ 40 * SCALE, 200 * SCALE, 40 * SCALE, 64 * SCALE });
@@ -51,6 +57,8 @@ bool ModuleBathroom::Start()
 	bath.clogged.speed = 0.3f;
 
 
+	
+
 
 	return true;
 }
@@ -65,7 +73,7 @@ update_status ModuleBathroom::Update()
 		Bath* p = tmp->data;
 		tmp_next = tmp->next;
 		p->current_animation = &p->idle;
-		
+		p->animation_particle = &p->idle_particle;
 		if (p->paperCount >  0)
 		{
 			p->outOfPaperFlagAnim = false;
@@ -76,53 +84,29 @@ update_status ModuleBathroom::Update()
 			p->outOfPaperFlagAnim = false;
 		}
 
-		
-
 		//Animacion abrir puerta
 		if(p->openDoorAnim == true)
 		{
 			
 			p->current_animation = &p->openDoor;
-			if (p->fx_played == false)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
-		
-
-		}
-
-		//Animacion ocupado
-		if (p->busyFlagAnim == true)
-		{
-			p->current_animation = &p->busyAnim;
-			
-			if (p->fx_played == false)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
-
+			p->animation_particle = &p->busyAnim;
+	
 			p->t2 = clock();
 			if (difftime(p->t2, p->t1) > 5)
 			{
+				p->openDoor.Reset();
+				p->openDoorAnim = false;
 				p->busyFlagAnim = false;
 			}
-		}
 
+		}
 
 
 		//Animacion outOfPaper
 		if (p->outOfPaperFlagAnim == true)
 		{
-			p->current_animation = &p->outOfPaper;
-			if (p->fx_played == false)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
-
-			
+			p->animation_particle = &p->outOfPaper;
+	
 		}
 
 		//Animacion atascado
@@ -135,14 +119,16 @@ update_status ModuleBathroom::Update()
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
 			}
-
-			 
 		}
 
 		if(SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
+			//App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->animation_particle->GetCurrentFrame()));
 		}
+
+		
+
 		tmp = tmp_next;
 	}
 
@@ -239,6 +225,7 @@ Bath::Bath(const Bath & p)
 	outOfPaper = p.outOfPaper;
 	clogged = p.clogged;
 	idle = p.idle;
+	idle_particle = p.idle_particle;
 
 	fx_played = false;
 	busy = false;
