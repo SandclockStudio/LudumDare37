@@ -12,7 +12,7 @@
 struct Client
 {
 	Animation* current_animation;
-	Animation idle, walking, washing;
+	Animation idle, walking, washing,poopingAnim;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
 	unsigned int shitRest,paperRest;
 	p2Point<int> position;
