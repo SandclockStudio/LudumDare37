@@ -28,7 +28,7 @@ bool ModuleClient::Start()
 
 
 	normal.shitRest = 1;
-	normal.paperRest = 2;
+	normal.paperRest = 10;
 
 	fat.shitRest = 4;
 	fat.paperRest = 2;
