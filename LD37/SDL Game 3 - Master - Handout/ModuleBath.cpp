@@ -60,8 +60,8 @@ bool ModuleBath::Start()
 	App->silks->AddSilk(App->silks->silk, 105 * scale, 2 * scale, COLLIDER_SILK);
 
 	App->collision->AddCollider({ 0, 0, 8, SCREEN_HEIGHT }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 150 }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH - 8, 240, 8, 150 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 110 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH - 8, 170, 8, 220 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 8, 8, 100, 80 }, COLLIDER_WALL, this);
 	return true;
 }
@@ -100,7 +100,7 @@ update_status ModuleBath::Update()
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, SCREEN_WIDTH+50, (SCREEN_HEIGHT/2)-20, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->normal, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
 	}
 	
 
