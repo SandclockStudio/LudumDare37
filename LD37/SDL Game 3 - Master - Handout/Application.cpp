@@ -19,6 +19,8 @@ Application::Application()
 	bathrooms = new ModuleBathroom(this, true);
 	silks = new ModuleSilk(this, true);
 	closet = new ModuleCloset(this, true);
+	point = new ModulePoints(this, true);
+
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -36,6 +38,7 @@ Application::Application()
 	// Scenes
 	AddModule(bath_scene);
 	AddModule(scene_intro);
+	AddModule(point);
 	
 	// Characters
 	AddModule(player);

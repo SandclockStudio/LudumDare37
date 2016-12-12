@@ -20,6 +20,8 @@
 #include "ModuleBathroom.h"
 #include "ModuleSilk.h"
 #include "ModuleCloset.h"
+#include "ModulePoints.h"
+
 
 
 class Application
@@ -41,6 +43,8 @@ public:
 	ModuleCollision* collision;
 	ModuleAI* ai;
 	ModuleCloset* closet;
+	ModulePoints* point;
+
 
 private:
 

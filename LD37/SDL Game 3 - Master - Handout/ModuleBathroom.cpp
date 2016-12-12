@@ -156,7 +156,7 @@ update_status ModuleBathroom::Update()
 bool ModuleBathroom::CleanUp()
 {
 	LOG("Unloading particles");
-	//App->textures->Unload(graphics);
+	App->textures->Unload(graphics);
 
 	return true;
 }
