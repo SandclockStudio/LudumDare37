@@ -21,18 +21,32 @@ public:
 	SDL_Texture* graphics;
 	Collider* collider;
 	Animation* current_animation;
+
 	Animation idle;
+	Animation idlePaper;
+	Animation idlePlunger;
+
+	Animation unclogging;
 	Animation towel;
+
+	Animation win;
+	Animation lose;
+	
 	Animation up;
 	Animation down;
 	Animation right;
 	Animation left;
-	Animation unclogging;
+
+	Animation upPaper;
+	Animation downPaper;
+	Animation rightPaper;
+	Animation leftPaper;
 
 	Animation upPlunger;
 	Animation downPlunger;
 	Animation rightPlunger;
 	Animation leftPlunger;
+
 
 
 	p2Point<int> position;

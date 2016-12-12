@@ -14,10 +14,20 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	// idle animation (just the ship)
 
 	int w = 48, h = 64;
+	float walkAnimSpeed = 0.3;
+	float idleAnimSpeed = 0.03;
 
 	idle.frames.PushBack({ 8 + h, 0, w, h});
 	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
-	idle.speed = 0.03;
+	idle.speed = idleAnimSpeed;
+
+	idlePlunger.frames.PushBack({ 8 + h * 5, 0, w, h });
+	idlePlunger.frames.PushBack({ 8 + h * 7, 0, w, h });
+	idlePlunger.speed = idleAnimSpeed;
+
+	idlePaper.frames.PushBack({ 8 + h, 0, w, h });
+	idlePaper.frames.PushBack({ 8 + h * 3, 0, w, h });
+	idlePaper.speed = idleAnimSpeed;
 
 	towel.frames.PushBack({ 8, 6 * h, w, h });
 	towel.loop = false;
@@ -26,38 +36,34 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	//Unclogging
 	unclogging.frames.PushBack({ 8, h * 6,		w,h});
 	unclogging.frames.PushBack({ 8 + h, 6 * h,	w,h });
-	towel.loop = true;
-	towel.speed = 0.1f;
+	unclogging.loop = true;
+	unclogging.speed = 0.3f;
 
 	// move upwards - OK
 	up.frames.PushBack({ 8,			h * 2,		w, h});
 	up.frames.PushBack({ 8 + h,		h * 2,		w, h });
 	up.frames.PushBack({ 8,			h * 2,		w, h });
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
-
 	up.loop = true;
-	up.speed = 0.3f;
+	up.speed = walkAnimSpeed;
 	
 	// Move down - OK
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h,		h,		w, h });
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
-
 	down.loop = true;
-	down.speed = 0.3f;
+	down.speed = walkAnimSpeed;
 
 	// move left
-	
-	left.frames.PushBack({ 8 + h * 2, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 2, h * 6,		w, h });
-	left.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
-	left.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
-	
+	left.frames.PushBack({ 8 + h * 7, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 6, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 7, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 6, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 5, h * 6,		w, h });
 	left.loop = true;
-	left.speed = 0.3f;
+	left.speed = walkAnimSpeed;
 
 
 	// move right
@@ -68,7 +74,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
 	right.loop = true;
-	right.speed = 0.3f;
+	right.speed = walkAnimSpeed;
 
 
 	// move up with plunger
@@ -77,7 +83,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
 	upPlunger.loop = true;
-	upPlunger.speed = 0.1f;
+	upPlunger.speed = walkAnimSpeed;
 
 
 	// move down with plunger
@@ -86,17 +92,65 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
 	downPlunger.loop = true;
-	downPlunger.speed = 0.1f;
+	downPlunger.speed = walkAnimSpeed;
 
 	// move left with plunger
-	leftPlunger.frames.PushBack({ 0, 0, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 4, h * 5, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 3, h * 5, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 2, h * 5, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 4, h * 6, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 3, h * 6, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 2, h * 6, w, h });
 	leftPlunger.loop = true;
-	leftPlunger.speed = 0.1f;
+	leftPlunger.speed = walkAnimSpeed;
 
 	// move right with plunger
-	rightPlunger.frames.PushBack({ 0, 0, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 3, 3 * h, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 4, 3 * h, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 5, 3 * h, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 3, 4 * h, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 4, 4 * h, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 5, 4 * h, w, h });
 	rightPlunger.loop = true;
-	rightPlunger.speed = 0.1f;
+	rightPlunger.speed = walkAnimSpeed;
+
+
+	// move up with paper
+	upPaper.frames.PushBack({ 8 + h * 0, h * 9, w, h });
+	upPaper.frames.PushBack({ 8 + h * 1, h * 9, w, h });
+	upPaper.frames.PushBack({ 8 + h * 0, h * 9, w, h });
+	upPaper.frames.PushBack({ 8 + h * 2, h * 9, w, h });
+	upPaper.loop = true;
+	upPaper.speed = walkAnimSpeed;
+
+
+	// move down with paper
+	downPaper.frames.PushBack({ 8 + h * 0, h * 8, w, h });
+	downPaper.frames.PushBack({ 8 + h * 1, h * 8, w, h });
+	downPaper.frames.PushBack({ 8 + h * 0, h * 8, w, h });
+	downPaper.frames.PushBack({ 8 + h * 2, h * 8, w, h });
+	downPaper.loop = true;
+	downPaper.speed = walkAnimSpeed;
+
+	// move left with paper
+	leftPaper.frames.PushBack({ 8 + h * 7, h * 12, w, h });
+	leftPaper.frames.PushBack({ 8 + h * 6, h * 12, w, h });
+	leftPaper.frames.PushBack({ 8 + h * 5, h * 12, w, h });
+	leftPaper.frames.PushBack({ 8 + h * 7, h * 13, w, h });
+	leftPaper.frames.PushBack({ 8 + h * 6, h * 13, w, h });
+	leftPaper.frames.PushBack({ 8 + h * 5, h * 13, w, h });
+	leftPaper.loop = true;
+	leftPaper.speed = walkAnimSpeed;
+
+	// move right with paper
+	rightPaper.frames.PushBack({ 8 + h * 0, 10 * h, w, h });
+	rightPaper.frames.PushBack({ 8 + h * 1, 10 * h, w, h });
+	rightPaper.frames.PushBack({ 8 + h * 2, 10 * h, w, h });
+	rightPaper.frames.PushBack({ 8 + h * 0, 11 * h, w, h });
+	rightPaper.frames.PushBack({ 8 + h * 1, 11 * h, w, h });
+	rightPaper.frames.PushBack({ 8 + h * 2, 11 * h, w, h });
+	rightPaper.loop = true;
+	rightPaper.speed = walkAnimSpeed;
 
 }
 
@@ -152,15 +206,16 @@ update_status ModulePlayer::Update()
 	{
 		position.x -= speed;
 
-		if (current_animation != &left && collision == false && giveTowel == false)
+		if (current_animation != &left && current_animation != &leftPlunger && current_animation != &leftPaper && collision == false && giveTowel == false)
 		{
 			left.Reset();
+			leftPaper.Reset();
 			leftPlunger.Reset();
 		}
 
 		if (plunger) current_animation = &leftPlunger;
-		else 
-			current_animation = &left;
+		else if (paper) current_animation = &leftPaper;
+		else current_animation = &left;
 		
 	}
 
@@ -168,47 +223,57 @@ update_status ModulePlayer::Update()
 	{
 		position.x += speed;
 
-		if (current_animation != &right && collision == false && giveTowel == false)
+		if (current_animation != &right && current_animation != &rightPlunger && current_animation != &rightPaper && collision == false && giveTowel == false)
 		{
-			rightPlunger.Reset();
 			right.Reset();
+			rightPaper.Reset();
+			rightPlunger.Reset();
 		}
-		
-		if (plunger) 
-			current_animation = &rightPlunger;
-		else
-			current_animation = &right;
+
+		if (plunger) current_animation = &rightPlunger;
+		else if (paper) current_animation = &rightPaper;
+		else current_animation = &right;
 
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.y += speed;
-		if(current_animation != &down  && collision == false && giveTowel == false)
+		
+		if (current_animation != &down && current_animation != &downPlunger && current_animation != &downPaper && collision == false && giveTowel == false)
 		{
 			down.Reset();
+			downPaper.Reset();
 			downPlunger.Reset();
 		}
 
 		if (plunger) current_animation = &downPlunger;
+		else if (paper) current_animation = &downPaper;
 		else current_animation = &down;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.y -= speed;
-		if(current_animation != &up && collision == false && giveTowel == false)
+		
+		if (current_animation != &up && current_animation != &upPlunger && current_animation != &upPaper && collision == false && giveTowel == false)
 		{
 			up.Reset();
+			upPaper.Reset();
 			upPlunger.Reset();
 		}
 
 		if (plunger) current_animation = &upPlunger;
+		else if (paper) current_animation = &upPaper;
 		else current_animation = &up;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false)
-		current_animation = &idle;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && collision == false && giveTowel == false) {
+		if (plunger) current_animation = &idlePlunger;
+		else if (paper) current_animation = &idlePaper;
+		else current_animation = &idle;
+
+	}
 
 	collider->SetPos(position.x + 10, position.y + 25);
 
