@@ -19,7 +19,7 @@ public:
 public: 
 	SDL_Texture* graphics;
 	SDL_Texture* stars;
-	Animation plunger, noplunger;
+
 
 
 };
