@@ -85,7 +85,7 @@ update_status ModuleBathroom::Update()
 
 		if (p->shitCount <= 0)
 		{
-			p->outOfPaperFlagAnim = true;
+			p->cloggedFlagAnim = true;
 			p->busy = true;
 		}
 
