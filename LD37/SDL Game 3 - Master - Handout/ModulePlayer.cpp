@@ -15,13 +15,15 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	int w = 48, h = 64;
 
+	float walkingSpeed = 0.2f;
+
 	idle.frames.PushBack({ 8 + h, 0, w, h});
 	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
 	idle.speed = 0.03;
 
 	towel.frames.PushBack({ 8, 6 * h, w, h });
 	towel.loop = false;
-	towel.speed = 0.1f;
+	towel.speed = walkingSpeed;
 
 	// move upwards - OK
 	up.frames.PushBack({ 8,			h * 2,		w, h});
@@ -30,7 +32,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
 
 	up.loop = false;
-	up.speed = 0.1f;
+	up.speed = walkingSpeed;
 	
 	// Move down - OK
 	down.frames.PushBack({ 8,			h,		w, h });
@@ -39,19 +41,19 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
 
 	down.loop = false;
-	down.speed = 0.1f;
+	down.speed = walkingSpeed;
 
 	// move left
 	
-	left.frames.PushBack({ 8 + h * 2, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
-	left.frames.PushBack({ 8 + h * 2, h * 6,		w, h });
-	left.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
-	left.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 6, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 7, h * 5,		w, h });
+	left.frames.PushBack({ 8 + h * 5, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 6, h * 6,		w, h });
+	left.frames.PushBack({ 8 + h * 7, h * 6,		w, h });
 	
 	left.loop = false;
-	left.speed = 0.1f;
+	left.speed = walkingSpeed;
 
 
 	// move right
@@ -62,7 +64,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
 	right.loop = false;
-	right.speed = 0.1f;
+	right.speed = walkingSpeed;
 
 
 	// move up with plunger
@@ -71,7 +73,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
 	upPlunger.loop = false;
-	upPlunger.speed = 0.1f;
+	upPlunger.speed = walkingSpeed;
 
 
 	// move down with plunger
@@ -80,17 +82,71 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
 	downPlunger.loop = false;
-	downPlunger.speed = 0.1f;
+	downPlunger.speed = walkingSpeed;
 
 	// move left with plunger
-	leftPlunger.frames.PushBack({ 0, 0, w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 2, h * 5,		w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 2, h * 6,		w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
+	leftPlunger.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
 	leftPlunger.loop = false;
-	leftPlunger.speed = 0.1f;
+	leftPlunger.speed = walkingSpeed;
 
 	// move right with plunger
-	rightPlunger.frames.PushBack({ 0, 0, w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 4, h * 4,		w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 5, h * 4,		w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
+	rightPlunger.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
 	rightPlunger.loop = false;
-	rightPlunger.speed = 0.1f;
+	rightPlunger.speed = walkingSpeed;
+
+	// move up with paper
+	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	upPaper.loop = false; 
+	upPaper.speed = walkingSpeed; 
+
+	// move down with paper
+	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	downPaper.loop = false;
+	downPaper.speed = walkingSpeed;
+
+
+	// move left with paper
+	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	leftPaper.loop = false;
+	leftPaper.speed = walkingSpeed;
+
+
+	// move right with paper
+	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	rightPaper.loop = false;
+	rightPaper.speed = walkingSpeed;
+
+	// win the game 
+	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	winGame.loop = false;
+	winGame.speed = walkingSpeed;
+
+	// lose the game 
+	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	loseGame.loop = false;
+	loseGame.speed = walkingSpeed;
 
 }
 
