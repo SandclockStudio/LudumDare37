@@ -1,12 +1,12 @@
 ﻿  ModuleClient.cpp
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(341): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(393): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(417): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(540): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
-c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(623): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(342): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(394): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(418): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(541): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
+c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(619): warning C4244: 'initializing': conversion from 'double' to 'Uint64', possible loss of data
 c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(108): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(107): note: while compiling class template member function 'p2Point<int> &p2Point<int>::Scale(float)'
-  c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(349): note: see reference to function template instantiation 'p2Point<int> &p2Point<int>::Scale(float)' being compiled
+  c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleclient.cpp(350): note: see reference to function template instantiation 'p2Point<int> &p2Point<int>::Scale(float)' being compiled
   c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\moduleplayer.h(52): note: see reference to class template instantiation 'p2Point<int>' being compiled
 c:\users\codeck\documents\dvj\ludumdare37\ld37\sdl game 3 - master - handout\p2point.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   SDL Game.vcxproj -> C:\Users\codeck\Documents\dvj\LudumDare37\LD37\SDL Game 3 - Master - Handout\Debug\SDL Game - Master 3 Handout.exe

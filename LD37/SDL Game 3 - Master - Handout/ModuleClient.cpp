@@ -56,6 +56,7 @@ update_status ModuleClient::Update()
 		Client* c = tmp->data;
 		tmp_next = tmp->next;
 		App->point->points += tmp->data->pointClient;
+		tmp->data->pointClient = 0;
 		if (c->Update() == false)
 		{
 			active.del(tmp);
@@ -540,19 +541,21 @@ void Client::Poop()
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
 
-	if (time >= 6000 && pooped == false) 
+	if (time >= 6000 && pooped == false)
 	{
 
 
-
-		if (assignedBath->shitCount <= 0)
+		if (assignedBath->shitCount <= 0 || (assignedBath->paperCount <= 0))
 		{
-			assignedBath->current_animation = &assignedBath->clogged;
-			assignedBath->busy = true;
-		}
 
-		else
-		{
+			if (assignedBath->shitCount <= 0)
+			{
+				assignedBath->current_animation = &assignedBath->clogged;
+				assignedBath->busy = true;
+			}
+
+
+
 			if (assignedBath->paperCount <= 0)
 			{
 				LOG("Sin Papel");
@@ -563,7 +566,7 @@ void Client::Poop()
 					position = assignedBath->position;
 					//TODO cambiar posicion 
 					position.y -= 70;
-					if(pointClient==0)
+					if (pointClient == 0)
 						pointClient += 1;
 
 					ocuppied = false;
@@ -577,6 +580,7 @@ void Client::Poop()
 				{
 					//CAMBIAR ANIMACION
 					assignedBath->current_animation = &assignedBath->outOfPaper;
+					assignedBath->busy = true;
 				}
 
 			}
@@ -599,21 +603,13 @@ void Client::Poop()
 				pooping = false;
 
 
-
-
-
 			}
+
 		}
-
-
-		
-
-
 
 	}
 
 }
-
 
 void Client::WashHands()
 {
@@ -664,7 +660,6 @@ Client* ModuleClient:: getClient(p2Point<int> pos)
 			return c;
 		}
 			
-
 		tmp = tmp_next;
 	}
 	return NULL;
