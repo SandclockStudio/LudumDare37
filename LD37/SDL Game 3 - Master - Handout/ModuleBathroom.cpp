@@ -28,7 +28,7 @@ bool ModuleBathroom::Start()
 	bath.openDoor.frames.PushBack({ 160 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoor.frames.PushBack({ 40 * SCALE, 326 * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoor.loop = false;
-	bath.openDoor.speed = 0.3f;
+	bath.openDoor.speed = 0.1f;
 
 		//icono idle 
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
@@ -48,7 +48,7 @@ bool ModuleBathroom::Start()
 	bath.openDoorNoPaper.frames.PushBack({ 160 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoorNoPaper.frames.PushBack({ 40 * SCALE, (326 + 64) * SCALE, 40 * SCALE, 64 * SCALE });
 	bath.openDoorNoPaper.loop = false;
-	bath.openDoorNoPaper.speed = 0.3f;
+	bath.openDoorNoPaper.speed = 0.1f;
 
 	// Animacion baño atascado
 	bath.fx = App->audio->LoadFx("SONIDO-BAÑO-AL-ATASCARSE");
@@ -80,17 +80,21 @@ update_status ModuleBathroom::Update()
 		{
 			p->outOfPaperFlagAnim = true;
 			p->busy = true;
+			
 		}
 
 		if (p->shitCount <= 0)
 		{
 			p->outOfPaperFlagAnim = true;
+			p->busy = true;
 		}
 
 		if (p->outOfPaperFlagAnim)
 			p->current_animation = &p->outOfPaper;
 		else
 			p->current_animation = &p->idle;
+
+		
 
 		//Animacion abrir puerta
 		if(p->openDoorAnim == true )
@@ -195,6 +199,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->outOfPaperFlagAnim = false;
 			tmp->data->busy = false;
 			App->player->paper = false;
+			tmp->data->paperRefresh = true;
 			break;
 		}
 
@@ -203,6 +208,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 		{
 			tmp->data->cloggedFlagAnim = false;
 			tmp->data->busy = false;
+			tmp->data->shitCount = 10;
 			break;
 		}
 		tmp = tmp->next;
@@ -238,13 +244,20 @@ p2Point<int> Bath::getCenter()
 
 Bath::Bath()
 {
-	
+	shitCount = 15;
+	paperCount = 2;
+	fx_played = false;
+	busy = false;
+	openDoorAnim = false;
+	busyFlagAnim = false;
+	outOfPaperFlagAnim = false;
+	cloggedFlagAnim = false;
 }
 
 Bath::Bath(const Bath & p)
 {
 	shitCount = 15;
-	paperCount = 10;
+	paperCount = 2;
 
 	openDoor = p.openDoor;
 	busyAnim = p.busyAnim;
@@ -257,7 +270,7 @@ Bath::Bath(const Bath & p)
 	fx_played = false;
 	busy = false;
 	openDoorAnim = false;
-	busyFlagAnim = false;
+	//busyFlagAnim = false;
 	outOfPaperFlagAnim = false;
 	cloggedFlagAnim = false;
 

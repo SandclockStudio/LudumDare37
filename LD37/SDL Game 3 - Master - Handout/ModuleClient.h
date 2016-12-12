@@ -12,7 +12,7 @@
 struct Client
 {
 	Animation* current_animation;
-	Animation idle, walking_up, walking_down, walking_left, walking_right,poopingAnim;
+	Animation idle, walking, washing,poopingAnim;
 	unsigned int timeBath, timeWaiting, timeSink, fx;
 	unsigned int shitRest,paperRest;
 	p2Point<int> position;
@@ -32,7 +32,6 @@ struct Client
 	bool exiting = false;
 	bool waitCleaning = false;
 	Uint64 t1, t2;
-	p2Point<int> targetPosition;
 	
 
 
