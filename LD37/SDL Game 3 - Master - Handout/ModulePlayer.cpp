@@ -28,53 +28,34 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	//Unclogging
 	unclogging.frames.PushBack({ 8, h * 6,		w,h});
 	unclogging.frames.PushBack({ 8 + h, 6 * h,	w,h });
-	towel.loop = true;
-	towel.speed = 0.1f;
+	unclogging.loop = true;
+	unclogging.speed = 0.1f;
 
 	// move upwards - OK
 	up.frames.PushBack({ 8,			h * 2,		w, h});
 	up.frames.PushBack({ 8 + h,		h * 2,		w, h });
 	up.frames.PushBack({ 8,			h * 2,		w, h });
 	up.frames.PushBack({ 8 + h * 2, h * 2,		w, h });
-
-<<<<<<< HEAD
-	up.loop = false;
-	up.speed = walkingSpeed;
-=======
 	up.loop = true;
-	up.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
+	up.speed = walkingSpeed;
 	
 	// Move down - OK
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h,		h,		w, h });
 	down.frames.PushBack({ 8,			h,		w, h });
 	down.frames.PushBack({ 8 + h * 2,	h,		w, h });
-
-<<<<<<< HEAD
-	down.loop = false;
-	down.speed = walkingSpeed;
-=======
 	down.loop = true;
-	down.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
+	down.speed = walkingSpeed;
 
 	// move left
-	
 	left.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
 	left.frames.PushBack({ 8 + h * 6, h * 5,		w, h });
 	left.frames.PushBack({ 8 + h * 7, h * 5,		w, h });
 	left.frames.PushBack({ 8 + h * 5, h * 6,		w, h });
 	left.frames.PushBack({ 8 + h * 6, h * 6,		w, h });
 	left.frames.PushBack({ 8 + h * 7, h * 6,		w, h });
-	
-<<<<<<< HEAD
-	left.loop = false;
-	left.speed = walkingSpeed;
-=======
 	left.loop = true;
-	left.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
+	left.speed = walkingSpeed;
 
 
 	// move right
@@ -84,13 +65,8 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	right.frames.PushBack({ 8 + h * 0, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 1, h * 4,		w, h });
 	right.frames.PushBack({ 8 + h * 2, h * 4,		w, h });
-<<<<<<< HEAD
-	right.loop = false;
-	right.speed = walkingSpeed;
-=======
 	right.loop = true;
-	right.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
+	right.speed = walkingSpeed;
 
 
 	// move up with plunger
@@ -98,13 +74,8 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	upPlunger.frames.PushBack({ 8 + h * 4, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 3, h * 2, w, h });
 	upPlunger.frames.PushBack({ 8 + h * 5, h * 2, w, h });
-<<<<<<< HEAD
-	upPlunger.loop = false;
-	upPlunger.speed = walkingSpeed;
-=======
 	upPlunger.loop = true;
-	upPlunger.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
+	upPlunger.speed = walkingSpeed;
 
 
 	// move down with plunger
@@ -112,8 +83,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	downPlunger.frames.PushBack({ 8 + h * 4, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 3, h * 1, w, h });
 	downPlunger.frames.PushBack({ 8 + h * 5, h * 1, w, h });
-<<<<<<< HEAD
-	downPlunger.loop = false;
+	downPlunger.loop = true;
 	downPlunger.speed = walkingSpeed;
 
 	// move left with plunger
@@ -123,7 +93,7 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	leftPlunger.frames.PushBack({ 8 + h * 2, h * 6,		w, h });
 	leftPlunger.frames.PushBack({ 8 + h * 3, h * 6,		w, h });
 	leftPlunger.frames.PushBack({ 8 + h * 4, h * 6,		w, h });
-	leftPlunger.loop = false;
+	leftPlunger.loop = true;
 	leftPlunger.speed = walkingSpeed;
 
 	// move right with plunger
@@ -133,67 +103,65 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	rightPlunger.frames.PushBack({ 8 + h * 3, h * 5,		w, h });
 	rightPlunger.frames.PushBack({ 8 + h * 4, h * 5,		w, h });
 	rightPlunger.frames.PushBack({ 8 + h * 5, h * 5,		w, h });
-	rightPlunger.loop = false;
+	rightPlunger.loop = true;
 	rightPlunger.speed = walkingSpeed;
 
 	// move up with paper
-	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	upPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	upPaper.loop = false; 
+	upPaper.frames.PushBack({ 8, h * 9,		w, h });
+	upPaper.frames.PushBack({ 8 + h, h * 9,		w, h });
+	upPaper.frames.PushBack({ 8, h * 9,		w, h });
+	upPaper.frames.PushBack({ 8 + h * 2, h * 9,		w, h });
+	upPaper.loop = true; 
 	upPaper.speed = walkingSpeed; 
 
 	// move down with paper
-	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	downPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	downPaper.frames.PushBack({ 8, h * 8,		w, h });
+	downPaper.frames.PushBack({ 8 + h, h * 8,		w, h });
+	downPaper.frames.PushBack({ 8, h * 8,		w, h });
+	downPaper.frames.PushBack({ 8 + h * 2 , h * 8,		w, h });
 	downPaper.loop = false;
 	downPaper.speed = walkingSpeed;
 
 
 	// move left with paper
-	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	leftPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 5, h * 12,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 6, h * 12,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 7, h * 12,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 5, h * 13,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 6, h * 13,		w, h });
+	leftPaper.frames.PushBack({ 8 + h * 7, h * 13,		w, h });
 	leftPaper.loop = false;
 	leftPaper.speed = walkingSpeed;
 
 
 	// move right with paper
-	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	rightPaper.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 0, h * 10,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 1, h * 10,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 2, h * 10,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 0, h * 11,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 1, h * 11,		w, h });
+	rightPaper.frames.PushBack({ 8 + h * 2, h * 11,		w, h });
 	rightPaper.loop = false;
 	rightPaper.speed = walkingSpeed;
 
 	// win the game 
-	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	winGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	winGame.frames.PushBack({ 8, h * 15,		w, h });
+	winGame.frames.PushBack({ 8 + h, h * 15,		w, h });
+	winGame.frames.PushBack({ 8 + h * 2, h * 15,		w, h });
+	winGame.frames.PushBack({ 8 + h * 3, h * 15,		w, h });
 	winGame.loop = false;
 	winGame.speed = walkingSpeed;
 
 	// lose the game 
-	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
-	loseGame.frames.PushBack({ 8 + h * 3, h * 4,		w, h });
+	loseGame.frames.PushBack({ 8, h * 16,		w, h });
+	loseGame.frames.PushBack({ 8 + h, h * 16,		w, h });
+	loseGame.frames.PushBack({ 8 + h * 2, h * 16,		w, h });
+	loseGame.frames.PushBack({ 8 + h * 3, h * 16,		w, h });
+	loseGame.frames.PushBack({ 8 + h * 4, h * 16,		w, h });
 	loseGame.loop = false;
 	loseGame.speed = walkingSpeed;
-=======
-	downPlunger.loop = true;
-	downPlunger.speed = 0.1f;
-
-	// move left with plunger
-	leftPlunger.frames.PushBack({ 0, 0, w, h });
-	leftPlunger.loop = true;
-	leftPlunger.speed = 0.1f;
-
-	// move right with plunger
-	rightPlunger.frames.PushBack({ 0, 0, w, h });
-	rightPlunger.loop = true;
-	rightPlunger.speed = 0.1f;
->>>>>>> 730e19bc3b4a5c9078dbe2e04915186820dbb550
-
+	
+	
 }
 
 ModulePlayer::~ModulePlayer()
@@ -205,7 +173,6 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	graphics = App->textures->Load("ld37/spritesheet-maincharacter.png");
-
 	position.x = 150;
 	position.y = 120;
 	collider = App->collision->AddCollider({position.x+20, position.y+25, 25, 40}, COLLIDER_PLAYER, this);
@@ -252,9 +219,11 @@ update_status ModulePlayer::Update()
 		{
 			left.Reset();
 			leftPlunger.Reset();
+			leftPaper.Reset();
 		}
 
 		if (plunger) current_animation = &leftPlunger;
+		else if (paper) current_animation = &leftPaper;
 		else 
 			current_animation = &left;
 		
@@ -266,12 +235,13 @@ update_status ModulePlayer::Update()
 
 		if (current_animation != &right && collision == false && giveTowel == false)
 		{
-			rightPlunger.Reset();
 			right.Reset();
+			rightPlunger.Reset();
+			rightPaper.Reset();
 		}
 		
-		if (plunger) 
-			current_animation = &rightPlunger;
+		if (plunger) current_animation = &rightPlunger;
+		else if (paper) current_animation = &rightPaper;
 		else
 			current_animation = &right;
 
@@ -283,10 +253,12 @@ update_status ModulePlayer::Update()
 		if(current_animation != &down  && collision == false && giveTowel == false)
 		{
 			down.Reset();
+			downPaper.Reset();
 			downPlunger.Reset();
 		}
 
 		if (plunger) current_animation = &downPlunger;
+		else if (paper) current_animation = &downPaper;
 		else current_animation = &down;
 	}
 
@@ -296,10 +268,12 @@ update_status ModulePlayer::Update()
 		if(current_animation != &up && collision == false && giveTowel == false)
 		{
 			up.Reset();
+			upPaper.Reset();
 			upPlunger.Reset();
 		}
 
 		if (plunger) current_animation = &upPlunger;
+		if (paper) current_animation = &upPaper;
 		else current_animation = &up;
 	}
 
