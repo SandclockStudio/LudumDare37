@@ -19,18 +19,18 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 
 	idle.frames.PushBack({ 8 + h, 0, w, h});
 	idle.frames.PushBack({ 8 + h * 3, 0, w, h });
-	idle.loop = true;
 	idle.speed = idleAnimSpeed;
 
 	idlePlunger.frames.PushBack({ 8 + h * 5, 0, w, h });
 	idlePlunger.frames.PushBack({ 8 + h * 7, 0, w, h });
-	idlePlunger.loop = true;
 	idlePlunger.speed = idleAnimSpeed;
 
 	idlePaper.frames.PushBack({ 8 + h, h * 7, w, h });
 	idlePaper.frames.PushBack({ 8 + h * 3, h * 7, w, h });
 	idlePaper.loop = true;
 	idlePaper.speed = idleAnimSpeed;
+
+
 
 	towel.frames.PushBack({ 8, h * 5, w, h });
 	towel.frames.PushBack({ 8 + h, h * 5, w, h });
@@ -197,20 +197,6 @@ update_status ModulePlayer::Update()
 
 	int speed = 3;
 
-	if (giveTowel == true) {
-		current_animation = &towel;
-		if (towel.Finished())
-		{
-			towel.Reset();
-			giveTowel = false;
-		}
-	}
-	if (unclog == true) {
-
-		unclogging.Reset();
-		current_animation = &unclogging;
-	}
-
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && collision == false && giveTowel == false)
 	{
 		position.x -= speed;
@@ -284,6 +270,21 @@ update_status ModulePlayer::Update()
 
 	}
 
+	if (giveTowel == true)
+	{
+		current_animation = &towel;
+		if (towel.Finished())
+		{
+			towel.Reset();
+			giveTowel = false;
+		}
+	}
+	if (unclog == true) {
+
+		unclogging.Reset();
+		current_animation = &unclogging;
+
+	}
 
 	collider->SetPos(position.x + 10, position.y + 25);
 

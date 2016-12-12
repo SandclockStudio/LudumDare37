@@ -21,34 +21,33 @@ bool ModuleClient::Start()
 
 	normal.idle.frames.PushBack({ 8, 0, w, h });
 	normal.idle.frames.PushBack({ 8 + h * 3, 0, w, h });
-	normal.current_animation = &normal.idle;
 	normal.idle.speed = 0.02f;
 	normal.idle.loop = true;
 
 	//Animacion normal cagar
-	normal.poopingAnim.frames.PushBack({ 8, h * 8, w, h});
+	normal.poopingAnim.frames.PushBack({ 8, h * 8, w, h });
 	normal.poopingAnim.frames.PushBack({ 8 + h, h * 8, w, h });
 	normal.poopingAnim.speed = 0.02f;
 	normal.poopingAnim.loop = true;
 
 	//Animacion normal izquierda
-	normal.walking_left.frames.PushBack({ 8, h * 5, w, h});
+	normal.walking_left.frames.PushBack({ 8,	h * 5, w, h });
 	normal.walking_left.frames.PushBack({ 8 + h, h * 5, w, h });
-	normal.walking_left.frames.PushBack({ 8, h * 5, w, h });
+	normal.walking_left.frames.PushBack({ 8,	h * 5, w, h });
 	normal.walking_left.frames.PushBack({ 8 + h * 2, h * 5, w, h });
 	normal.walking_left.speed = walkAnimSpeed;
 	normal.walking_left.loop = true;
 
 	//Animacion normal derecha
-	normal.walking_left.frames.PushBack({ 8, h * 4, w, h});
-	normal.walking_left.frames.PushBack({ 8 + h, h * 4, w, h });
-	normal.walking_left.frames.PushBack({ 8, h * 4, w, h });
-	normal.walking_left.frames.PushBack({ 8 + h * 2, h * 4, w, h });
-	normal.walking_left.speed = walkAnimSpeed;
-	normal.walking_left.loop = true;
-	
+	normal.walking_right.frames.PushBack({ 8, h * 4, w, h });
+	normal.walking_right.frames.PushBack({ 8 + h, h * 4, w, h });
+	normal.walking_right.frames.PushBack({ 8, h * 4, w, h });
+	normal.walking_right.frames.PushBack({ 8 + h * 2, h * 4, w, h });
+	normal.walking_right.speed = walkAnimSpeed;
+	normal.walking_right.loop = true;
+
 	//Animacion normal arriba
-	normal.walking_up.frames.PushBack({ 8, h * 3, w, h});
+	normal.walking_up.frames.PushBack({ 8, h * 3, w, h });
 	normal.walking_up.frames.PushBack({ 8 + h, h * 3, w, h });
 	normal.walking_up.frames.PushBack({ 8, h * 3, w, h });
 	normal.walking_up.frames.PushBack({ 8 + h * 2, h * 3, w, h });
@@ -56,7 +55,7 @@ bool ModuleClient::Start()
 	normal.walking_up.loop = true;
 
 	//Animacion normal abajo
-	normal.walking_down.frames.PushBack({ 8, h * 2, w, h});
+	normal.walking_down.frames.PushBack({ 8, h * 2, w, h });
 	normal.walking_down.frames.PushBack({ 8 + h, h * 2, w, h });
 	normal.walking_down.frames.PushBack({ 8, h * 2, w, h });
 	normal.walking_down.frames.PushBack({ 8 + h * 2, h * 2, w, h });
@@ -72,6 +71,8 @@ bool ModuleClient::Start()
 	//Animacion fat abajo
 
 	normal.assignedBath = new Bath();
+	normal.current_animation = &normal.walking_left;
+
 
 	normal.shitRest = 1;
 	normal.paperRest = 15;
@@ -107,25 +108,30 @@ update_status ModuleClient::Update()
 		else if (SDL_GetTicks() >= c->born)
 		{
 			AssignBaths(c);
-			AssignSilks(c);
+			//AssignSilks(c);
 
-
-
-			if (c->pooping)
-			{
+			if (c->pooping)	{
 				c->current_animation = &c->poopingAnim;
 			}
-			else
-			{
-				if (c->targetPosition.x > 0)
-					c->current_animation = &c->walking_right;
-				else if(c->targetPosition.x < 0)
-					c->current_animation = &c->walking_left;
-				else if(c->targetPosition.x == 0)
-					c->current_animation = &c->idle;
+			else if (c->waiting) {
+				c->current_animation = &c->idle;
 			}
+			else {
 				
+				if (abs(c->targetPosition.x) < abs(c->targetPosition.y)) {
+					if (c->targetPosition.y > 0)
+						c->current_animation = &c->walking_down;
+					else
+						c->current_animation = &c->walking_up;
+				}
+				else {
 		
+					if (c->targetPosition.x > 0)
+						c->current_animation = &c->walking_right;
+					else
+						c->current_animation = &c->walking_left;
+				}
+			}
 			App->renderer->Blit(graphics, c->position.x, c->position.y, &(c->current_animation->GetCurrentFrame()));
 
 		
@@ -139,8 +145,6 @@ update_status ModuleClient::Update()
 		
 		if (tmp->data->pooped && tmp->data->position.x >= SCREEN_WIDTH-20 )
 		{
-
-			
 			//tmp->data->collider->type = COLLIDER_NONE;
 			//delete tmp->data;
 			active.del(tmp);
@@ -149,6 +153,7 @@ update_status ModuleClient::Update()
 		}
 		
 		tmp = tmp_next;
+
 	}
 
 	return UPDATE_CONTINUE;
@@ -260,14 +265,13 @@ Client::Client(const Client & c) : collider(c.collider)
 	exiting = c.exiting;
 	poopingAnim = c.poopingAnim;
 	idle = c.idle;
+	walking_down = c.walking_down;
+	walking_up = c.walking_up;
+	walking_left = c.walking_left;
+	walking_right = c.walking_right;
 	shitRest = c.shitRest;
 	paperRest = c.paperRest;
 	assignedBath = c.assignedBath;
-	walking_down = c.walking_down;
-	walking_left = c.walking_left;
-	walking_right = c.walking_right;
-	walking_up = c.walking_up;
-
 	t1 = 0;
 	t2 = 0;
 
@@ -277,6 +281,7 @@ Client::Client(const Client & c) : collider(c.collider)
 
 bool Client::Update()
 {
+
 
 	if (collider != NULL)
 	{
@@ -292,21 +297,19 @@ bool Client::Update()
 	}
 
 	//Posicion de ejemplo
-
-
-
 	p2Point<int> bath = SearchBath();
 	p2Point<int> silk = SearchSilk();
+	p2Point<int> door = p2Point<int>();
+	door.x = SCREEN_WIDTH;
+	door.y = 125;
+
 	//silk.y += 10;
 
 	p2Point<int> target;
 	if (pooped == true)
-		target = silk;
+		target = door;
 	else
 		target = bath;
-
-	
-	
 
 	p2Point<int> exit;
 	exit.x = SCREEN_WIDTH;
@@ -316,14 +319,15 @@ bool Client::Update()
 	temp -= position;
 
 	targetPosition = temp;
-	
+
+
 	// Si hemos llegado al baño(nuestro objetivo) , hacemos caca
 	if (temp.IsZero() && ocuppied == true && pooped == false || ocuppied == true && pooping == true)
 	{
 
 		position = assignedBath->getCenter();
 		position.y -=23;
-		position.x -= 24;
+		position.x -=24 ;
 		
 
 
@@ -476,12 +480,8 @@ void Client::WaitForSilk()
 
 	if (time > 4000)
 	{
-
 		waiting = false;
 		complainMeter += 1;
-
-
-
 	}
 	else waiting = true;
 
@@ -597,21 +597,74 @@ void Client::Poop()
 
 	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
+
 	if (time >= 6000 && pooped == false) 
 	{
 
-		//TODO ANIMACION SALIR BAÑO
-		pooped = true;
-		position = assignedBath->position;
-		//TODO cambiar posicion 
-		position.y -= 70;
 
-		ocuppied = false;
-		assignedBath->busy = false;
-		assignedBath = NULL;
-		t1 = 0;
-		t2 = 0;
-		pooping = false;
+
+		if (assignedBath->shitCount <= 0)
+		{
+			assignedBath->current_animation = &assignedBath->clogged;
+			assignedBath->busy = true;
+		}
+
+		else
+		{
+			if (assignedBath->paperCount <= 0)
+			{
+				LOG("Sin Papel");
+				if (assignedBath->paperRefresh == true)
+				{
+					//TODO ANIMACION SALIR BAÑO
+					pooped = true;
+					position = assignedBath->position;
+					//TODO cambiar posicion 
+					position.y -= 70;
+
+					ocuppied = false;
+					assignedBath->busy = false;
+					assignedBath = NULL;
+					t1 = 0;
+					t2 = 0;
+					pooping = false;
+				}
+				else
+				{
+					//CAMBIAR ANIMACION
+					assignedBath->current_animation = &assignedBath->outOfPaper;
+				}
+
+			}
+			else
+			{
+
+
+
+				//TODO ANIMACION SALIR BAÑO
+				pooped = true;
+				position = assignedBath->position;
+				//TODO cambiar posicion 
+				position.y -= 70;
+
+				ocuppied = false;
+				assignedBath->busy = false;
+				//assignedBath = NULL;
+				t1 = 0;
+				t2 = 0;
+				pooping = false;
+
+
+
+
+
+			}
+		}
+
+
+		
+
+
 
 	}
 
