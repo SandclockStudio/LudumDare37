@@ -17,7 +17,6 @@ bool ModulePoints::Start()
 }
 update_status ModulePoints::Update()
 {
-	points = points;
 
 	return UPDATE_CONTINUE;
 }
