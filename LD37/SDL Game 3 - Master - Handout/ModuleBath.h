@@ -23,8 +23,11 @@ public:
 
 public:
 	double randomVar;
+	double randomVar2;
 	mt19937_64 range2;
+	mt19937_64 range3;
 	uint64_t timeSeed2;
+	uint64_t timeSeed3;
 	SDL_Texture* background;
 	Uint64 t1, t2;
 
