@@ -19,7 +19,9 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	p2Point<int> giveNumbers(int number);
 	int points;
+
 
 private:
 

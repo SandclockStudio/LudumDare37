@@ -24,7 +24,46 @@ bool ModuleParticles::Start()
 	iconPaper.anim.speed = 0.05f;
 
 	
-	
+	graphics2 = App->textures->Load("ld37/numbers.png");
+	one.anim.frames.PushBack({ 5,1,25,29 });
+	one.anim.loop = true;
+	one.anim.speed = 0.1f;
+
+	two.anim.frames.PushBack({ 37,1,25,29 });
+	two.anim.loop = true;
+	two.anim.speed = 0.1f;
+
+	three.anim.frames.PushBack({ 69,1,25,29 });
+	three.anim.loop = true;
+	two.anim.speed = 0.1f;
+
+	four.anim.frames.PushBack({ 101,1,25,29 });
+	four.anim.loop = true;
+	four.anim.speed = 0.1f;
+
+	five.anim.frames.PushBack({ 5,32,25,29 });
+	five.anim.loop = true;
+	five.anim.speed = 0.1f;
+
+	six.anim.frames.PushBack({ 37,32,25,29 });
+	six.anim.loop = true;
+	six.anim.speed = 0.1f;
+
+	seven.anim.frames.PushBack({ 69,32,25,29 });
+	seven.anim.loop = true;
+	seven.anim.speed = 0.1f;
+
+	eight.anim.frames.PushBack({ 101,32,25,29 });
+	eight.anim.loop = true;
+	eight.anim.speed = 0.1f;
+
+	nine.anim.frames.PushBack({ 5,66,25,29 });
+	nine.anim.loop = true;
+	nine.anim.speed = 0.1f;
+
+	one.anim.frames.PushBack({ 37,66,25,29 });
+	one.anim.loop = true;
+	one.anim.speed = 0.1f;
 	//Animacion atascado
 	//plogged.anim.frames.PushBack({ 512 + 56 * 2, 0, 56, 56 });
 
@@ -67,6 +106,7 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
+	App->textures->Unload(graphics2);
 	return true;
 }
 
@@ -89,6 +129,7 @@ update_status ModuleParticles::Update()
 		else if (SDL_GetTicks() >= p->born)
 		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			App->renderer->Blit(graphics2, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;

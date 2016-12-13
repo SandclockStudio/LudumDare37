@@ -38,11 +38,11 @@ Application::Application()
 	// Scenes
 	AddModule(bath_scene);
 	AddModule(scene_intro);
-	AddModule(point);
+
 	
 	// Characters
 	AddModule(player);
-
+	AddModule(point);
 
 	// Misc
 	AddModule(particles);
@@ -52,6 +52,7 @@ Application::Application()
 	AddModule(bathrooms);
 	AddModule(closet);
 	AddModule(silks);
+	
 	AddModule(ai);
 
 	AddModule(fade); // let this after all drawing

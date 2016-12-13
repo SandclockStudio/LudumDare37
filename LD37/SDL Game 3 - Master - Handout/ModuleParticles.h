@@ -51,7 +51,7 @@ public:
 	Particle iconPaper;
 	Particle noplunger;
 	Particle plogged;
-	Particle one, two, three, four, five, six, seven, eight, nine;
+	Particle zero,one, two, three, four, five, six, seven, eight, nine;
 
 
 };
