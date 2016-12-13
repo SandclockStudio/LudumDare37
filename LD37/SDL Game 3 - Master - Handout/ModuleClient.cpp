@@ -76,8 +76,8 @@ bool ModuleClient::Start()
 	normal.current_animation = &normal.walking_left;
 
 
-	normal.shitRest = 200;
-	normal.paperRest = 0;
+	normal.shitRest = 5;
+	normal.paperRest = 1;
 
 	fat.shitRest = 4;
 	fat.paperRest = 2;
