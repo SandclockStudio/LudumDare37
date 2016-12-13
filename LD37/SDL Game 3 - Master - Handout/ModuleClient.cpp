@@ -15,7 +15,7 @@ bool ModuleClient::Start()
 {
 	
 	LOG("Loading Clients");
-	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
+	graphics = App->textures->Load("ld37/spritesheet-npcs.png");
 	
 	// Animacion normal idle
 	int w = 48, h = 64;
@@ -71,10 +71,50 @@ bool ModuleClient::Start()
 	//Animacion fat derecha
 	//Animacion fat arriba
 	//Animacion fat abajo
+	fat.idle.frames.PushBack({ 330 + 8, 0, w, h });
+	fat.idle.frames.PushBack({ 330 + 8 + h * 3, 0, w, h });
+	fat.idle.speed = 0.02f;
+	fat.idle.loop = true;
+
+	//Animacion fat cagar
+	fat.poopingAnim.frames.PushBack({ 330 + 8, h * 8, w, h });
+	fat.poopingAnim.frames.PushBack({ 330 + 8 + h, h * 8, w, h });
+	fat.poopingAnim.speed = 0.02f;
+	fat.poopingAnim.loop = true;
+
+	//Animacion fat izquierda
+	fat.walking_left.frames.PushBack({ 330 + 8,	h * 5, w, h });
+	fat.walking_left.frames.PushBack({ 330 + 8 + h, h * 5, w, h });
+	fat.walking_left.speed = walkAnimSpeed;
+	fat.walking_left.loop = true;
+
+	//Animacion fat derecha
+	fat.walking_right.frames.PushBack({ 330 + 8, h * 4, w, h });
+	fat.walking_right.frames.PushBack({ 330 + 8 + h, h * 4, w, h });
+	fat.walking_right.speed = walkAnimSpeed;
+	fat.walking_right.loop = true;
+
+	//Animacion fat arriba
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h * 2, h * 3, w, h });
+	fat.walking_up.speed = walkAnimSpeed;
+	fat.walking_up.loop = true;
+
+	//Animacion fat abajo
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h * 2, h * 2, w, h });
+	fat.walking_down.speed = walkAnimSpeed;
+	fat.walking_down.loop = true;
 
 	normal.assignedBath = new Bath();
 	normal.current_animation = &normal.walking_left;
-
+	
+	fat.assignedBath = new Bath();
+	fat.current_animation = &fat.walking_left;
 
 	normal.shitRest = 200;
 	normal.paperRest = 0;

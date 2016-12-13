@@ -100,7 +100,7 @@ update_status ModuleBath::Update()
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->fat, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
 	}
 	
 	/*
