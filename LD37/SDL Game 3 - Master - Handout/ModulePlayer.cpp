@@ -281,7 +281,7 @@ update_status ModulePlayer::Update()
 	}
 	if (unclog == true) {
 
-		unclogging.Reset();
+		//unclogging.Reset();
 		current_animation = &unclogging;
 
 	}

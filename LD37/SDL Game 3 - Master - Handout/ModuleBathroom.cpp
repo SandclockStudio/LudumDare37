@@ -151,6 +151,26 @@ update_status ModuleBathroom::Update()
 		}
 		*/
 
+		if (App->player->unclog == true)
+		{
+
+			p->t4 = SDL_GetPerformanceCounter();
+			Uint64 time = (double)((p->t4 - p->t3) * 1000 / SDL_GetPerformanceFrequency());
+
+			if (time < 3000)
+			{
+
+
+				App->player->position.y = App->player->position.y - 100;
+				p->busy = false;
+				p->shitCount = 5;
+				App->player->unclog = false;
+				App->player->collision = false;
+				App->player->collider->type = COLLIDER_PLAYER;
+
+			}
+		}
+
 		tmp = tmp_next;
 	}
 
@@ -184,8 +204,8 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			Client* aux = App->client->getClient(tmp->data->position);
 			if (aux != NULL && tmp->data->openDoorAnim == false)
 			{
-				tmp->data->shitCount -= aux->shitRest;
-				tmp->data->paperCount -= aux->paperRest;
+				//tmp->data->shitCount -= aux->shitRest;
+				//tmp->data->paperCount -= aux->paperRest;
 				tmp->data->openDoorAnim = true;
 				
 			}
@@ -193,6 +213,8 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			break;
 		}
 		
+
+
 
 		//Colision para arreglar papel
 		if (aux == c1 && c2->type == COLLIDER_PLAYER   && App->player->paper == true && tmp->data->paperCount <= 0)
@@ -204,17 +226,30 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			tmp->data->busy = false;
 			App->player->paper = false;
 			tmp->data->paperRefresh = true;
+			
+			
 			break;
 		}
+
 
 		//Colision para arreglar atasco
 		if (aux == c1 && c2->type == COLLIDER_PLAYER && App->player->plunger == true && tmp->data->shitCount <= 0)
 		{
-			tmp->data->cloggedFlagAnim = false;
-			tmp->data->busy = false;
-			tmp->data->shitCount = 10;
+
+			tmp->data->shitCount = 5;
+			App->player->collider->type = COLLIDER_NONE;
+			App->player->unclog = true;
+			//set center
+			App->player->position.x = tmp->data->position.x + 20;
+			App->player->position.y = tmp->data->position.y + 20;
+			App->player->collision = true;
+			App->player->plunger = false;
 			break;
 		}
+
+
+
+
 		tmp = tmp->next;
 	}
 
@@ -248,7 +283,7 @@ p2Point<int> Bath::getCenter()
 
 Bath::Bath()
 {
-	shitCount = 15;
+	shitCount = 5;
 	paperCount = 2;
 	fx_played = false;
 	busy = false;
@@ -260,7 +295,7 @@ Bath::Bath()
 
 Bath::Bath(const Bath & p)
 {
-	shitCount = 15;
+	shitCount = 5;
 	paperCount = 2;
 
 	openDoor = p.openDoor;

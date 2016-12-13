@@ -26,7 +26,7 @@ struct Bath
 	bool paperRefresh = false;
 	Collider* collider;
 	bool openDoorAnim = false, busyFlagAnim = false, outOfPaperFlagAnim = false, cloggedFlagAnim = false;
-	clock_t t1,t2;
+	clock_t t1,t2,t3,t4;
 	Animation* current_animation;
 	Animation* animation_particle;
 	p2Point<int> getCenter();

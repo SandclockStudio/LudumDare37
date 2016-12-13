@@ -588,7 +588,6 @@ void ModuleClient::AssignSilks(Client* c)
 
 	}
 }
-
 void Client::Poop()
 {
 	this->t2 = SDL_GetPerformanceCounter();
@@ -603,6 +602,7 @@ void Client::Poop()
 
 	if (time >= 6000 && pooped == false)
 	{
+		
 
 
 		if (assignedBath->shitCount <= 0 || (assignedBath->paperCount <= 0))
@@ -612,6 +612,18 @@ void Client::Poop()
 			{
 				assignedBath->current_animation = &assignedBath->clogged;
 				assignedBath->busy = true;
+				assignedBath->cloggedFlagAnim = true;
+				pooped = true;
+				position = assignedBath->position;
+				//TODO cambiar posicion 
+				position.y -= 70;
+
+				ocuppied = false;
+				assignedBath->busy = false;
+				//assignedBath = NULL;
+				t1 = 0;
+				t2 = 0;
+				pooping = false;
 			}
 
 
@@ -632,6 +644,8 @@ void Client::Poop()
 					ocuppied = false;
 					assignedBath->busy = false;
 					assignedBath = NULL;
+					assignedBath->shitCount -= shitRest;
+					assignedBath->paperCount -= paperRest;
 					t1 = 0;
 					t2 = 0;
 					pooping = false;
@@ -644,28 +658,39 @@ void Client::Poop()
 				}
 
 			}
-			else
-			{
 
-				if (pointClient == 0)
-					pointClient += 5;
-				//TODO ANIMACION SALIR BAÑO
-				pooped = true;
-				position = assignedBath->position;
-				//TODO cambiar posicion 
-				position.y -= 70;
+	}
+		else
+		{
 
-				ocuppied = false;
-				assignedBath->busy = false;
-				//assignedBath = NULL;
-				t1 = 0;
-				t2 = 0;
-				pooping = false;
+			if (pointClient == 0)
+				pointClient += 5;
+			//TODO ANIMACION SALIR BAÑO
+			pooped = true;
+			position = assignedBath->position;
+			//TODO cambiar posicion 
+			position.y -= 70;
+
+			ocuppied = false;
+			assignedBath->shitCount -= shitRest;
+			assignedBath->paperCount -= paperRest;
+			assignedBath->busy = false;
+			//assignedBath = NULL;
+			t1 = 0;
+			t2 = 0;
+			pooping = false;
 
 
-			}
+
+
 
 		}
+
+		
+
+
+
+
 
 	}
 
