@@ -61,9 +61,9 @@ bool ModuleParticles::Start()
 	nine.anim.loop = true;
 	nine.anim.speed = 0.1f;
 
-	one.anim.frames.PushBack({ 37,66,25,29 });
-	one.anim.loop = true;
-	one.anim.speed = 0.1f;
+	zero.anim.frames.PushBack({ 37,66,25,29 });
+	zero.anim.loop = true;
+	zero.anim.speed = 0.1f;
 	//Animacion atascado
 	//plogged.anim.frames.PushBack({ 512 + 56 * 2, 0, 56, 56 });
 
