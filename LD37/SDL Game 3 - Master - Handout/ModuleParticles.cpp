@@ -17,7 +17,7 @@ bool ModuleParticles::Start()
 	graphics = App->textures->Load("ld37/spritesheet-UI.png");
 	iconPlunger.anim.frames.PushBack({ 612, 0, 50, 50});
 	iconPlunger.anim.loop = true;
-	iconPlunger.anim.speed = 0.05f;
+	iconPlunger.anim.speed = 0.5f;
 
 	iconPaper.anim.frames.PushBack({ 762, 0, 50, 50 });
 	iconPaper.anim.loop = true;

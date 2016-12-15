@@ -57,7 +57,7 @@ bool ModuleBathroom::Start()
 	bath.clogged.speed = 0.3f;
 
 
-	
+	countEnd =  0;
 
 
 	return true;
@@ -73,7 +73,7 @@ update_status ModuleBathroom::Update()
 	{
 		Bath* p = tmp->data;
 		tmp_next = tmp->next;
-
+	
 		p->animation_particle = &p->idle_particle;
 
 		if (p->paperCount <=  0)
@@ -137,7 +137,6 @@ update_status ModuleBathroom::Update()
 		if (p->outOfPaperFlagAnim || p->cloggedFlagAnim)
 		{
 			checkBathColapsing++;
-			
 		}
 
 		/*
@@ -157,13 +156,13 @@ update_status ModuleBathroom::Update()
 			p->t4 = SDL_GetPerformanceCounter();
 			Uint64 time = (double)((p->t4 - p->t3) * 1000 / SDL_GetPerformanceFrequency());
 
-			if (time < 3000)
+			if (time < 8)
 			{
 
 
 				App->player->position.y = App->player->position.y - 100;
 				p->busy = false;
-				p->shitCount = 5;
+				p->shitCount = 15;
 				App->player->unclog = false;
 				App->player->collision = false;
 				App->player->collider->type = COLLIDER_PLAYER;
@@ -171,8 +170,11 @@ update_status ModuleBathroom::Update()
 			}
 		}
 
+		
+
 		tmp = tmp_next;
 	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -242,6 +244,7 @@ void ModuleBathroom::OnCollision(Collider * c1, Collider * c2)
 			//set center
 			App->player->position.x = tmp->data->position.x + 20;
 			App->player->position.y = tmp->data->position.y + 20;
+			tmp->data->cloggedFlagAnim = false;
 			App->player->collision = true;
 			App->player->plunger = false;
 			break;

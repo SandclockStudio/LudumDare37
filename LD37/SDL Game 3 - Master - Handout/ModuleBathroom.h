@@ -32,6 +32,7 @@ struct Bath
 	p2Point<int> getCenter();
 	Bath();
 	Bath(const Bath& p);
+
 	bool Update();
 };
 
@@ -52,7 +53,7 @@ public:
 	p2List<Bath*> active;
 
 	private:
-
+	int countEnd;
 	
 	SDL_Texture* graphics;
 

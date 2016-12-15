@@ -23,7 +23,7 @@ bool ModuleBath::Start()
 	App->collision->Enable(); // enable before player
 	App->player->Enable();
 	App->client->Enable();
-	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
+	App->audio->PlayMusic("music.ogg", 1.0f);
 	t1 = SDL_GetPerformanceCounter();
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -60,8 +60,8 @@ bool ModuleBath::Start()
 	App->silks->AddSilk(App->silks->silk, 105 * scale, 2 * scale, COLLIDER_SILK);
 
 	App->collision->AddCollider({ 0, 0, 8, SCREEN_HEIGHT }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 110 }, COLLIDER_WALL, this);
-	App->collision->AddCollider({ SCREEN_WIDTH - 8, 170, 8, 220 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH-8, 0, 8, 90 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ SCREEN_WIDTH - 8, 200, 8, 220 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 8, 8, 100, 80 }, COLLIDER_WALL, this);
 	return true;
 }
@@ -100,7 +100,7 @@ update_status ModuleBath::Update()
 	{
 		time = 0;
 		t1 = SDL_GetPerformanceCounter();
-		App->client->AddClient(App->client->normal, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
+		App->client->AddClient(App->client->fat, SCREEN_WIDTH+20, (SCREEN_HEIGHT/2)-95, COLLIDER_CLIENT);
 	}
 	
 	/*

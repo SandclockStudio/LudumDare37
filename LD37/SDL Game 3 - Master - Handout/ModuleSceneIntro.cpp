@@ -23,9 +23,8 @@ bool ModuleSceneIntro::Start()
 	menu = EXIT;
 
 	graphics = App->textures->Load("ld37/spritesheet-UI.png");
-	App->audio->PlayMusic("rtype/intro.ogg", 1.0f);
-	if (fx == 0)
-	fx = App->audio->LoadFx("rtype/starting.wav");
+
+
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;

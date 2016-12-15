@@ -8,7 +8,7 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, false);
+	audio = new ModuleAudio(this, true);
 	bath_scene = new ModuleBath(this, false);
 	player = new ModulePlayer(this, false);
 	client = new ModuleClient(this, false);
@@ -38,10 +38,11 @@ Application::Application()
 	// Scenes
 	AddModule(bath_scene);
 	AddModule(scene_intro);
+
 	
 	// Characters
 	AddModule(player);
-
+	AddModule(point);
 
 	// Misc
 	AddModule(particles);
@@ -51,8 +52,6 @@ Application::Application()
 	AddModule(bathrooms);
 	AddModule(closet);
 	AddModule(silks);
-	AddModule(point);
-
 	
 	AddModule(ai);
 

@@ -48,9 +48,9 @@ struct Client
 	p2Point<int> SearchBath();
 	void Poop();
 
-	void WaitForSilk();
-	p2Point<int> SearchSilk();
-	void WashHands();
+//	void WaitForSilk();
+//	p2Point<int> SearchSilk();
+//	void WashHands();
 	
 
 };

@@ -15,11 +15,11 @@ bool ModuleClient::Start()
 {
 	
 	LOG("Loading Clients");
-	graphics = App->textures->Load("ld37/spritesheet-npc-1.png");
+	graphics = App->textures->Load("ld37/spritesheet-npcs.png");
 	
 	// Animacion normal idle
 	int w = 48, h = 64;
-	float walkAnimSpeed = 0.3f;
+	float walkAnimSpeed = 0.05f;
 
 	normal.idle.frames.PushBack({ 8, 0, w, h });
 	normal.idle.frames.PushBack({ 8 + h * 3, 0, w, h });
@@ -64,23 +64,78 @@ bool ModuleClient::Start()
 	normal.walking_down.speed = walkAnimSpeed;
 	normal.walking_down.loop = true;
 
-
-	//Animacion fat idle
-	//Animacion fat cagar
 	//Animacion fat izquierda
-	//Animacion fat derecha
-	//Animacion fat arriba
-	//Animacion fat abajo
+	fat.walking_left.frames.PushBack({ 330 + 8,    h * 5, w, h });
+	fat.walking_left.frames.PushBack({ 330 + 8 + h, h * 5, w, h });
+	fat.walking_left.speed = walkAnimSpeed;
+	fat.walking_left.loop = true;
 
-	normal.assignedBath = new Bath();
+
+	//Animacion fat derecha
+	fat.walking_right.frames.PushBack({ 330 + 8, h * 4, w, h });
+	fat.walking_right.frames.PushBack({ 330 + 8 + h, h * 4, w, h });
+	fat.walking_right.speed = walkAnimSpeed;
+	fat.walking_right.loop = true;
+
+
+	//Animacion fat arriba
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h * 2, h * 3, w, h });
+	fat.walking_up.speed = walkAnimSpeed;
+	fat.walking_up.loop = true;
+
+
+	//Animacion fat abajo
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h * 2, h * 2, w, h });
+	fat.walking_down.speed = walkAnimSpeed;
+	fat.walking_down.loop = true;
+
+
+	//Animacion fat arriba
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8, h * 3, w, h });
+	fat.walking_up.frames.PushBack({ 330 + 8 + h * 2, h * 3, w, h });
+	fat.walking_up.speed = walkAnimSpeed;
+	fat.walking_up.loop = true;
+
+
+	//Animacion fat abajo
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8, h * 2, w, h });
+	fat.walking_down.frames.PushBack({ 330 + 8 + h * 2, h * 2, w, h });
+	fat.walking_down.speed = walkAnimSpeed;
+	fat.walking_down.loop = true;
+
+	//Animacion fat abajo
+	fat.poopingAnim.frames.PushBack({ 330+8, h * 8, w, h });
+	fat.poopingAnim.frames.PushBack({ 330+8 + h, h * 8, w, h });
+	fat.poopingAnim.speed = 0.05;
+	fat.poopingAnim.loop = true;
+
+
+	//fat.assignedBath = new Bath();
+	fat.current_animation = &fat.walking_left;
+
+
+
+
+
+	//normal.assignedBath = new Bath();
 	normal.current_animation = &normal.walking_left;
 
 
-	normal.shitRest = 5;
-	normal.paperRest = 1;
+	normal.shitRest = 2;
+	normal.paperRest = 2;
 
 	fat.shitRest = 4;
-	fat.paperRest = 2;
+	fat.paperRest = 4;
 	return true;
 }
 
@@ -146,7 +201,7 @@ update_status ModuleClient::Update()
 		}
 
 		
-		if (tmp->data->pooped && tmp->data->position.x >= SCREEN_WIDTH-20 )
+		if (tmp->data->pooped && tmp->data->position.x >= SCREEN_WIDTH-40 )
 		{
 			//tmp->data->collider->type = COLLIDER_NONE;
 			//delete tmp->data;
@@ -301,22 +356,16 @@ bool Client::Update()
 
 	//Posicion de ejemplo
 	p2Point<int> bath = SearchBath();
-	p2Point<int> silk = SearchSilk();
-	p2Point<int> door = p2Point<int>();
-	door.x = SCREEN_WIDTH;
-	door.y = 125;
 
 	//silk.y += 10;
 
 	p2Point<int> target;
-	if (pooped == true)
-		target = door;
-	else
+
 		target = bath;
 
 	p2Point<int> exit;
 	exit.x = SCREEN_WIDTH;
-	exit.y = SCREEN_HEIGHT/2-125;
+	exit.y = SCREEN_HEIGHT/2-140;
 
 	p2Point<int> temp = target;
 	temp -= position;
@@ -346,18 +395,18 @@ bool Client::Update()
 
 
 	// Si hemos llegado al silk(nuestro objetivo) , nos lavamos las manos
-	if (temp.IsZero() && pooped == true && handCleaned == false)
-	{
+	//if (temp.IsZero() && pooped == true && handCleaned == false)
+	//{
 
-		if (t1 == 0)
-		{
-			washingHands = true;
-			t1 = SDL_GetPerformanceCounter();
-		}
+	//	if (t1 == 0)
+	//	{
+	//		washingHands = true;
+	//		t1 = SDL_GetPerformanceCounter();
+	//	}
 
 
-		WashHands();
-	}
+	//	WashHands();
+	//}
 
 	// si no hemos hecho caca, y tenemos baño asignado, estamos buscando nuestro baño
 	if (pooped == false && ocuppied == true && pooping == false)
@@ -426,24 +475,26 @@ p2Point<int> Client::SearchBath()
 	{
 		return assignedBath->position;
 	}
-	return  position; // sino devolver mi position
+	return position; // sino devolver mi position
 
 }
 
-p2Point<int> Client::SearchSilk()
-{
-	//Si tenemos un baño asignado
-	if (cleanRequest == true)
-	{
-		p2Point<int> temp = assignedSilk->position;
-		temp.y -= 50;
-		//temp.y += 10;
-		//temp.x += 40;
-		return temp;
-	}
-	return  position; // sino devolver mi position
 
-}
+
+//p2Point<int> Client::SearchSilk()
+//{
+//	//Si tenemos un baño asignado
+//	if (cleanRequest == true)
+//	{
+//		p2Point<int> temp = assignedSilk->position;
+//		temp.y -= 50;
+//		//temp.y += 10;
+//		//temp.x += 40;
+//		return temp;
+//	}
+//	return  position; // sino devolver mi position
+//
+//}
 
 
 void Client::WaitForBath()
@@ -468,27 +519,27 @@ void Client::WaitForBath()
 
 }
 
-void Client::WaitForSilk()
-{
-
-
-	this->t2 = SDL_GetPerformanceCounter();
-
-	LOG("Waiting for Silk");
-
-	//TODO AÑADIR ANIMACION CAGAR
-
-
-	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
-
-	if (time > 4000)
-	{
-		waiting = false;
-		complainMeter += 1;
-	}
-	else waiting = true;
-
-}
+//void Client::WaitForSilk()
+//{
+//
+//
+//	this->t2 = SDL_GetPerformanceCounter();
+//
+//	LOG("Waiting for Silk");
+//
+//	//TODO AÑADIR ANIMACION CAGAR
+//
+//
+//	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+//
+//	if (time > 4000)
+//	{
+//		waiting = false;
+//		complainMeter += 1;
+//	}
+//	else waiting = true;
+//
+//}
 
 void ModuleClient::AssignBaths(Client* c)
 {
@@ -535,59 +586,60 @@ void ModuleClient::AssignBaths(Client* c)
 	}
 }
 
+//
+//void ModuleClient::AssignSilks(Client* c)
+//{
+//
+//	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
+//	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
+//	//if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false)
+//	{
+//		
+//		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
+//		p2List_item<Silk*>* tmp_next = App->silks->active.getFirst();
+//
+//		while (tmp != NULL)
+//		{
+//			//Cogemos el siguiente baño
+//			Silk* s = tmp->data;
+//			tmp_next = tmp->next;
+//
+//			LOG("Checking silk");
+//
+//			//asignamos el  baño si no esta asignado
+//			if (s->busy == false && c->waiting == false)
+//			{
+//				LOG("Silk assigned");
+//				c->assignedSilk = s;
+//				c->cleanRequest = true;
+//				s->busy = true;
+//				break;
+//			}
+//
+//			tmp = tmp_next;
+//
+//		}
+//
+//		//si no se ha podido asignar ningun silk al cliente: Esperar y quejarse
+//		if ((tmp == NULL) && (c->ocuppied == false))
+//		{
+//			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
+//			if (c->waiting == false)
+//				c->t1 = SDL_GetPerformanceCounter();
+//			c->WaitForSilk();
+//
+//		}
+//
+//		/*//Si se ha podido asignar un baño al cliente: COSAS NAZIS
+//		if (c->ocuppied == true)
+//		{
+//			//c ocupado hasta el final
+//			//c->SearchBath();
+//		}*/
+//
+//	}
+//}
 
-void ModuleClient::AssignSilks(Client* c)
-{
-
-	//Si no tiene baño asignado y comprobamos que no este esperando quejandose
-	if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false && c->washingHands == false)
-	//if (c->cleanRequest == false && c->pooped == true && c->handCleaned == false)
-	{
-		
-		p2List_item<Silk*>* tmp = App->silks->active.getFirst();
-		p2List_item<Silk*>* tmp_next = App->silks->active.getFirst();
-
-		while (tmp != NULL)
-		{
-			//Cogemos el siguiente baño
-			Silk* s = tmp->data;
-			tmp_next = tmp->next;
-
-			LOG("Checking silk");
-
-			//asignamos el  baño si no esta asignado
-			if (s->busy == false && c->waiting == false)
-			{
-				LOG("Silk assigned");
-				c->assignedSilk = s;
-				c->cleanRequest = true;
-				s->busy = true;
-				break;
-			}
-
-			tmp = tmp_next;
-
-		}
-
-		//si no se ha podido asignar ningun silk al cliente: Esperar y quejarse
-		if ((tmp == NULL) && (c->ocuppied == false))
-		{
-			// HACER QUE ESPERE EL CLIENTE: sleep(4000) for eixample
-			if (c->waiting == false)
-				c->t1 = SDL_GetPerformanceCounter();
-			c->WaitForSilk();
-
-		}
-
-		/*//Si se ha podido asignar un baño al cliente: COSAS NAZIS
-		if (c->ocuppied == true)
-		{
-			//c ocupado hasta el final
-			//c->SearchBath();
-		}*/
-
-	}
-}
 void Client::Poop()
 {
 	this->t2 = SDL_GetPerformanceCounter();
@@ -602,12 +654,8 @@ void Client::Poop()
 
 	if (time >= 6000 && pooped == false)
 	{
-		
-
-
 		if (assignedBath->shitCount <= 0 || (assignedBath->paperCount <= 0))
 		{
-
 			if (assignedBath->shitCount <= 0)
 			{
 				assignedBath->current_animation = &assignedBath->clogged;
@@ -626,9 +674,7 @@ void Client::Poop()
 				pooping = false;
 			}
 
-
-
-			if (assignedBath->paperCount <= 0)
+			else if (assignedBath->paperCount <= 0)
 			{
 				LOG("Sin Papel");
 				if (assignedBath->paperRefresh == true)
@@ -643,7 +689,6 @@ void Client::Poop()
 
 					ocuppied = false;
 					assignedBath->busy = false;
-					assignedBath = NULL;
 					assignedBath->shitCount -= shitRest;
 					assignedBath->paperCount -= paperRest;
 					t1 = 0;
@@ -696,38 +741,38 @@ void Client::Poop()
 
 }
 
-void Client::WashHands()
-{
-	this->t2 = SDL_GetPerformanceCounter();
-
-
-	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
-
-	if (time >= 4000 && handCleaned == false && pooped == true )
-	{
-		LOG("Washing Hands");
-		//TODO ANIMACION SALIR BAÑO
-		//pooped = true;
-		//position = assignedBath->position;
-		//TODO cambiar posicion 
-		//position.y -= 20;
-
-
-
-		ocuppied = false;
-
-//		assignedSilk->busy = false;
-		
-		
-		//assignedSilk = NULL;
-		t1 = 0;
-		t2 = 0;
-		washingHands = false;
-		handCleaned = true;
-
-	}
-
-}
+//void Client::WashHands()
+//{
+//	this->t2 = SDL_GetPerformanceCounter();
+//
+//
+//	Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
+//
+//	if (time >= 4000 && handCleaned == false && pooped == true )
+//	{
+//		LOG("Washing Hands");
+//		//TODO ANIMACION SALIR BAÑO
+//		//pooped = true;
+//		//position = assignedBath->position;
+//		//TODO cambiar posicion 
+//		//position.y -= 20;
+//
+//
+//
+//		ocuppied = false;
+//
+////		assignedSilk->busy = false;
+//		
+//		
+//		//assignedSilk = NULL;
+//		t1 = 0;
+//		t2 = 0;
+//		washingHands = false;
+//		handCleaned = true;
+//
+//	}
+//
+//}
 
 Client* ModuleClient:: getClient(p2Point<int> pos)
 {
